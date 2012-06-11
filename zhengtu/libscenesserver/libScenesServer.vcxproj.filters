@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="luabind">
+      <UniqueIdentifier>{a085d02a-1aff-47f6-bf0d-c241e7d9928c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\luabind\src\class.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\class_info.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\class_registry.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\class_rep.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\create_class.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\error.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\find_best_match.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\function.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\implicit_cast.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\link_compatibility.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\object_rep.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\open.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\overload_rep.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\pcall.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\ref.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\scope.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\stack_content_by_name.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\weak_ref.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\wrapper_base.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="CartoonPet.cpp" />
+    <ClCompile Include="CharInitInfo.cpp" />
+    <ClCompile Include="Chat.cpp" />
+    <ClCompile Include="CountryAlly.cpp" />
+    <ClCompile Include="CountryDare.cpp" />
+    <ClCompile Include="CountryTech.cpp" />
+    <ClCompile Include="Dice.cpp" />
+    <ClCompile Include="Gold.cpp" />
+    <ClCompile Include="GuardNpc.cpp" />
+    <ClCompile Include="Horse.cpp" />
+    <ClCompile Include="Leechdom.cpp" />
+    <ClCompile Include="LoadMap.cpp" />
+    <ClCompile Include="MagicRange.cpp" />
+    <ClCompile Include="Mask.cpp" />
+    <ClCompile Include="MessageSystem.cpp" />
+    <ClCompile Include="MiniClient.cpp" />
+    <ClCompile Include="MiniGame.cpp" />
+    <ClCompile Include="NpcTrade.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="Property.cpp" />
+    <ClCompile Include="Quest.cpp" />
+    <ClCompile Include="QuestAction.cpp" />
+    <ClCompile Include="QuestCondition.cpp" />
+    <ClCompile Include="QuestEvent.cpp" />
+    <ClCompile Include="QuestTable.cpp" />
+    <ClCompile Include="RebuildObject.cpp" />
+    <ClCompile Include="RecordClient.cpp" />
+    <ClCompile Include="Rush.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneArmy.cpp" />
+    <ClCompile Include="SceneCountry.cpp" />
+    <ClCompile Include="SceneDare.cpp" />
+    <ClCompile Include="SceneEntryIndex.cpp" />
+    <ClCompile Include="SceneEntryPk.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneNpc.cpp" />
+    <ClCompile Include="SceneNpcAI.cpp" />
+    <ClCompile Include="SceneNpcDare.cpp" />
+    <ClCompile Include="SceneNpcManager.cpp" />
+    <ClCompile Include="ScenePet.cpp" />
+    <ClCompile Include="ScenePk.cpp" />
+    <ClCompile Include="SceneQuiz.cpp" />
+    <ClCompile Include="SceneRelation.cpp" />
+    <ClCompile Include="SceneSafety.cpp" />
+    <ClCompile Include="SceneSchool.cpp" />
+    <ClCompile Include="SceneSept.cpp" />
+    <ClCompile Include="SceneSkill.cpp" />
+    <ClCompile Include="ScenesServer.cpp" />
+    <ClCompile Include="SceneTask.cpp" />
+    <ClCompile Include="SceneTaskManager.cpp" />
+    <ClCompile Include="SceneUnion.cpp" />
+    <ClCompile Include="SceneUser.cpp" />
+    <ClCompile Include="SceneUserManager.cpp" />
+    <ClCompile Include="script.cpp" />
+    <ClCompile Include="script_func.cpp" />
+    <ClCompile Include="SessionClient.cpp" />
+    <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="SkillManager.cpp" />
+    <ClCompile Include="SkillStatusManager.cpp" />
+    <ClCompile Include="Stock.cpp" />
+    <ClCompile Include="Team.cpp" />
+    <ClCompile Include="TeamManager.cpp" />
+    <ClCompile Include="TimeTick.cpp" />
+    <ClCompile Include="Trade.cpp" />
+    <ClCompile Include="WayPoint.cpp" />
+    <ClCompile Include="zObject.cpp" />
+  </ItemGroup>
+</Project>
