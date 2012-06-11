@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{139617C3-B9EB-40DA-BF69-26DD2A4D9862}</ProjectGuid>
+    <RootNamespace>libScenesServer</RootNamespace>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\debuglib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\debugtemp\libSceneServer\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\lib\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\temp\libSceneServerR\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\iconv-1.9.2.win32\include;..\zlib-1.2.3.win32\include;..\libxml2-2.6.30+.win32\include;..\mysql\include;..\include;..\lua\include;..\luabind\include;D:\soft\lib\boost_1_34_1\boost_1_34_1\boost_1_34_1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <OmitFramePointers>false</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <AdditionalIncludeDirectories>..\include;..\zlib-1.2.3.win32\include;..\libxml2-2.6.30+.win32\include;..\iconv-1.9.2.win32\include;..\mysql\include;..\luabind\;..\2005_boost;..\luabind\include;..\lua\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32; LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>true</LinkLibraryDependencies>
+    </ProjectReference>
+    <Lib>
+      <AdditionalDependencies>libsrvcore.lib;lua.lib;regexSR.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).lib</OutputFile>
+      <AdditionalLibraryDirectories>..\lua\lib;..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\luabind\src\class.cpp" />
+    <ClCompile Include="..\luabind\src\class_info.cpp" />
+    <ClCompile Include="..\luabind\src\class_registry.cpp" />
+    <ClCompile Include="..\luabind\src\class_rep.cpp" />
+    <ClCompile Include="..\luabind\src\create_class.cpp" />
+    <ClCompile Include="..\luabind\src\error.cpp" />
+    <ClCompile Include="..\luabind\src\find_best_match.cpp" />
+    <ClCompile Include="..\luabind\src\function.cpp" />
+    <ClCompile Include="..\luabind\src\implicit_cast.cpp" />
+    <ClCompile Include="..\luabind\src\link_compatibility.cpp" />
+    <ClCompile Include="..\luabind\src\object_rep.cpp" />
+    <ClCompile Include="..\luabind\src\open.cpp" />
+    <ClCompile Include="..\luabind\src\overload_rep.cpp" />
+    <ClCompile Include="..\luabind\src\pcall.cpp" />
+    <ClCompile Include="..\luabind\src\ref.cpp" />
+    <ClCompile Include="..\luabind\src\scope.cpp" />
+    <ClCompile Include="..\luabind\src\stack_content_by_name.cpp" />
+    <ClCompile Include="..\luabind\src\weak_ref.cpp" />
+    <ClCompile Include="..\luabind\src\wrapper_base.cpp" />
+    <ClCompile Include="CartoonPet.cpp" />
+    <ClCompile Include="CharInitInfo.cpp" />
+    <ClCompile Include="Chat.cpp" />
+    <ClCompile Include="CountryAlly.cpp" />
+    <ClCompile Include="CountryDare.cpp" />
+    <ClCompile Include="CountryTech.cpp" />
+    <ClCompile Include="Dice.cpp" />
+    <ClCompile Include="Gold.cpp" />
+    <ClCompile Include="GuardNpc.cpp" />
+    <ClCompile Include="Horse.cpp" />
+    <ClCompile Include="Leechdom.cpp" />
+    <ClCompile Include="LoadMap.cpp" />
+    <ClCompile Include="MagicRange.cpp" />
+    <ClCompile Include="Mask.cpp" />
+    <ClCompile Include="MessageSystem.cpp" />
+    <ClCompile Include="MiniClient.cpp" />
+    <ClCompile Include="MiniGame.cpp" />
+    <ClCompile Include="NpcTrade.cpp" />
+    <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="Property.cpp" />
+    <ClCompile Include="Quest.cpp" />
+    <ClCompile Include="QuestAction.cpp" />
+    <ClCompile Include="QuestCondition.cpp" />
+    <ClCompile Include="QuestEvent.cpp" />
+    <ClCompile Include="QuestTable.cpp" />
+    <ClCompile Include="RebuildObject.cpp" />
+    <ClCompile Include="RecordClient.cpp" />
+    <ClCompile Include="Rush.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneArmy.cpp" />
+    <ClCompile Include="SceneCountry.cpp" />
+    <ClCompile Include="SceneDare.cpp" />
+    <ClCompile Include="SceneEntryIndex.cpp" />
+    <ClCompile Include="SceneEntryPk.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneNpc.cpp" />
+    <ClCompile Include="SceneNpcAI.cpp" />
+    <ClCompile Include="SceneNpcDare.cpp" />
+    <ClCompile Include="SceneNpcManager.cpp" />
+    <ClCompile Include="ScenePet.cpp" />
+    <ClCompile Include="ScenePk.cpp" />
+    <ClCompile Include="SceneQuiz.cpp" />
+    <ClCompile Include="SceneRelation.cpp" />
+    <ClCompile Include="SceneSafety.cpp" />
+    <ClCompile Include="SceneSchool.cpp" />
+    <ClCompile Include="SceneSept.cpp" />
+    <ClCompile Include="SceneSkill.cpp" />
+    <ClCompile Include="ScenesServer.cpp" />
+    <ClCompile Include="SceneTask.cpp" />
+    <ClCompile Include="SceneTaskManager.cpp" />
+    <ClCompile Include="SceneUnion.cpp" />
+    <ClCompile Include="SceneUser.cpp" />
+    <ClCompile Include="SceneUserManager.cpp" />
+    <ClCompile Include="script.cpp" />
+    <ClCompile Include="script_func.cpp" />
+    <ClCompile Include="SessionClient.cpp" />
+    <ClCompile Include="Skill.cpp" />
+    <ClCompile Include="SkillManager.cpp" />
+    <ClCompile Include="SkillStatusManager.cpp" />
+    <ClCompile Include="Stock.cpp" />
+    <ClCompile Include="Team.cpp" />
+    <ClCompile Include="TeamManager.cpp" />
+    <ClCompile Include="TimeTick.cpp" />
+    <ClCompile Include="Trade.cpp" />
+    <ClCompile Include="WayPoint.cpp" />
+    <ClCompile Include="zObject.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libsrvcore\libsrvcore.vcxproj">
+      <Project>{437e4d89-2335-46de-b95b-784578c1b1e7}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

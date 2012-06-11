@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="luabind">
+      <UniqueIdentifier>{5481e758-51d4-4001-87ca-534508489cf7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\luabind\src\class.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\class_info.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\class_registry.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\class_rep.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\create_class.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\error.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\find_best_match.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\function.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\implicit_cast.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\link_compatibility.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\object_rep.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\open.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\overload_rep.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\pcall.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\ref.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\scope.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\stack_content_by_name.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\weak_ref.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\luabind\src\wrapper_base.cpp">
+      <Filter>luabind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libScenesServer\box.cpp" />
+    <ClCompile Include="..\libScenesServer\boxCircle.cpp" />
+    <ClCompile Include="..\libScenesServer\CartoonPet.cpp" />
+    <ClCompile Include="..\libScenesServer\CharInitInfo.cpp" />
+    <ClCompile Include="..\libScenesServer\Chat.cpp" />
+    <ClCompile Include="..\libScenesServer\CountryAlly.cpp" />
+    <ClCompile Include="..\libScenesServer\CountryDare.cpp" />
+    <ClCompile Include="..\libScenesServer\CountryTech.cpp" />
+    <ClCompile Include="..\libScenesServer\Dice.cpp" />
+    <ClCompile Include="..\libScenesServer\duplicateManager.cpp" />
+    <ClCompile Include="..\libScenesServer\globalBox.cpp" />
+    <ClCompile Include="..\libScenesServer\Gold.cpp" />
+    <ClCompile Include="..\libScenesServer\GuardNpc.cpp" />
+    <ClCompile Include="..\libScenesServer\Horse.cpp" />
+    <ClCompile Include="ItemCoolTime.cpp" />
+    <ClCompile Include="..\libScenesServer\Leechdom.cpp" />
+    <ClCompile Include="..\libScenesServer\LoadMap.cpp" />
+    <ClCompile Include="..\libScenesServer\MagicRange.cpp" />
+    <ClCompile Include="..\libScenesServer\Mask.cpp" />
+    <ClCompile Include="..\libScenesServer\MessageSystem.cpp" />
+    <ClCompile Include="..\libScenesServer\MiniClient.cpp" />
+    <ClCompile Include="..\libScenesServer\MiniGame.cpp" />
+    <ClCompile Include="..\libScenesServer\NpcTrade.cpp" />
+    <ClCompile Include="..\libScenesServer\ObjectManager.cpp" />
+    <ClCompile Include="..\libScenesServer\Property.cpp" />
+    <ClCompile Include="..\libScenesServer\Quest.cpp" />
+    <ClCompile Include="..\libScenesServer\QuestAction.cpp" />
+    <ClCompile Include="..\libScenesServer\QuestCondition.cpp" />
+    <ClCompile Include="..\libScenesServer\QuestEvent.cpp" />
+    <ClCompile Include="..\libScenesServer\QuestTable.cpp" />
+    <ClCompile Include="..\libScenesServer\RebuildObject.cpp" />
+    <ClCompile Include="..\libScenesServer\RecordClient.cpp" />
+    <ClCompile Include="..\libScenesServer\Rush.cpp" />
+    <ClCompile Include="..\libScenesServer\Scene.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneArmy.cpp" />
+    <ClCompile Include="..\libScenesServer\sceneBattlefiel.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneCountry.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneDare.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneEntryIndex.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneEntryPk.cpp" />
+    <ClCompile Include="SceneGhost.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneManager.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneNpc.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneNpcAI.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneNpcDare.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneNpcManager.cpp" />
+    <ClCompile Include="..\libScenesServer\ScenePet.cpp" />
+    <ClCompile Include="..\libScenesServer\ScenePk.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneQuiz.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneRelation.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneSafety.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneSchool.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneSept.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneSkill.cpp" />
+    <ClCompile Include="..\libScenesServer\ScenesServer.cpp" />
+    <ClCompile Include="ScenesServer1.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneTask.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneTaskManager.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneUnion.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneUser.cpp" />
+    <ClCompile Include="..\libScenesServer\SceneUserManager.cpp" />
+    <ClCompile Include="..\libScenesServer\script.cpp" />
+    <ClCompile Include="..\libScenesServer\script_func.cpp" />
+    <ClCompile Include="..\libScenesServer\scriptTickTask.cpp" />
+    <ClCompile Include="..\libScenesServer\SessionClient.cpp" />
+    <ClCompile Include="..\libScenesServer\Skill.cpp" />
+    <ClCompile Include="..\libScenesServer\SkillManager.cpp" />
+    <ClCompile Include="..\libScenesServer\SkillStatusManager.cpp" />
+    <ClCompile Include="..\libScenesServer\Stock.cpp" />
+    <ClCompile Include="..\libScenesServer\Team.cpp" />
+    <ClCompile Include="..\libScenesServer\TeamManager.cpp" />
+    <ClCompile Include="..\libScenesServer\TimeTick.cpp" />
+    <ClCompile Include="..\libScenesServer\Trade.cpp" />
+    <ClCompile Include="..\libScenesServer\turn.cpp" />
+    <ClCompile Include="..\libScenesServer\WayPoint.cpp" />
+    <ClCompile Include="..\libScenesServer\zObject.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\libScenesServer\boxCircle.h" />
+    <ClInclude Include="..\libScenesServer\duplicateManager.h" />
+    <ClInclude Include="..\libScenesServer\giftBox.h" />
+    <ClInclude Include="..\libScenesServer\meterialsManager.h" />
+    <ClInclude Include="..\libScenesServer\scriptTickTask.h" />
+  </ItemGroup>
+</Project>

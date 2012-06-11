@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5E40E050-AB59-4D59-BF1C-9D2553B587C5}</ProjectGuid>
+    <RootNamespace>SessionServer</RootNamespace>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\debugtemp\sessionServer\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\bin\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\temp\sessionServerR\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\include;..\zlib-1.2.3.win32\include;..\libxml2-2.6.30+.win32\include;..\iconv-1.9.2.win32\include;..\mysql\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>libmysql.lib;libxml2.lib;iconv.lib;zlib.lib;shlwapi.lib;baseLib.lib;libSessionServer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>E:\103\bin\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>..\debuglib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Manifest>
+      <OutputManifestFile>E:\103\bin\$(TargetFileName).embed.manifest</OutputManifestFile>
+      <VerboseOutput>true</VerboseOutput>
+      <GenerateCatalogFiles>true</GenerateCatalogFiles>
+    </Manifest>
+    <ManifestResourceCompile>
+      <ResourceOutputFileName>E:\103\bin\$(TargetFileName).embed.manifest.res</ResourceOutputFileName>
+    </ManifestResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\iconv-1.9.2.win32\include;..\zlib-1.2.3.win32\include;..\libxml2-2.6.30+.win32\include;..\mysql\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BrowseInformation>true</BrowseInformation>
+      <BrowseInformationFile>$(IntDir)</BrowseInformationFile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>shlwapi.lib;libsrvcore.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\..\bin\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>..\lib;..\luabind\lib;..\lua\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\libSessionServer\Ally.cpp" />
+    <ClCompile Include="..\libSessionServer\Army.cpp" />
+    <ClCompile Include="..\libSessionServer\AuctionService.cpp" />
+    <ClCompile Include="..\libSessionServer\CartoonPetService.cpp" />
+    <ClCompile Include="..\libSessionServer\CityManager.cpp" />
+    <ClCompile Include="..\libSessionServer\CountryManager.cpp" />
+    <ClCompile Include="..\libSessionServer\Dare.cpp" />
+    <ClCompile Include="..\libSessionServer\DareEmperor.cpp" />
+    <ClCompile Include="..\libSessionServer\DareRecordManager.cpp" />
+    <ClCompile Include="..\libSessionServer\DareSept.cpp" />
+    <ClCompile Include="..\libSessionServer\DareSeptNpc.cpp" />
+    <ClCompile Include="..\libSessionServer\EmperorForbid.cpp" />
+    <ClCompile Include="..\libSessionServer\ForbidTalkManager.cpp" />
+    <ClCompile Include="..\libSessionServer\Gem.cpp" />
+    <ClCompile Include="..\libSessionServer\Gift.cpp" />
+    <ClCompile Include="..\libSessionServer\MailService.cpp" />
+    <ClCompile Include="..\libSessionServer\NpcDare.cpp" />
+    <ClCompile Include="..\libSessionServer\OfflineMessage.cpp" />
+    <ClCompile Include="Queuing.cpp" />
+    <ClCompile Include="..\libSessionServer\Quiz.cpp" />
+    <ClCompile Include="..\libSessionServer\RecommendManager.cpp" />
+    <ClCompile Include="..\libSessionServer\RecordClient.cpp" />
+    <ClCompile Include="..\libSessionServer\RelationManager.cpp" />
+    <ClCompile Include="..\libSessionServer\SchoolManager.cpp" />
+    <ClCompile Include="..\libSessionServer\Sept.cpp" />
+    <ClCompile Include="..\libSessionServer\Session.cpp" />
+    <ClCompile Include="..\libSessionServer\SessionChat.cpp" />
+    <ClCompile Include="..\libSessionServer\SessionManager.cpp" />
+    <ClCompile Include="..\libSessionServer\SessionServer.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
+    </ClCompile>
+    <ClCompile Include="SessionServer1.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.xdc</XMLDocumentationFileName>
+    </ClCompile>
+    <ClCompile Include="..\libSessionServer\SessionTask.cpp" />
+    <ClCompile Include="..\libSessionServer\SessionTaskManager.cpp" />
+    <ClCompile Include="..\libSessionServer\Sort.cpp" />
+    <ClCompile Include="..\libSessionServer\Team.cpp" />
+    <ClCompile Include="..\libSessionServer\TempArchive.cpp" />
+    <ClCompile Include="..\libSessionServer\TimeTick.cpp" />
+    <ClCompile Include="..\libSessionServer\Union.cpp" />
+    <ClCompile Include="..\libSessionServer\Vote.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libsessionserver\libSessionServer.vcxproj">
+      <Project>{fc33b790-7f83-4f6f-acf6-bca3f26e8c44}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\libsrvcore\libsrvcore.vcxproj">
+      <Project>{437e4d89-2335-46de-b95b-784578c1b1e7}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
