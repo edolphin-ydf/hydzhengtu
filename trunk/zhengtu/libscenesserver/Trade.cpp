@@ -899,7 +899,7 @@ bool SceneUser::doTradeCmd(const Cmd::stTradeUserCmd *rev,DWORD cmdLen)
           
           stAddObjectTradeUserCmd ret;
           ret.user_id = tempid;
-          memcpy(&ret.object,&(ob->data),sizeof(ret.object),sizeof(ret.object));
+          memccpy(&ret.object,&(ob->data),sizeof(ret.object),sizeof(ret.object));
           ret.x = cmd->x;
           ret.y = cmd->y;
           if (ob->base->kind == ItemType_Money) {

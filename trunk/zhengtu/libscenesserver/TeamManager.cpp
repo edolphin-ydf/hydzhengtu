@@ -762,7 +762,7 @@ struct NoticeRollExec : public TeamMemExec
 	*/
 	NoticeRollExec( zObject * obj )
 	{
-		memcpy( &(pCmd.object), &(obj->data), sizeof(t_Object),sizeof(pCmd.object) );
+		memccpy( &(pCmd.object), &(obj->data), sizeof(t_Object),sizeof(pCmd.object) );
 	}
 
 	/**

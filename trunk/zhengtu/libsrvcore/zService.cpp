@@ -24,6 +24,7 @@ static void ctrlcHandler(int signum)
   fprintf(stderr,"ctrlcHandler\n");
   //如果没有初始化zService实例,表示出错
   zService *instance = zService::serviceInstance();
+  //结束主循环
   instance->Terminate();
 }
 
@@ -74,21 +75,21 @@ bool zService::init()
 void zService::main()
 {
   Zebra::logger->debug("zService::main");
-  //初始化程序,并确认服务器启动成功
+  //初始化程序,并确认服务器启动成功,设置结束信号和结束时调用的函数
   if(signal(SIGTERM  , ctrlcHandler)==SIG_ERR)
   {
 	fprintf(stderr,"信号设置失败\n");
   }
   
-
+  //初始化，确认服务器初始化成功，即将进入主回调函数
   if (init()
   && validate())
   {
     //运行主回调线程
     while(!isTerminate())
     {
-      if (!serviceCallback())
-      {
+      if (!serviceCallback())//服务程序的主回调函数，主要用于监听服务端口，如果返回false将结束程序，返回true继续执行服务
+      {                      //这儿主要是输出网络流量，必定返回真，所以主服务会一直循环，除非人为结束
         break;
       }
     }

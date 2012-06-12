@@ -1512,7 +1512,7 @@ bool SessionClient::cmdMsgParse_Other(const Cmd::t_NullCmd *pNullCmd,const DWORD
 
 				if (tempObject)
 				{
-					memcpy(&send.object,&tempObject->data,sizeof(t_Object),sizeof(send.object));
+					memccpy(&send.object,&tempObject->data,sizeof(t_Object),sizeof(send.object));
 				}
 				sendCmd(&send,sizeof(Cmd::Session::t_returnObject_SceneSession));
 			}
@@ -2703,7 +2703,7 @@ bool SessionClient::cmdMsgParse_Other(const Cmd::t_NullCmd *pNullCmd,const DWORD
 				}
 
 				zObject * ob = zObject::create(objbase);
-				memcpy(&ob->data,&rev->item.object,sizeof(t_Object),sizeof(ob->data));
+				memccpy(&ob->data,&rev->item.object,sizeof(t_Object),sizeof(ob->data));
 				//ret->createid = o->createid;
 				//ret->id = ret->data.qwThisID;
 				//ret->tempid = ret->data.dwObjectID;

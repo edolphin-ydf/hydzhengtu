@@ -63,9 +63,9 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libmysql.lib;libxml2.lib;iconv.lib;zlib.lib;shlwapi.lib;libsrvcore.lib;baseLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>E:\103\bin\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>..\debuglib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libmysqld.lib;libxml2.lib;iconv.lib;zlibd.lib;shlwapi.lib;libsrvcore.lib;baseLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\bin\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>..\debuglib;..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>

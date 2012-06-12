@@ -719,7 +719,7 @@ void CSchoolM::sendSchoolPrivateChatMessages(const UserSession *pUser,const Cmd:
     Cmd::stChannelChatUserCmd *chatCmd;
 
     chatCmd = (Cmd::stChannelChatUserCmd *)buf;
-    memcpy(chatCmd,rev,cmdLen,sizeof(buf));
+    memccpy(chatCmd,rev,cmdLen,sizeof(buf));
     strncpy(chatCmd->pstrName,pUser->name,MAX_NAMESIZE);
 
     if (member->getUser())

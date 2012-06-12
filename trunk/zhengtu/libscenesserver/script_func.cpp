@@ -116,7 +116,7 @@ void infoUserObjUpdate(SceneUser *user,DWORD thisid)
 
 
 	  Cmd::stAddObjectPropertyUserCmd ret;
-      memcpy(&ret.object,&(o->data),sizeof(t_Object),sizeof(ret.object));
+      memccpy(&ret.object,&(o->data),sizeof(t_Object),sizeof(ret.object));
       user->sendCmdToMe(&ret,sizeof(ret));
 	}
 }

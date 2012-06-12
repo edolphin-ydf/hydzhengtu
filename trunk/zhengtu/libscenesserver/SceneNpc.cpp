@@ -82,8 +82,10 @@ bool SceneNpc::isBugbear()
  *
  */
 void SceneNpc::death(const zRTime &ct)
+{
 
 }
+
 
 /**
  * \brief 被击退
@@ -1378,7 +1380,7 @@ bool SceneNpc::forceChaseUser(SceneEntryPk *pAtt)
  */
 void SceneNpc::unChaseUser()
 {
-  }
+
 }
 
 /**
@@ -1590,7 +1592,7 @@ bool SceneNpc::forwardSession(const Cmd::stNullUserCmd *pNullCmd,const DWORD nCm
   constructInPlace(sendCmd);
   sendCmd->dwID=0;
   sendCmd->size=nCmdLen;
-  bcopy(pNullCmd,sendCmd->data,nCmdLen,sizeof(buf) - sizeof(Cmd::Session::t_Session_ForwardUser));
+  bcopy((void *)pNullCmd,sendCmd->data,nCmdLen,sizeof(buf) - sizeof(Cmd::Session::t_Session_ForwardUser));
   return sessionClient->sendCmd(buf,sizeof(Cmd::Session::t_Session_ForwardUser)+nCmdLen);
 }
 
@@ -4929,7 +4931,7 @@ bool SceneNpc::ChangeNpc()
 
 		npc = npcbuff; //sky 把新的NPC基本数据赋给当前NPC
 		this->id = dwID;
-		memcpy(name, npc->name, sizeof(name), sizeof(name));
+		memccpy(name, npc->name, sizeof(name), sizeof(name));
 	}
 	else
 		return false;
@@ -5010,7 +5012,7 @@ void SceneNpc::reflectSkill(SceneEntryPk *pAtt,const Cmd::stAttackMagicUserCmd *
 
 		if(s && s->IsMagicSkill())
 		{
-			memcpy(&cmd,rev,sizeof(cmd),sizeof(cmd));
+			memccpy(&cmd,rev,sizeof(cmd),sizeof(cmd));
 
 			switch (pAtt->getType())
 			{

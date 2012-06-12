@@ -465,11 +465,11 @@ module (_MODULE)
 	.def_readwrite("data",&zObject::data)
     ,
 
-  class_<Scene>("Scene")
+ /* class_<Scene>("Scene")
     .def("country",&Scene::getCountryID)
 	.def("countryName",&Scene::getCountryName)
 	.def_readonly("sceneId",&Scene::id)
-    ,
+    ,*/
   
   class_<CharBase>( "CharBase" )
     .def_readonly("level",&CharBase::level)
@@ -527,7 +527,7 @@ module (_MODULE)
 
     .def_readwrite("charbase",&SceneUser::charbase)
     .def_readwrite("quest",&SceneUser::quest_list)
-    .def_readonly("scene",(Scene*SceneUser::*)&SceneUser::scene)
+    //.def_readonly("scene",(Scene*SceneUser::*)&SceneUser::scene)
     
     //-----------------------------------------------
     .def("get_familyvar",&get_familyvar)

@@ -56,7 +56,7 @@ zSocket::zSocket(
 
 	this->pTask = pTask;
 
-	bzero(&this->addr,sizeof(struct sockaddr_in));
+	bzero((void *)&this->addr,sizeof(struct sockaddr_in));
 	if (NULL == addr) 
 	{
 		int len = sizeof(struct sockaddr);
@@ -64,9 +64,9 @@ zSocket::zSocket(
 	}
 	else 
 	{
-		bcopy(addr,&this->addr,sizeof(struct sockaddr_in),sizeof(struct sockaddr_in));
+		bcopy((void *)addr,&this->addr,sizeof(struct sockaddr_in),sizeof(struct sockaddr_in));
 	}
-	bzero(&this->local_addr,sizeof(struct sockaddr_in));
+	bzero((void *)&this->local_addr,sizeof(struct sockaddr_in));
 	{
 		int len = sizeof(struct sockaddr_in);
 		getsockname(this->sock,(struct sockaddr *)&this->local_addr,&len);

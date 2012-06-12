@@ -572,7 +572,7 @@ void SceneUser::appendAttack(const Cmd::stAttackMagicUserCmd *rev)
 
   if (attackTarget)
   {
-    memcpy(&cmd,rev,sizeof(cmd),sizeof(cmd));
+    memccpy(&cmd,rev,sizeof(cmd),sizeof(cmd));
     
     switch (attackTarget->getType())
     {
@@ -1798,7 +1798,7 @@ bool ScenePk::attackFailToMe(const Cmd::stAttackMagicUserCmd *rev,SceneEntryPk *
   }
 
   Cmd::stAttackMagicUserCmd attCmd;
-  bcopy(rev,&attCmd,sizeof(attCmd),sizeof(attCmd));
+  bcopy((void *)rev,&attCmd,sizeof(attCmd),sizeof(attCmd));
   attCmd.dwUserTempID = pAtt->tempid;
 
   SceneEntryPk *pEntry = pAtt->getTopMaster();
@@ -2186,7 +2186,7 @@ void ScenePk::checkProtect(SceneEntryPk *psAtt,SceneEntryPk *psDef)
 bool ScenePk::attackUserCmdToNine(const Cmd::stAttackMagicUserCmd *rev,SceneEntryPk *pAtt)
 {
   Cmd::stAttackMagicUserCmd attCmd;
-  bcopy(rev,&attCmd,sizeof(attCmd),sizeof(attCmd));
+  bcopy((void *)rev,&attCmd,sizeof(attCmd),sizeof(attCmd));
   attCmd.dwUserTempID = pAtt->tempid;
 
 

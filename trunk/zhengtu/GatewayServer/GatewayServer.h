@@ -1010,7 +1010,7 @@ private:
 
 
 public:
-	CountryInfo country_info;
+	CountryInfo country_info;//国家名称(地图)信息
 	bool rolereg_verify;
 	static bool service_gold;
 	static bool service_stock;

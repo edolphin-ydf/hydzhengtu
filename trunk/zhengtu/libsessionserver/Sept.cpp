@@ -2794,7 +2794,7 @@ void CSeptM::sendSeptPrivateChatMessages(const UserSession *pUser,const Cmd::stC
     Cmd::stChannelChatUserCmd *chatCmd;
 
     chatCmd = (Cmd::stChannelChatUserCmd *)buf;
-    memcpy(chatCmd,rev,cmdLen,sizeof(buf));
+    memccpy(chatCmd,rev,cmdLen,sizeof(buf));
     strncpy(chatCmd->pstrName,pUser->name,MAX_NAMESIZE);
 
 //    UserSession *pUser = UserSessionManager::getInstance()->getUserByID(pSeptMember->id);

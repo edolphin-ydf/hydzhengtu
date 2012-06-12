@@ -206,27 +206,33 @@ void zTCPBufferClient::run()
 	{
 		BYTE pstrCmd[zSocket::MAX_DATASIZE];
 		int nCmdLen;
-
+		//接收指令到缓冲区,当套接口数据没有准备好的时候,不等待
 		nCmdLen = pSocket->recvToCmd(pstrCmd,zSocket::MAX_DATASIZE,false);
-		if (nCmdLen > 0)
+		if (nCmdLen > 0)//接收成功
 		{
-			Cmd::t_NullCmd *pNullCmd = (Cmd::t_NullCmd *)pstrCmd;
+			Cmd::t_NullCmd *pNullCmd = (Cmd::t_NullCmd *)pstrCmd;//转换成空操作指令，测试信号和对时间指令
 			if (Cmd::CMD_NULL == pNullCmd->cmd
-				&& Cmd::PARA_NULL == pNullCmd->para)
+				&& Cmd::PARA_NULL == pNullCmd->para)//判断是否为测试信号
 			{
-				//Zebra::logger->debug("客户端收到测试信号");
-				if (!sendCmd(pstrCmd,nCmdLen))
+				Zebra::logger->debug("客户端%s收到测试信号",getThreadName().c_str());
+				if (!sendCmd(pstrCmd,nCmdLen))//把测试信号发回去
 				{
 					//发送指令失败,退出循环,结束线程
 					break;
 				}
 			}
 			else
-				msgParse(pNullCmd,nCmdLen);
+				msgParse(pNullCmd,nCmdLen);//不是测试信号，则进行解析
 		}
 		else if (-1 == nCmdLen)
 		{
 			//接收指令失败,退出循环,结束线程
+			Zebra::logger->error("接收指令失败2,关闭 %s",getThreadName().c_str());
+			break;
+		}
+		else if (0 == nCmdLen)
+		{
+			//接收指令超时,退出循环,结束线程
 			Zebra::logger->error("接收指令失败2,关闭 %s",getThreadName().c_str());
 			break;
 		}

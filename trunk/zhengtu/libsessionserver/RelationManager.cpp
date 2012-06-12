@@ -1368,7 +1368,7 @@ void CRelationManager::sendPrivateChatToFriend(const Cmd::stChannelChatUserCmd *
     Cmd::stChannelChatUserCmd *chatCmd;
 
     chatCmd = (Cmd::stChannelChatUserCmd *)buf;
-    memcpy(chatCmd,pCmd,cmdLen,sizeof(buf));
+    memccpy(chatCmd,pCmd,cmdLen,sizeof(buf));
     strncpy(chatCmd->pstrName,user->name,MAX_NAMESIZE);
 
     if (rel->isOnline())

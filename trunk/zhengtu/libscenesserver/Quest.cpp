@@ -232,9 +232,9 @@ bool Vars::is_timeout(int timeout) const
 int Vars::save_timer(BYTE* dest) const
 {
   int len = 0;
-  memcpy(dest+len,&_timeout,sizeof(_timeout),sizeof(_timeout));
+  memccpy(dest+len,&_timeout,sizeof(_timeout),sizeof(_timeout));
   len += sizeof(_timeout);
-  memcpy(dest+len,&_start_time,sizeof(_start_time),sizeof(_start_time));
+  memccpy(dest+len,&_start_time,sizeof(_start_time),sizeof(_start_time));
   len += sizeof(_start_time);
   
   return len;
@@ -251,9 +251,9 @@ int Vars::save_timer(BYTE* dest) const
 int Vars::load_timer(BYTE* dest)
 {
   int len = 0;
-  memcpy(&_timeout,(dest+len),sizeof(int),sizeof(int));
+  memccpy(&_timeout,(dest+len),sizeof(int),sizeof(int));
   len += sizeof(int);
-  memcpy(&_start_time,(dest+len),sizeof(int),sizeof(int));
+  memccpy(&_start_time,(dest+len),sizeof(int),sizeof(int));
   len += sizeof(int);
   
   return len;
@@ -277,22 +277,22 @@ int Vars::save(BYTE* dest) const
     if (!it->second.is_tmp()) {
       ++count;
       int tmp = it->first.length();
-      memcpy(dest+len,&tmp,sizeof(int),sizeof(int));
+      memccpy(dest+len,&tmp,sizeof(int),sizeof(int));
       len += sizeof(int);
-      memcpy(dest+len,it->first.c_str(),it->first.length(),it->first.length());
+      memccpy(dest+len,it->first.c_str(),it->first.length(),it->first.length());
       len += it->first.length();
 
       tmp = it->second.value().length();
-      memcpy(dest+len,&tmp,sizeof(int),sizeof(int));
+      memccpy(dest+len,&tmp,sizeof(int),sizeof(int));
       len += sizeof(int);
-      memcpy(dest+len,it->second.value().c_str(),it->second.value().length(),it->second.value().length());
+      memccpy(dest+len,it->second.value().c_str(),it->second.value().length(),it->second.value().length());
       len += it->second.value().length();      
       
       //Zebra::logger->debug("存储变量(%s:%s)",it->first.c_str(),it->second.value().c_str());
     }
   }
   //store count
-  memcpy(dest + length,&count,sizeof(int),sizeof(int));  
+  memccpy(dest + length,&count,sizeof(int),sizeof(int));  
 
   return len;
 }
@@ -605,12 +605,12 @@ bool UserVar::save() const
   bzero(buf,sizeof(buf));
 
   int count = _vars.size();
-  memcpy(buf,&count,sizeof(count),sizeof(buf));
+  memccpy(buf,&count,sizeof(count),sizeof(buf));
   int len = sizeof(count);
     
   for (const_vars_iterator it=_vars.begin(); it!=_vars.end(); ++it) {
     QWORD id = it->first;
-    memcpy(buf+len,&id,sizeof(id),sizeof(buf) - len);
+    memccpy(buf+len,&id,sizeof(id),sizeof(buf) - len);
     len += sizeof(id);
 
     len += it->second->save((BYTE*)buf+len);
@@ -684,7 +684,7 @@ int UserVar::VAR::save(BYTE* dest) const
   int count = 0;
   for (const_var_iterator it=_vars.begin(); it!=_vars.end(); ++it) {
       ++count;
-      memcpy(dest+len,&(it->first),sizeof(it->first),sizeof(it->first));
+      memccpy(dest+len,&(it->first),sizeof(it->first),sizeof(it->first));
       len += sizeof(it->first);
 
       int tmp = it->second->save(dest);
@@ -692,7 +692,7 @@ int UserVar::VAR::save(BYTE* dest) const
   //Zebra::logger->debug("存储变量(%s:%s)",it->first.c_str(),it->second.value().c_str());
   }
   //store count
-  memcpy(dest,&count,sizeof(int),sizeof(int));  
+  memccpy(dest,&count,sizeof(int),sizeof(int));  
 
   return len;
 }
@@ -763,12 +763,12 @@ void QuestList::add_quest(DWORD id,const Vars& vars,SceneUser& user,bool notify)
     constructInPlace(info);
     info->id = id;
     int len = (quest->title().length()<63)?quest->title().length():63;
-    memcpy(info->name,quest->title().c_str(),len,sizeof(info->name));
+    memccpy(info->name,quest->title().c_str(),len,sizeof(info->name));
     info->name[len] = '\0';
     //info->length = quest->description().length();
     info->start = start_time(id);
     //Zebra::logger->debug("quest time(%d)",info->start);
-    memcpy(info->info,quest->description().c_str(),quest->description().length(),sizeof(buf) - sizeof(Cmd::stQuestInfoUserCmd));
+    memccpy(info->info,quest->description().c_str(),quest->description().length(),sizeof(buf) - sizeof(Cmd::stQuestInfoUserCmd));
     info->info[quest->description().length()] = '\0';
     //Zebra::logger->debug("quest info(%s)",info->info);
     user.sendCmdToMe(info,sizeof(Cmd::stQuestInfoUserCmd)+sizeof(BYTE)*(quest->description().length()+1));
@@ -892,11 +892,11 @@ int QuestList::save(BYTE* dest) const
 {
   int len = 0;
   int tmp = _quests.size();
-  memcpy(dest,&tmp,sizeof(int),sizeof(int));
+  memccpy(dest,&tmp,sizeof(int),sizeof(int));
   len += sizeof(int);
   
   for (const_quest_iterator it=_quests.begin(); it!=_quests.end(); ++it) {
-    memcpy(dest+len,&it->first,sizeof(DWORD),sizeof(DWORD));
+    memccpy(dest+len,&it->first,sizeof(DWORD),sizeof(DWORD));
     //Zebra::logger->debug("存储任务(%d)",it->first);
     len += sizeof(DWORD);
     len += it->second.save(dest+len);
@@ -990,12 +990,12 @@ int QuestList::notify(SceneUser& user) const
       constructInPlace(info);
       info->id = it->first;
       int len = (quest->title().length()<63)?quest->title().length():63;
-      memcpy(info->name,quest->title().c_str(),len,sizeof(info->name));
+      memccpy(info->name,quest->title().c_str(),len,sizeof(info->name));
       info->name[len] = '\0';
       //info->length = quest->description().length();
       info->start = start_time(it->first);
       //Zebra::logger->debug("quest time(%d)",info->start);
-      memcpy(info->info,quest->description().c_str(),quest->description().length(),sizeof(buf) - sizeof(Cmd::stQuestInfoUserCmd));
+      memccpy(info->info,quest->description().c_str(),quest->description().length(),sizeof(buf) - sizeof(Cmd::stQuestInfoUserCmd));
       info->info[quest->description().length()] = '\0';
       user.sendCmdToMe(info,sizeof(Cmd::stQuestInfoUserCmd)+sizeof(BYTE)*(quest->description().length()+1));
 

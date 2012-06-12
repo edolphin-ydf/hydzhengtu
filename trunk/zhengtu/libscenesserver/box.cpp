@@ -598,7 +598,7 @@ bool SceneUser::doMosaicGenCmd(const Cmd::stMakeObjectUserCmd *ptCmd,DWORD cmdLe
 						{
 							const TeamMember * ztTeam = getMember(f);
 							Cmd->fen_team[f].tempid = ztTeam->tempid;
-							memcpy( Cmd->fen_team[f].name, ztTeam->name, 33,sizeof(Cmd->fen_team[f].name) );
+							memccpy( Cmd->fen_team[f].name, ztTeam->name, 33,sizeof(Cmd->fen_team[f].name) );
 						}
 					}
 
@@ -610,7 +610,7 @@ bool SceneUser::doMosaicGenCmd(const Cmd::stMakeObjectUserCmd *ptCmd,DWORD cmdLe
 					{
 						if( i < Cmd->count )
 						{
-							memcpy( &(Cmd->objects[i]), &((*it)->data), sizeof(t_Object),sizeof(Cmd->objects[i]) );
+							memccpy( &(Cmd->objects[i]), &((*it)->data), sizeof(t_Object),sizeof(Cmd->objects[i]) );
 							i++;
 						}
 					}

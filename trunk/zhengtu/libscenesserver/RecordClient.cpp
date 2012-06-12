@@ -173,7 +173,7 @@ bool RecordClient::cmdMsgParse(const Cmd::t_NullCmd *pNullCmd,const DWORD nCmdLe
 							{       
 								char map[MAX_NAMESIZE+1];
 								bzero(map,sizeof(map));
-								bcopy(scene->getName(),map,6,sizeof(map));
+								bcopy((void *)scene->getName(),map,6,sizeof(map));
 								bcopy("ÐÂÊÖ´å",&map[6],6,sizeof(map) - 6);
 								scene=SceneManager::getInstance().getSceneByName(map);
 								if (!scene)

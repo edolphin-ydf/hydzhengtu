@@ -32,18 +32,19 @@ bool GatewayService::init()
   //初始化连接线程池
   int state = state_none;
   to_lower(Zebra::global["threadPoolState"]);
-  if ("repair" == Zebra::global["threadPoolState"]
-      || "maintain" == Zebra::global["threadPoolState"])
+  string threadPoolState = Zebra::global["threadPoolState"];//现在的状态是否允许建立新的连接
+  if ("repair" == threadPoolState
+      || "maintain" == threadPoolState)
     state = state_maintain;
 
   taskPool = new zTCPTaskPool(atoi(Zebra::global["threadPoolServer"].c_str()),state,65000);
   if (NULL == taskPool
       || !taskPool->init())
     return false;
-
-  strncpy(pstrIP,zSocket::getIPByIfName(Zebra::global["ifname"].c_str()),MAX_IP_LENGTH - 1);
+   //取出IP放到pstrIP                                                    
+  strncpy(pstrIP,zSocket::getIPByIfName(Zebra::global["ifname"].c_str()),MAX_IP_LENGTH/*IP地址最大长度*/ - 1);
   Zebra::logger->info("GatewayService::init(%s)",pstrIP);
-
+  //父类zSubNetService初始化
   if (!zSubNetService::init())
   {
     return false;
@@ -212,21 +213,21 @@ bool GatewayService::msgParse_SuperService(const Cmd::t_NullCmd *pNullCmd,const 
   {
     switch(pNullCmd->para)
     {
-      case PARA_GATEWAY_RQGYLIST:
+      case PARA_GATEWAY_RQGYLIST://查询当前网关的状态
          Zebra::logger->info("PARA_GATEWAY_RQGYLIST");
                  return notifyLoginServer();
-	  case PARA_NOTIFYGATE_FINISH:
+	  case PARA_NOTIFYGATE_FINISH://查询完毕
 		  {
 				if(!startUpFinish)
 					startUpFinish = true;
 		  }
 		  break;
-      case PARA_CHARNAME_GATEWAY:
+      case PARA_CHARNAME_GATEWAY://根据用户ID查找用户，如果没有则创建一个新的对象
         {
           t_Charname_Gateway *rev = (t_Charname_Gateway *)pNullCmd;
 
                     Zebra::logger->info("PARA_CHARNAME_GATEWAY");
-          GateUser *pUser=GateUserManager::getInstance()->getUserByAccID(rev->accid);
+          GateUser *pUser=GateUserManager::getInstance()->getUserByAccID(rev->accid);//根据accid得到一个用户
           if (pUser
               && pUser->isCreateState()
               && rev->state & ROLEREG_STATE_TEST)
@@ -238,7 +239,7 @@ bool GatewayService::msgParse_SuperService(const Cmd::t_NullCmd *pNullCmd,const 
               Zebra::logger->warn("角色名重复 GatewayService::msgParse_SuperService");
             }
             else
-            {
+            {//网关与档案服务器的连接缓存一个创建角色的指令
               if (!recordClient->sendCmd(&pUser->createCharCmd,sizeof(pUser->createCharCmd)))
                 return false;
             }
@@ -379,20 +380,24 @@ int main(int argc,char **argv)
     return EXIT_FAILURE;
 
   //设置日志级别
-  Zebra::logger->setLevel(Zebra::global["log"]);
+  string loglevel = Zebra::global["log"];
+  Zebra::logger->setLevel(loglevel);
   //设置写本地日志文件
-  if ("" != Zebra::global["logfilename"]){
-    Zebra::logger->addLocalFileLog(Zebra::global["logfilename"]);
+  string logfilename = Zebra::global["logfilename"];
+  if ("" != logfilename){
+    Zebra::logger->addLocalFileLog(logfilename);
     Zebra::logger->removeConsoleLog();
     }
 
-  //Zebra::logger->debug("%s",Zebra::global["rolereg_verify"].c_str());
-  if ("true" == Zebra::global["rolereg_verify"])
+  //是否启用角色名称唯一性验证服务器来保证角色名称的唯一性
+  string rolereg_verify = Zebra::global["rolereg_verify"];
+  if ("true" == rolereg_verify)
     GatewayService::getInstance().rolereg_verify = true;
   else
     GatewayService::getInstance().rolereg_verify = false;
-  //指令检测开关
-  if (Zebra::global["cmdswitch"] == "true")
+  //指令检测开关,指令统计开关
+  string cmdswitch = Zebra::global["cmdswitch"];
+  if (cmdswitch == "true")
   {
     zTCPTask::analysis._switch = true;
     zTCPClient::analysis._switch=true;
@@ -404,7 +409,7 @@ int main(int argc,char **argv)
   }
 
   merge_version = atoi(Zebra::global["merge_version"].c_str());
-
+  //设置标题等选项
   Zebra_Startup();
   
   GatewayService::getInstance().main();
