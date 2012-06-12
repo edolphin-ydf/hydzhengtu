@@ -88,7 +88,7 @@ bool SuperClient::msgParse_Startup(const Cmd::t_NullCmd *pNullCmd,const DWORD nC
 			t_Startup_Response *ptCmd = (t_Startup_Response *)pNullCmd;
 
 			//Zebra::logger->error("PARA_STARTUP_RESPONSE %d,%d",ptCmd->wdServerID,ptCmd->wdPort);
-			zSubNetService::subNetServiceInstance()->setServerInfo(ptCmd);
+			zSubNetService::subNetServiceInstance()->setServerInfo(ptCmd);//根据管理服务器返回信息,设置服务器的信息，包括服务器ID,IP，Port
 			return true;
 		}
 
@@ -96,7 +96,7 @@ bool SuperClient::msgParse_Startup(const Cmd::t_NullCmd *pNullCmd,const DWORD nC
 	case PARA_STARTUP_SERVERENTRY_NOTIFYME:
 		{
 			t_Startup_ServerEntry_NotifyMe *ptCmd = (t_Startup_ServerEntry_NotifyMe *)pNullCmd;
-
+			//添加关联服务器信息到一个容器中
 			//Zebra::logger->error("PARA_STARTUP_SERVERENTRY_NOTIFYME size = %d ",ptCmd->size );
 			for(WORD i = 0; i < ptCmd->size; i++)
 			{
@@ -140,14 +140,14 @@ bool SuperClient::msgParse(const Cmd::t_NullCmd *pNullCmd,const DWORD nCmdLen)
 
 	switch(pNullCmd->cmd)
 	{
-	case Cmd::Super::CMD_STARTUP:
+	case Cmd::Super::CMD_STARTUP://来自管理服务器，关于启动的指令
 		if (msgParse_Startup(pNullCmd,nCmdLen)) return true;
 		break;
-	default:
+	default://这些指令是与具体的服务器有关的，因为通用的指令都已经处理了
 		if (zSubNetService::subNetServiceInstance()->msgParse_SuperService(pNullCmd,nCmdLen)) return true;
 		break;
 	}
-
+	//意外的指令，出错！
 	Zebra::logger->error("SuperClient::msgParse(%d,%d,%d)",pNullCmd->cmd,pNullCmd->para,nCmdLen);
 	return false;
 }
@@ -198,9 +198,11 @@ bool zSubNetService::init()
 	Zebra::logger->debug("zSubNetService::init");
 try_agin:
 	//建立到管理服务器的连接
-	while (!superClient->connect(Zebra::global["server"].c_str(),atoi(Zebra::global["port"].c_str())))
+	string server = Zebra::global["server"];
+	int port = atoi(Zebra::global["port"].c_str());
+	while (!superClient->connect(server.c_str(),port))
 	{
-		printf("连接管理服务器失败(%s:%s),2秒后重试.....\n",Zebra::global["server"].c_str(),Zebra::global["port"].c_str());
+		printf("连接管理服务器失败(%s:%s),2秒后重试.....\n",server.c_str(),port);
 		Sleep(2000);
 	}
 	printf("连接管理服务器成功！\n");

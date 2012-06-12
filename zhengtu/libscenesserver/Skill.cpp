@@ -1057,7 +1057,8 @@ void zSkill::doOperation(const SkillStatus *pSkillStatus)
                 if (base)
                 {
                   zObject *o=zObject::create(base,1);
-                  _entry->scene->addObject(o,pd);
+				  //TODO hyd 添加参数1，有问题！！！！
+                  _entry->scene->addObject(1,o,pd);
                 }
 #endif
                 DWORD num=0;
@@ -1079,7 +1080,8 @@ void zSkill::doOperation(const SkillStatus *pSkillStatus)
               if (base)
               {
                 zObject *o=zObject::create(base,randBetween(1,10));
-                _entry->scene->addObject(o,pd);
+				//TODO hyd 添加参数1，有问题！！！！
+                _entry->scene->addObject(1,o,pd);
               }
 #endif
               DWORD num=0;
@@ -1119,7 +1121,8 @@ void zSkill::doOperation(const SkillStatus *pSkillStatus)
               if (base)
               {
                 zObject *o=zObject::create(base,randBetween(1,10));
-                _entry->scene->addObject(o,pd);
+				//TODO hyd 添加参数1，有问题！！！！
+                _entry->scene->addObject(1,o,pd);
               }
 #endif
               DWORD num=0;
@@ -1146,7 +1149,8 @@ void zSkill::doOperation(const SkillStatus *pSkillStatus)
               if (base)
               {
                 zObject *o=zObject::create(base,randBetween(1,10));
-                _entry->scene->addObject(o,pd);
+				//TODO hyd 添加参数1，有问题！！！！
+                _entry->scene->addObject(1,o,pd);
               }
 #endif
               DWORD num=0;

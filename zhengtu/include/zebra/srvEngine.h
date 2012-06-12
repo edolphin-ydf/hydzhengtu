@@ -2174,7 +2174,7 @@ public:
 			MessageBox(NULL,"缓冲区溢出","严重错误",MB_ICONERROR);
 		}
 
-		bcopy(buf,&_buffer[_currPtr],size,size);
+		bcopy((void *)buf,&_buffer[_currPtr],size,size);
 		_currPtr += size;
 		if( _currPtr - _offPtr == 1 )
 		{
@@ -3521,7 +3521,7 @@ inline DWORD zSocket::packetPackZip(const void *pData,const DWORD nLen,buffer_ty
 	else
 	{
 		cmd_queue.wr_reserve(nSize + PH_LEN);
-		bcopy(pData,&(cmd_queue.wr_buf()[PH_LEN]),nSize,cmd_queue.wr_size());
+		bcopy((void *)pData,&(cmd_queue.wr_buf()[PH_LEN]),nSize,cmd_queue.wr_size());
 	}
 
 	(*(DWORD *)(cmd_queue.wr_buf())) = (nSize | nMask);
@@ -5202,7 +5202,7 @@ public:
 		BYTE *buf = (BYTE*)__mt_alloc.allocate(cmdLen);
 		if (buf)
 		{
-			bcopy(pNullCmd,buf,cmdLen,cmdLen);
+			bcopy((void *)pNullCmd,buf,cmdLen,cmdLen);
 			if (!putQueueToArray() && !cmdQueue[queueWrite].first)
 			{
 				cmdQueue[queueWrite].second.first = cmdLen;

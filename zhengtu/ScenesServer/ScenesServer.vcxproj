@@ -55,16 +55,16 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\iconv-1.9.2.win32\include;..\zlib-1.2.3.win32\include;..\libxml2-2.6.30+.win32\include;..\mysql\include;..\include;..\lua\include;..\luabind\include;D:\soft\lib\boost_1_34_1\boost_1_34_1\boost_1_34_1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\iconv-1.9.2.win32\include;..\zlib-1.2.3.win32\include;..\libxml2-2.6.30+.win32\include;..\mysql\include;..\include;..\lua\include;..\luabind\include;F:\code\boost_1_47_0;..\luabind;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>libmysql.lib;libxml2.lib;iconv.lib;zlib.lib;shlwapi.lib;libluabind.lib;lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>E:\103\bin\$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>..\debuglib;..\luabind\lib;..\lua\lib;..\mysql\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libmysql.lib;libxml2_a_dll.lib;iconv.lib;zlib.lib;shlwapi.lib;libluabind.lib;lua.lib;baseLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>..\bin\$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>..\debuglib;..\luabind\lib;..\lua\lib;..\mysql\lib;..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMT.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>

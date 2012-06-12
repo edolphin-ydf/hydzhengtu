@@ -319,7 +319,7 @@ void zObject::FillSuitPPT(int nIndex)
 	
 	ppt->Suit_ID = rList.id;
 	strncpy( ppt->Suit_name, rList.Name, sizeof(ppt->Suit_name));
-	memcpy( ppt->PartList, rList.MemberList, sizeof(ppt->PartList), sizeof( rList.MemberList));
+	memccpy( ppt->PartList, rList.MemberList, sizeof(ppt->PartList), sizeof( rList.MemberList));
 	ppt->nPart = rList.count;
 	ppt->nEffect = rList.eCount;
 	int ii = 0;
@@ -532,7 +532,7 @@ zObject *zObject::load(const SaveObject *o)
 		Zebra::logger->error("加载物品失败,new物品对象失败:%d",o->object.dwObjectID);
 		return ret; 
 	}
-	bcopy(&o->object,&ret->data,sizeof(t_Object),sizeof(ret->data));
+	bcopy((void *)&o->object,&ret->data,sizeof(t_Object),sizeof(ret->data));
 	ret->createid = o->createid;
 	ret->id = ret->data.qwThisID;
 	ret->tempid = ret->data.dwObjectID;
@@ -554,7 +554,7 @@ zObject *zObject::load(const SaveObject *o)
 */
 bool zObject::getSaveData(SaveObject *save)
 {
-	bcopy(&data,&save->object,sizeof(t_Object),sizeof(save->object));
+	bcopy((void *)&data,&save->object,sizeof(t_Object),sizeof(save->object));
 
 	save->createid =  createid;
 	//Zebra::logger->error("[拍卖] 1 %s = %s,createid = %ld",save->object.strName,data.strName,createid);

@@ -1362,7 +1362,7 @@ bool Scene::sendCmdToScene(const void *pstrCmd,const int nCmdLen,unsigned short 
   sendCmd->maptempid=tempid;
   sendCmd->dupIndex = dupIndex;
   sendCmd->size=nCmdLen;
-  bcopy(pstrCmd,sendCmd->data,nCmdLen,sizeof(buf) - sizeof(Cmd::Scene::t_User_ForwardMap));
+  bcopy((void *)pstrCmd,sendCmd->data,nCmdLen,sizeof(buf) - sizeof(Cmd::Scene::t_User_ForwardMap));
   SceneTaskManager::getInstance().broadcastCmd(sendCmd,sizeof(Cmd::Scene::t_User_ForwardMap)+nCmdLen); 
   return true;
 }
@@ -1384,7 +1384,7 @@ bool Scene::sendCmdToNine(const zPosI posi,const void *pstrCmd,const int nCmdLen
   sendCmd->screen=posi;
   sendCmd->dupIndex = dupIndex;
   sendCmd->size=nCmdLen;
-  bcopy(pstrCmd,sendCmd->data,nCmdLen,sizeof(buf) - sizeof(Cmd::Scene::t_Nine_ForwardScene));
+  bcopy((void *)pstrCmd,sendCmd->data,nCmdLen,sizeof(buf) - sizeof(Cmd::Scene::t_Nine_ForwardScene));
 
   SceneTaskManager::getInstance().broadcastCmd(sendCmd,sizeof(Cmd::Scene::t_Nine_ForwardScene)+nCmdLen); 
   return true;
@@ -1578,7 +1578,7 @@ bool Scene::sendCmdToNineExceptMe(zSceneEntry *pEntry,const zPosI posi,const voi
   sendCmd->screen=posi;
   sendCmd->exceptme_id=pEntry->id;
   sendCmd->size=nCmdLen;
-  bcopy(pstrCmd,sendCmd->data,nCmdLen,sizeof(buf) - sizeof(Cmd::Scene::t_Nine_ExceptMe_ForwardScene));
+  bcopy((void *)pstrCmd,sendCmd->data,nCmdLen,sizeof(buf) - sizeof(Cmd::Scene::t_Nine_ExceptMe_ForwardScene));
   SceneTaskManager::getInstance().broadcastCmd(sendCmd,sizeof(Cmd::Scene::t_Nine_ExceptMe_ForwardScene)+nCmdLen); 
   return true;
 #else
@@ -1611,7 +1611,7 @@ bool Scene::sendCmdToDirect(const zPosI posi,const int direct,const void *pstrCm
   sendCmd->dir=direct;
   sendCmd->dupIndex = dupIndex;
   sendCmd->size=nCmdLen;
-  bcopy(pstrCmd,sendCmd->data,nCmdLen,sizeof(buf) - sizeof(Cmd::Scene::t_Nine_dir_ForwardScene));
+  bcopy((void *)pstrCmd,sendCmd->data,nCmdLen,sizeof(buf) - sizeof(Cmd::Scene::t_Nine_dir_ForwardScene));
   SceneTaskManager::getInstance().broadcastCmd(sendCmd,sizeof(Cmd::Scene::t_Nine_dir_ForwardScene)+nCmdLen); 
   return true;
 #else
@@ -1644,7 +1644,7 @@ bool Scene::sendCmdToReverseDirect(const zPosI posi,const int direct,const void 
   sendCmd->dir=direct;
   sendCmd->dupIndex = dupIndex;
   sendCmd->size=nCmdLen;
-  bcopy(pstrCmd,sendCmd->data,nCmdLen,sizeof(buf) - sizeof(Cmd::Scene::t_Nine_rdir_ForwardScene));
+  bcopy((void *)pstrCmd,sendCmd->data,nCmdLen,sizeof(buf) - sizeof(Cmd::Scene::t_Nine_rdir_ForwardScene));
   SceneTaskManager::getInstance().broadcastCmd(sendCmd,sizeof(Cmd::Scene::t_Nine_rdir_ForwardScene)+nCmdLen); 
   return true;
 #else

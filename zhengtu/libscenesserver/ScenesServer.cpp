@@ -908,33 +908,33 @@ bool ScenesService::StlToSendData()
 
 	CoolTimeSendData.resize(nLen + sizeof(Cmd::stItemCoolTimesUserCmd) + sizeof(WORD) * vXmlItemCoolTime.size() * 2);
 	Cmd::stItemCoolTimesUserCmd cmd(vXmlItemCoolTime.size());
-	memcpy(&CoolTimeSendData[index], &cmd, sizeof(Cmd::stItemCoolTimesUserCmd), sizeof(Cmd::stItemCoolTimesUserCmd));
+	memccpy(&CoolTimeSendData[index], &cmd, sizeof(Cmd::stItemCoolTimesUserCmd), sizeof(Cmd::stItemCoolTimesUserCmd));
 	index += sizeof(Cmd::stItemCoolTimesUserCmd);
 	for(iter=vXmlItemCoolTime.begin(); iter!=vXmlItemCoolTime.end(); iter++)
 	{
-		memcpy(&CoolTimeSendData[index],&(*iter).CoolTimeType, sizeof(WORD), sizeof(WORD));
+		memccpy(&CoolTimeSendData[index],&(*iter).CoolTimeType, sizeof(WORD), sizeof(WORD));
 		index += sizeof(WORD);
-		memcpy(&CoolTimeSendData[index],&(*iter).nCoolTime, sizeof(DWORD), sizeof(DWORD));
+		memccpy(&CoolTimeSendData[index],&(*iter).nCoolTime, sizeof(DWORD), sizeof(DWORD));
 		index += sizeof(DWORD);
 
 		WORD Count = iter->TypeCoolTime.size();
 
-		memcpy(&CoolTimeSendData[index],&Count, sizeof(WORD), sizeof(WORD));
+		memccpy(&CoolTimeSendData[index],&Count, sizeof(WORD), sizeof(WORD));
 		index += sizeof(WORD);
 
 		for(iter1=iter->TypeCoolTime.begin(); iter1!=iter->TypeCoolTime.end(); iter1++)
 		{
-			memcpy(&CoolTimeSendData[index], &(*iter1), sizeof(stItemTypeCoolTiem), sizeof(stItemTypeCoolTiem));
+			memccpy(&CoolTimeSendData[index], &(*iter1), sizeof(stItemTypeCoolTiem), sizeof(stItemTypeCoolTiem));
 			index += sizeof(stItemTypeCoolTiem);
 		}
 
 		Count = iter->IdCoolTime.size();
-		memcpy(&CoolTimeSendData[index],&Count, sizeof(WORD), sizeof(WORD));
+		memccpy(&CoolTimeSendData[index],&Count, sizeof(WORD), sizeof(WORD));
 		index += sizeof(WORD);
 
 		for(iter2=iter->IdCoolTime.begin(); iter2!=iter->IdCoolTime.end(); iter2++)
 		{
-			memcpy(&CoolTimeSendData[index], &(*iter2), sizeof(stItemIdCoolTime), sizeof(stItemIdCoolTime));
+			memccpy(&CoolTimeSendData[index], &(*iter2), sizeof(stItemIdCoolTime), sizeof(stItemIdCoolTime));
 			index += sizeof(stItemIdCoolTime);
 		}
 	}

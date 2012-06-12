@@ -124,6 +124,7 @@ void zLogger::logva(const zLevel level,const char * pattern,va_list vp)
 	if (NULL != fp_file)
 	{
 		fprintf(fp_file,"[%s] ",m_name.c_str());
+		printf("[%s] ",m_name.c_str());
 	}
 
 	if (NULL != fp_console)
@@ -135,6 +136,7 @@ void zLogger::logva(const zLevel level,const char * pattern,va_list vp)
 	{
 		fprintf(fp_file,"%04d/%02d/%02d ",now->tm_year + 1900,now->tm_mon + 1,now->tm_mday);
 		fprintf(fp_file,"%02d:%02d:%02d.%03d ",system.wHour,system.wMinute,system.wSecond, system.wMilliseconds);
+		printf("%02d:%02d:%02d.%03d ",system.wHour,system.wMinute,system.wSecond, system.wMilliseconds);
 	}
 
 	if (NULL != fp_console)
@@ -148,6 +150,8 @@ void zLogger::logva(const zLevel level,const char * pattern,va_list vp)
 		vfprintf(fp_file,pattern,vp);
 		fprintf(fp_file,"\n");
 		fflush(fp_file);
+		printf(pattern,vp);
+		printf("\n");
 	}
 
 	msgMut.unlock();

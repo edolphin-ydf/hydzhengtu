@@ -605,7 +605,7 @@ bool SceneUser::doPropertyCmd(const Cmd::stPropertyUserCmd *rev,DWORD cmdLen)
         int len = sizeof(Cmd::stAccekKeyPropertyUserCmd) + acc->accelNum * sizeof(Cmd::stGameAccelKey);
         if (acc->accelNum > 0 && len < 1024)
         {
-          memcpy(accelData,rev,len,sizeof(accelData),sizeof(accelData));
+          memccpy(accelData,rev,len,sizeof(accelData));
         }
         else
         {
