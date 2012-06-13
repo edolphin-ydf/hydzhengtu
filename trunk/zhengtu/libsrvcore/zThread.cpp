@@ -20,12 +20,12 @@ DWORD WINAPI zThread::threadFunc(void *arg)
   thread->alive = true;
   thread->mlock.unlock();
 
-  mysql_thread_init();
+  //mysql_thread_init();
 
   //运行线程的主回调函数
   thread->run();
 
-  mysql_thread_end();
+  //mysql_thread_end();
 
   thread->mlock.lock();
   thread->alive = false;

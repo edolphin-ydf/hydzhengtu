@@ -33,7 +33,8 @@ FLClientManager::~FLClientManager()
 bool FLClientManager::init()
 {
   Zebra::logger->debug("FLClientManager::init");
-  flClientPool = new zTCPClientTaskPool(atoi(Zebra::global["threadPoolClient"].c_str()));
+  int threadPoolClient = atoi(Zebra::global["threadPoolClient"].c_str());
+  flClientPool = new zTCPClientTaskPool(threadPoolClient);
   if (NULL == flClientPool
       || !flClientPool->init())
     return false;

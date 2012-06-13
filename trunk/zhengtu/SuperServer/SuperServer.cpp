@@ -93,15 +93,16 @@ bool SuperService::init()
 	Zebra::logger->info("SuperService::init");
 
 	dbConnPool = zDBConnPool::newInstance(NULL);
+	string mysqlstr = Zebra::global["mysql"];
 	if (NULL == dbConnPool
-		|| !dbConnPool->putURL(0,Zebra::global["mysql"].c_str(),false))
+		|| !dbConnPool->putURL(0,mysqlstr.c_str(),false))
 	{
 		MessageBox(NULL,"连接数据库失败","SuperServer",MB_ICONERROR);
 		return false;
 	}
 
 	strncpy(pstrIP,zSocket::getIPByIfName(Zebra::global["ifname"].c_str()),MAX_IP_LENGTH - 1);
-	//Zebra::logger->debug("%s",pstrIP);
+	Zebra::logger->debug("%s",pstrIP);
 
 	if (!getServerInfo())
 		return false;

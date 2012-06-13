@@ -941,9 +941,9 @@ int MysqlClientHandle::fetchSelectSql(const char* tableName,const dbCol *column,
 	}
 	if (strlen(tableName)>0)
 	{
-		sql+=" FROM [";
+		sql+=" FROM ";
 		sql+=tableName;
-		sql += "]";
+		sql += "";
 	}
 	if (where!=NULL && strlen(where)>0)
 	{
@@ -973,7 +973,8 @@ int MysqlClientHandle::fetchSelectSql(const char* tableName,const dbCol *column,
 #ifdef _DEBUG  
 	logger->debug("(%d)%s",sql.length(),sql.c_str());
 #endif  
-	if (0 == execSql(sql.c_str(),sql.length(), UseBak))
+	int rec = execSql(sql.c_str(),sql.length(), UseBak);
+	if (0 == rec)
 		return retsize;
 	else
 		return -1;
