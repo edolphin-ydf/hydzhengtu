@@ -118,11 +118,14 @@ void initServerSequence()
 	serverSequence[MINISERVER]  =  std::vector<int>();
 
 	int data0[] = { RECORDSERVER };
-	serverSequence[SESSIONSERVER]  =  std::vector<int>(data0,data0 + sizeof(data0) / sizeof(int));
+	int count = sizeof(data0) / sizeof(int);
+	serverSequence[SESSIONSERVER]  =  std::vector<int>(data0,data0 + count);//会话服务器依赖档案服务器
 	int data1[] = { RECORDSERVER,SESSIONSERVER,MINISERVER};
-	serverSequence[SCENESSERVER]  =  std::vector<int>(data1,data1 + sizeof(data1) / sizeof(int));
+	count = sizeof(data1) / sizeof(int);
+	serverSequence[SCENESSERVER]  =  std::vector<int>(data1,data1 + count); //场景服务器依赖档案服务器，会话服务器，小游戏服务器
 	int data2[] = { RECORDSERVER,BILLSERVER,SESSIONSERVER,SCENESSERVER,MINISERVER};
-	serverSequence[GATEWAYSERVER]  =  std::vector<int>(data2,data2 + sizeof(data2) / sizeof(int));
+	count = sizeof(data2) / sizeof(int);
+	serverSequence[GATEWAYSERVER]  =  std::vector<int>(data2,data2 + count);//网关服务器依赖档案服务器，计费服务器，场景服务器，会话服务器，小游戏服务器
 
 }
 
