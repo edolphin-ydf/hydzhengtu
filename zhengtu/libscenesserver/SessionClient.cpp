@@ -2841,7 +2841,7 @@ bool SessionClient::cmdMsgParse_Other(const Cmd::t_NullCmd *pNullCmd,const DWORD
 						}
 
 						o->data.bind = rev->info.bind;
-						sendMail("英雄无双活动中心",0,rev->info.name,rev->info.charID,Cmd::Session::MAIL_TYPE_SYS,rev->info.money,o,rev->info.mailText);
+						sendMail("HydTest活动中心",0,rev->info.name,rev->info.charID,Cmd::Session::MAIL_TYPE_SYS,rev->info.money,o,rev->info.mailText);
 						zObject::logger(o->createid,o->data.qwThisID,o->base->name,o->data.dwNum,1,2,0,NULL,rev->info.charID,rev->info.name,"活动奖品",o->base,o->data.kind,o->data.upgrade);
 						zObject::destroy(o);
 					}
@@ -2850,7 +2850,7 @@ bool SessionClient::cmdMsgParse_Other(const Cmd::t_NullCmd *pNullCmd,const DWORD
 					Zebra::logger->error("[Gift]发送奖品时,没找到物品 itemID=%u user=%s(%u)",rev->info.itemID,rev->info.name,rev->info.charID);
 			}
 			else
-				sendMail("英雄无双活动中心",0,rev->info.name,rev->info.charID,Cmd::Session::MAIL_TYPE_SYS,rev->info.money,0,rev->info.mailText);*/
+				sendMail("HydTest活动中心",0,rev->info.name,rev->info.charID,Cmd::Session::MAIL_TYPE_SYS,rev->info.money,0,rev->info.mailText);*/
 
 			return true;
 		}

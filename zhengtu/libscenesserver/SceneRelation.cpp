@@ -331,7 +331,7 @@ bool SceneUser::doRelationCmd(const Cmd::stRelationUserCmd *rev,DWORD cmdLen)
 
 
 										char buf[MAX_CHATINFO];
-										sprintf(buf,"英雄无双恭祝%s与%s喜结莲理,白头偕老！",callback.feme->name,callback.male->name);
+										sprintf(buf,"HydTest恭祝%s与%s喜结莲理,白头偕老！",callback.feme->name,callback.male->name);
 										zRTime ctv;
 										Cmd::stChannelChatUserCmd sendMsg;
 										sendMsg.dwType=Cmd::CHAT_TYPE_COUNTRY_MARRY;

@@ -1,78 +1,13 @@
 /**
 * \brief 实现类zTCPClient,TCP连接客户端。
 *
-* 
 */
 #include <zebra/srvEngine.h>
-
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 CmdAnalysis zTCPClient::analysis("Client指令发送统计",600);
-/**
-* \brief 建立一个到服务器的TCP连接
-*
-*
-* \return 连接是否成功
-*/
-bool zTCPClient::connect()
-{
-#ifdef _DEBUG
-	Zebra::logger->debug("zTCPClient::connect");
-#endif //_DEBUG
-	int retcode;
-	int nSocket;
-	struct sockaddr_in addr;
-
-	nSocket = ::socket(PF_INET,SOCK_STREAM,0);
-	if (INVALID_SOCKET == nSocket)
-	{
-		Zebra::logger->error("创建套接口失败");
-		return false;
-	}
-
-	//设置套接口发送接收缓冲,并且客户端的必须在connect之前设置
-	int window_size = 128 * 1024;
-	retcode = ::setsockopt(nSocket,SOL_SOCKET,SO_RCVBUF,(char*)&window_size,sizeof(window_size));
-	if (0 != retcode)
-	{
-		::closesocket(nSocket);
-		return false;
-	}
-	retcode = ::setsockopt(nSocket,SOL_SOCKET,SO_SNDBUF,(char*)&window_size,sizeof(window_size));
-	if (0 != retcode)
-	{
-		::closesocket(nSocket);
-		return false;
-	}
-
-	bzero(&addr,sizeof(addr));
-	addr.sin_family = AF_INET;
-	addr.sin_addr.s_addr = inet_addr(ip.c_str());
-	addr.sin_port = htons(port);
-
-	retcode = ::connect(nSocket,(struct sockaddr *) &addr,sizeof(addr));
-	if (0 != retcode)
-	{
-		Zebra::logger->error("创建到服务器(%s:%u) 的连接失败",ip.c_str(),port);
-		::closesocket(nSocket);
-		return false;
-	}
-
-	pSocket = new zSocket(nSocket,&addr,compress);
-	if (NULL == pSocket)
-	{
-		Zebra::logger->fatal("没有足够的内存,不能创建zSocket实例");
-		::closesocket(nSocket);
-		return false;
-	}
-
-	Zebra::logger->info("创建到服务器(%s:%u)的连接成功",ip.c_str(),port);
-
-	return true;
-}
-
 /**
 * \brief 向套接口发送指令
 *
@@ -146,7 +81,7 @@ bool zTCPBufferClient::sendCmd(const void *pstrCmd,const int nCmdLen)
 	Zebra::logger->debug("zTCPBufferClient::sendCmd");
 #endif //_DEBUG
 	if (pSocket)
- 		return pSocket->sendCmd(pstrCmd,nCmdLen,_buffered);
+		return pSocket->sendCmd(pstrCmd,nCmdLen,_buffered);
 	else
 		return false;
 }
@@ -395,3 +330,66 @@ void zTCPBufferClient::run()
 	_buffered = false;
 }
 
+
+/**
+* \brief 建立一个到服务器的TCP连接
+*
+*
+* \return 连接是否成功
+*/
+
+bool zTCPClient::connect()
+{
+#ifdef _DEBUG
+	Zebra::logger->debug("zTCPClient::connect");
+#endif //_DEBUG
+	int retcode;
+	int nSocket;
+	struct sockaddr_in addr;
+
+	nSocket = ::socket(PF_INET,SOCK_STREAM,0);
+	if (INVALID_SOCKET == nSocket)
+	{
+		Zebra::logger->error("创建套接口失败: %s-%ld",strerror(errno),WSAGetLastError());
+		return false;
+	}
+
+	//设置套接口发送接收缓冲,并且客户端的必须在connect之前设置
+	int window_size = 128 * 1024;
+	retcode = ::setsockopt(nSocket,SOL_SOCKET,SO_RCVBUF,(char*)&window_size,sizeof(window_size));
+	if (0 != retcode)
+	{
+		::closesocket(nSocket);
+		return false;
+	}
+	retcode = ::setsockopt(nSocket,SOL_SOCKET,SO_SNDBUF,(char*)&window_size,sizeof(window_size));
+	if (0 != retcode)
+	{
+		::closesocket(nSocket);
+		return false;
+	}
+
+	bzero(&addr,sizeof(addr));
+	addr.sin_family = AF_INET;
+	addr.sin_addr.s_addr = inet_addr(ip.c_str());
+	addr.sin_port = htons(port);
+
+	retcode = ::connect(nSocket,(struct sockaddr *) &addr,sizeof(addr));
+	if (0 != retcode)
+	{
+		Zebra::logger->error("创建到服务器(%s:%u) 的连接失败",ip.c_str(),port);
+		::closesocket(nSocket);
+		return false;
+	}
+	pSocket = new zSocket(nSocket,&addr,compress);
+	if (NULL == pSocket)
+	{
+		Zebra::logger->fatal("没有足够的内存,不能创建zSocket实例");
+		::closesocket(nSocket);
+		return false;
+	}
+
+	Zebra::logger->info("创建到服务器(%s:%u)的连接成功",ip.c_str(),port);
+
+	return true;
+}

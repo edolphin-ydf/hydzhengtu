@@ -87,7 +87,7 @@ void zIocp::UpdateNetLog()
 	g_SendSize = 0;
 	g_WantSendSize = 0;
 	GetModuleFileName(NULL,szName,sizeof(szName));
-	_snprintf(szCode,sizeof(szCode),"英雄无双 - %s - %s",PathFindFileName(szName),OutStr);
+	_snprintf(szCode,sizeof(szCode),"HydTest - %s - %s",PathFindFileName(szName),OutStr);
 	SetConsoleTitle(szCode);
 }
 // [ranqd] 数据收发记录

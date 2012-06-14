@@ -370,7 +370,7 @@ void GatewayService::reloadConfig()
 int main(int argc,char **argv)
 {
   Zebra::logger=new zLogger("GatewayServer");
-
+  int nSocket = ::socket(PF_INET,SOCK_STREAM,0);
   //设置缺省参数
   Zebra::global["countryorder"] = "0";
 

@@ -10,7 +10,7 @@
 void sockStartup(void)
 {
   WSADATA WSAData;
-
+  printf("WSAStartup!");
   WSAStartup(0x0202,&WSAData);
 }
 

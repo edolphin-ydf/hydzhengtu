@@ -106,20 +106,22 @@ bool SuperService::init()
 
 	if (!getServerInfo())
 		return false;
-
+	//把连接登录服务器的任务加载进flClientPool
 	if (!FLClientManager::getInstance().init())
 		return false;
 
 	////---if (!InfoClientManager::getInstance().init())
 	////---  return false;
 
-	//初始化连接线程池
+	//初始化服务器的等待连接线程池
 	int state = state_none;
-	to_lower(Zebra::global["threadPoolState"]);
-	if ("repair" == Zebra::global["threadPoolState"]
-	|| "maintain" == Zebra::global["threadPoolState"])
+	string threadPoolState = Zebra::global["threadPoolState"];
+	to_lower(threadPoolState);
+	if ("repair" == threadPoolState
+	|| "maintain" == threadPoolState)
 		state = state_maintain;
-	taskPool = new zTCPTaskPool(atoi(Zebra::global["threadPoolServer"].c_str()),state);
+	int maxConns = atoi(Zebra::global["threadPoolServer"].c_str());//线程池并行处理连接的最大数量
+	taskPool = new zTCPTaskPool(maxConns,state);
 	if (NULL == taskPool
 		|| !taskPool->init())
 		return false;
@@ -240,14 +242,14 @@ void SuperService::reloadConfig()
 int main(int argc,char **argv)
 {
 	Zebra::logger=new zLogger("SuperServer");
-
+	
 	//设置缺省参数
 
 	//解析配置文件参数
 	SuperConfile sc;
 	if (!sc.parse("SuperServer"))
 		return EXIT_FAILURE;
-
+	Zebra::initGlobal();
 	//指令检测开关
 	if (Zebra::global["cmdswitch"] == "true")
 	{
@@ -265,9 +267,9 @@ int main(int argc,char **argv)
 		Zebra::logger->addLocalFileLog(Zebra::global["logfilename"]);
 		Zebra::logger->removeConsoleLog();
 	}
-
+	
 	Zebra_Startup();
-
+	int nSocket = ::socket(PF_INET,SOCK_STREAM,0);
 	SuperService::getInstance().main();
 	SuperService::delInstance();
 
