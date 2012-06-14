@@ -206,7 +206,7 @@ int main(int argc,char **argv)
 	Zebra::global["InfoServer"]    = "127.0.0.1";
 	Zebra::global["InfoPort"]      = "9903";
 	Zebra::global["jpeg_passport"] = "true";
-
+	Zebra::initGlobal();
 	//解析配置文件参数
 	LoginConfile sc;
 	if (!sc.parse("FLServer")) return EXIT_FAILURE;

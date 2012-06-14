@@ -1896,7 +1896,7 @@ DWORD MysqlClientHandle::exeUpdate(const char *tableName,const dbCol *column,con
 		logger->error("MysqlClientHandle::exeUpdate null pointer error.");
 		return (DWORD)-1;
 	}
-	out_sql << "UPDATE [" << tableName << "] SET ";
+	out_sql << "UPDATE " << tableName << " SET ";
 	temp = column;
 	bool first=true;
 	int offset=0;

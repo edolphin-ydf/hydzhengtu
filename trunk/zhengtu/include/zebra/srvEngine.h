@@ -42,42 +42,42 @@ inline void gotoxy(int x,int y)
 #define CALL_CHECK_BEGIN(n)  \
 	unsigned long ret_add = 0;\
 	int   oft = n * 4;\
-	{\
-		_asm	mov edx,oft \
-		_asm	add edx,esp \
-		_asm	mov eax,[edx] \
-		_asm	mov ret_add,eax\
-	}
-	
+{\
+	_asm	mov edx,oft \
+	_asm	add edx,esp \
+	_asm	mov eax,[edx] \
+	_asm	mov ret_add,eax\
+}
+
 #define __CALL_CHECK_END(file, line, func ) {\
 	unsigned long ret_add2 = 0;\
-	{\
-		_asm	mov edx,oft \
-		_asm	add edx,esp \
-		_asm	mov eax,[edx] \
-		_asm	mov ret_add2,eax \
-	}\
-	if( ret_add != ret_add2 )\
-		{\
-		char tmpc[1024];\
-		sprintf(tmpc, "%s(%d)函数:%s 返回时地址已改变，可能栈已损坏！", file,line,func);\
-		MessageBox(NULL,tmpc,"地址效验失败",MB_ICONERROR);\
-		}\
-	}
-#define __CALL_CHECK_END_(file, line, func ) {\
-	unsigned long ret_add2 = 0;\
-	{\
+{\
 	_asm	mov edx,oft \
 	_asm	add edx,esp \
 	_asm	mov eax,[edx] \
 	_asm	mov ret_add2,eax \
-	}\
+}\
 	if( ret_add != ret_add2 )\
-	{\
-		char tmpc[1024];\
-		sprintf(tmpc, "%s(%d)函数:%s 返回时地址已改变，可能栈已损坏！", file,line,func);\
-		MessageBox(NULL,tmpc,"地址效验失败",MB_ICONERROR);\
-	}
+{\
+	char tmpc[1024];\
+	sprintf(tmpc, "%s(%d)函数:%s 返回时地址已改变，可能栈已损坏！", file,line,func);\
+	MessageBox(NULL,tmpc,"地址效验失败",MB_ICONERROR);\
+}\
+}
+#define __CALL_CHECK_END_(file, line, func ) {\
+	unsigned long ret_add2 = 0;\
+{\
+	_asm	mov edx,oft \
+	_asm	add edx,esp \
+	_asm	mov eax,[edx] \
+	_asm	mov ret_add2,eax \
+}\
+	if( ret_add != ret_add2 )\
+{\
+	char tmpc[1024];\
+	sprintf(tmpc, "%s(%d)函数:%s 返回时地址已改变，可能栈已损坏！", file,line,func);\
+	MessageBox(NULL,tmpc,"地址效验失败",MB_ICONERROR);\
+}
 
 #define CALL_CHECK_END __CALL_CHECK_END( __FILE__,__LINE__,__FUNCTION__ )
 #define CALL_CHECK_END_ __CALL_CHECK_END_( __FILE__,__LINE__,__FUNCTION__ )
@@ -290,7 +290,7 @@ public:
 	DBField* getField(DWORD pos)
 	{
 		CALL_CHECK_BEGIN(1)
-		return fields[pos];
+			return fields[pos];
 	}
 
 	/**
@@ -1199,6 +1199,9 @@ namespace Zebra
 	*
 	*/
 	extern zProperties global;
+
+	extern void initGlobal();
+	extern void finalGlobal();
 };
 
 /**
@@ -1219,9 +1222,9 @@ namespace Zebra
 */
 template <typename Container>
 inline void
-stringtok(Container &container,std::string const &in,
-		  const char * const delimiters = " \t\n",
-		  const int deep = 0)
+	stringtok(Container &container,std::string const &in,
+	const char * const delimiters = " \t\n",
+	const int deep = 0)
 {
 	const std::string::size_type len = in.length();
 	std::string::size_type i = 0;
@@ -1771,48 +1774,48 @@ class zMutex : private zNoncopyable
 
 public:
 
-//	/**
-//	* \brief 构造函数，构造一个临界区对象
-//	*
-//	*/
-//	zMutex() 
-//	{
-//		InitializeCriticalSection(&m_critical);
-//	}
-//
-//	/**
-//	* \brief 析构函数，销毁一个临界区对象
-//	*
-//	*/
-//	~zMutex()
-//	{
-//		DeleteCriticalSection(&m_critical);
-//	}
-//
-//	/**
-//	* \brief 加锁一个临界区
-//	*
-//	*/
-//	inline void lock()
-//	{
-////		Zebra::logger->debug("Locking - %0.8X - %s(%u)", (DWORD)this, file,line );
-//		EnterCriticalSection(&m_critical);
-////		Zebra::logger->debug("Locked - %0.8X - %s(%u)", (DWORD)this, file,line );
-//	}
-//
-//	/**
-//	* \brief 解锁一个临界区
-//	*
-//	*/
-//	inline void unlock()
-//	{
-////		Zebra::logger->debug("UnLock - %0.8X - %s(%u)", (DWORD)this, file,line );
-//		LeaveCriticalSection(&m_critical);
-//	}
-//
-//private:
-//
-//	CRITICAL_SECTION    m_critical; // 系统临界区
+	//	/**
+	//	* \brief 构造函数，构造一个临界区对象
+	//	*
+	//	*/
+	//	zMutex() 
+	//	{
+	//		InitializeCriticalSection(&m_critical);
+	//	}
+	//
+	//	/**
+	//	* \brief 析构函数，销毁一个临界区对象
+	//	*
+	//	*/
+	//	~zMutex()
+	//	{
+	//		DeleteCriticalSection(&m_critical);
+	//	}
+	//
+	//	/**
+	//	* \brief 加锁一个临界区
+	//	*
+	//	*/
+	//	inline void lock()
+	//	{
+	////		Zebra::logger->debug("Locking - %0.8X - %s(%u)", (DWORD)this, file,line );
+	//		EnterCriticalSection(&m_critical);
+	////		Zebra::logger->debug("Locked - %0.8X - %s(%u)", (DWORD)this, file,line );
+	//	}
+	//
+	//	/**
+	//	* \brief 解锁一个临界区
+	//	*
+	//	*/
+	//	inline void unlock()
+	//	{
+	////		Zebra::logger->debug("UnLock - %0.8X - %s(%u)", (DWORD)this, file,line );
+	//		LeaveCriticalSection(&m_critical);
+	//	}
+	//
+	//private:
+	//
+	//	CRITICAL_SECTION    m_critical; // 系统临界区
 	/**
 	* \brief 构造函数，构造一个互斥体对象
 	*
@@ -9979,12 +9982,12 @@ inline bool zAStar<step,radius>::goTo(const zPos &srcPos,const zPos &destPos)
 		int deep = 0;
 		while(deep < 3) {
 			switch(r) {
-case 0://顺时针
-	direct++;
-	break;
-case 1://逆时针
-	direct += 7;
-	break;
+			case 0://顺时针
+				direct++;
+				break;
+			case 1://逆时针
+				direct += 7;
+				break;
 			}
 			direct %= 8;
 			if (move(direct))

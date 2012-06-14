@@ -40,7 +40,7 @@ namespace Zebra
    *
    */
   //static void initGlobal()  __attribute__ ((constructor));
-  static void initGlobal();
+  //static void initGlobal();
   void initGlobal()
   {
     global["threadPoolClient"] = "512";
@@ -48,7 +48,7 @@ namespace Zebra
     global["server"]           = "127.0.0.1";
     global["port"]             = "10000";
     global["ifname"]           = "127.0.0.1";
-    global["mysql"]            = "mysql://zebra:zebra@127.0.0.1:3306/zebra";
+    global["mysql"]            = "mysql://root:123456@127.0.0.1:3306/zebra";
     global["log"]              = "error";
   }
   /**
@@ -56,7 +56,7 @@ namespace Zebra
    *
    */
   //static void finalGlobal() __attribute__ ((destructor));
-  static void finalGlobal();
+  //static void finalGlobal();
   void finalGlobal()
   {
     SAFE_DELETE(logger);
@@ -178,7 +178,7 @@ void Zebra_Startup(void)
 #endif //ZEBRA_RELEASE
 
   GetModuleFileName(NULL,szName,sizeof(szName));
-  _snprintf(szCode,sizeof(szCode),"Ó¢ÐÛÎÞË« - %s",PathFindFileName(szName));
+  _snprintf(szCode,sizeof(szCode),"HydTest - %s",PathFindFileName(szName));
   SetConsoleTitle(szCode);
 }
 

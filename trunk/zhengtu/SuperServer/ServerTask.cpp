@@ -38,8 +38,8 @@ bool ServerTask::verify(WORD wdType,const char *pstrIP)
 	}
 
 	bzero(where,sizeof(where));
-	std::string escapeIP;
-	_snprintf(where,sizeof(where) - 1,"`TYPE`=%u AND `IP`='%s'",wdType,SuperService::dbConnPool->escapeString(handle,pstrIP,escapeIP).c_str());
+	//std::string escapeIP;
+	_snprintf(where,sizeof(where) - 1,"`TYPE`=%u AND `IP`='%s'",wdType,pstrIP);
 	static const dbCol col_define[] =
 	{
 		{"ID",zDBConnPool::DB_WORD,sizeof(WORD)},

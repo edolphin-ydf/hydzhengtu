@@ -1566,8 +1566,8 @@ void SceneUser::givePetPoint()
 
       char text[MAX_CHATINFO];
       bzero(text,sizeof(text));
-      _snprintf(text,sizeof(text),"亲爱的玩家:\n\t恭喜你已经达到%u级,系统将为您当前的替身宝贝充值%u小时修炼时间以减轻你您练级的强度。如果您现在没有替身宝贝则于购买后第一时间给予\n\t\t\t\t\t\t英雄无双运营团队",charbase.level,hour);
-      sendMail("英雄无双运营",0,name,id,Cmd::Session::MAIL_TYPE_SYS,0,0,text);
+      _snprintf(text,sizeof(text),"亲爱的玩家:\n\t恭喜你已经达到%u级,系统将为您当前的替身宝贝充值%u小时修炼时间以减轻你您练级的强度。如果您现在没有替身宝贝则于购买后第一时间给予\n\t\t\t\t\t\tHydTest运营团队",charbase.level,hour);
+      sendMail("HydTest运营",0,name,id,Cmd::Session::MAIL_TYPE_SYS,0,0,text);
 
       
 	  if(cartoonList.empty())

@@ -78,9 +78,6 @@
     <ClCompile Include="zSubNetService.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="zTCPClient.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="zTCPClientTask.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -103,6 +100,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="zXMLParser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="zTCPClient.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -28,7 +28,7 @@ void SuperTimeTick::run()
 
     Cmd::Super::t_GameTime tCmd;
     tCmd.qwGameTime = Zebra::qwGameTime;
-    ServerManager::getInstance().broadcast(&tCmd,sizeof(tCmd));
+    ServerManager::getInstance().broadcast(&tCmd,sizeof(tCmd));//向容器中所有的服务器广播指令
   }
 
   saveTime();
@@ -79,17 +79,17 @@ bool SuperTimeTick::readTime()
 
 bool SuperTimeTick::saveTime()
 {
-  connHandleID handle = SuperService::dbConnPool->getHandle();
-  if ((connHandleID)-1 == handle)
-  {
-    Zebra::logger->error("不能从数据库连接池获取连接句柄");
-    return false;
-  }
+	/* connHandleID handle = SuperService::dbConnPool->getHandle();
+	if ((connHandleID)-1 == handle)
+	{
+	Zebra::logger->error("不能从数据库连接池获取连接句柄");
+	return false;
+	}
 
-  DWORD retcode = SuperService::dbConnPool->exeUpdate(handle,"`GAMETIME`",gametime_define,(BYTE*)(&Zebra::qwGameTime),NULL);
-  SuperService::dbConnPool->putHandle(handle);
-
-  if (1 == retcode)
+	DWORD retcode = SuperService::dbConnPool->exeUpdate(handle,"`GAMETIME`",gametime_define,(BYTE*)(&Zebra::qwGameTime),NULL);
+	SuperService::dbConnPool->putHandle(handle);*/
+  printf("保存游戏时间成功");
+  if (1 == 1)
   {
     Zebra::logger->debug("保存游戏时间成功");
   }

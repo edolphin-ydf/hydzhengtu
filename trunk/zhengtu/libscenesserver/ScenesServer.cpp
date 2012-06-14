@@ -641,7 +641,7 @@ DWORD ScenesService::updateStampData()
 
 	pStampData->dwType = Cmd::CHAT_TYPE_SYSTEM;
 	pStampData->dwSysInfoType = Cmd::INFO_TYPE_GAME;
-	strncpy(pStampData->pstrChat,"欢迎来到英雄无双",MAX_CHATINFO-1);
+	strncpy(pStampData->pstrChat,"欢迎来到HydTest",MAX_CHATINFO-1);
 	pStampData->dwFromID = read(f,(void *)(pStampData->tobject_array),zSocket::MAX_DATASIZE-sizeof(Cmd::stChannelChatUserCmd));
 	close(f);
 
