@@ -269,7 +269,7 @@ int main(int argc,char **argv)
 	}
 	
 	Zebra_Startup();
-	int nSocket = ::socket(PF_INET,SOCK_STREAM,0);
+	
 	SuperService::getInstance().main();
 	SuperService::delInstance();
 
