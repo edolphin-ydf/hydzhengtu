@@ -1,0 +1,19 @@
+// Server.cpp : 定义控制台应用程序的入口点。
+//
+
+#include "stdafx.h"
+
+#include "testServer.h"
+
+int main()
+{
+	sockStartup();
+
+	testServer::getInstance().main();
+
+	sockCleanup();
+
+	getchar();
+	return 0;
+}
+
