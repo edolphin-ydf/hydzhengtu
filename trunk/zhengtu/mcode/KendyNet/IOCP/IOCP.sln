@@ -4,8 +4,15 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testclient", "testclient.vcxproj", "{05B0B950-0E00-4684-8328-B82EDC1D201E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testserver", "testserver.vcxproj", "{06DB6E13-3A5B-42F6-9174-B3337B8EB0E4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ADCE5101-C30F-49E7-B175-118AA4B8672B} = {ADCE5101-C30F-49E7-B175-118AA4B8672B}
+		{86DCEA3D-F1B5-41F5-B294-08293A5BD87D} = {86DCEA3D-F1B5-41F5-B294-08293A5BD87D}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testlib", "testlib.vcxproj", "{ADCE5101-C30F-49E7-B175-118AA4B8672B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{86DCEA3D-F1B5-41F5-B294-08293A5BD87D} = {86DCEA3D-F1B5-41F5-B294-08293A5BD87D}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IOCP", "IOCP.vcxproj", "{86DCEA3D-F1B5-41F5-B294-08293A5BD87D}"
 EndProject

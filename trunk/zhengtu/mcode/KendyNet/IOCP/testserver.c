@@ -16,7 +16,7 @@ uint32_t bf_count = 0;
 uint32_t clientcount = 0;
 uint32_t last_send_tick = 0;
 
-#define MAX_CLIENT 1000
+#define MAX_CLIENT 1000     //最大客户端连接数
 static struct connection *clients[MAX_CLIENT];
 
 void init_clients()
@@ -96,7 +96,7 @@ void accept_callback(SOCKET s,void *ud)
 
 DWORD WINAPI Listen(void *arg)
 {
-	acceptor_t a = create_acceptor("192.168.6.87",8010,&accept_callback,arg);
+	acceptor_t a = create_acceptor("127.0.0.1",8010,&accept_callback,arg);
 	while(1)
 		acceptor_run(a,100);
 	return 0;
@@ -110,13 +110,13 @@ int32_t main()
 
 	uint32_t i = 0;
 	//getchar();
-	init_wpacket_pool(10000000);
-	init_rpacket_pool(500000);
-	buffer_init_maxbuffer_size(2000);
+	init_wpacket_pool(10000000);       //初始化写包池
+	init_rpacket_pool(500000);         //初始化读包池
+	buffer_init_maxbuffer_size(2000);  //??初始化最大的缓冲？
 	buffer_init_64(2000);
 	init_clients();
 	InitNetSystem();
-	iocp = CreateNetEngine(1);
+	iocp = CreateNetEngine(1);         //创建完成端口
 
 	CreateThread(NULL,0,Listen,&iocp,0,&dwThread);
 	tick = GetTickCount();

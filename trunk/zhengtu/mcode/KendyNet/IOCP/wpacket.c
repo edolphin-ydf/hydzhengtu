@@ -28,12 +28,12 @@ static uint8_t GetK(uint32_t size)
 	return k;
 }
 
-
+//初始化封包池
 void init_wpacket_pool(uint32_t pool_size)
 {
 	uint32_t i = 0;
 	wpacket_t w;// = calloc(1,sizeof(*w));
-	g_wpacket_pool = LIST_CREATE();
+	g_wpacket_pool = LIST_CREATE();//创建包链表
 	for( ; i < pool_size; ++i)
 	{
 		w = calloc(1,sizeof(*w));
