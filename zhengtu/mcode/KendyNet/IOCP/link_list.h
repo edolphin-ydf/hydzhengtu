@@ -27,18 +27,18 @@ void destroy_list(struct link_list**);
 
 void list_clear(struct link_list*);
 
-#define LIST_PUSH_FRONT(L,N) list_push_front(L,(list_node*)N)
+#define LIST_PUSH_FRONT(L,N) list_push_front(L,(list_node*)N)//加到头部
 
-#define LIST_PUSH_BACK(L,N) list_push_back(L,(list_node*)N)
+#define LIST_PUSH_BACK(L,N) list_push_back(L,(list_node*)N)  //加到尾部
 
-#define LIST_POP(T,L) (T)list_pop(L)
+#define LIST_POP(T,L) (T)list_pop(L)      //推出头项
 
-#define LIST_IS_EMPTY(L) list_is_empty(L)
+#define LIST_IS_EMPTY(L) list_is_empty(L) //判断链表是否为空
 
-#define LIST_CREATE() create_list()
+#define LIST_CREATE() create_list()       //创建链表
 
-#define LIST_DESTROY(L) destroy_list(L)
+#define LIST_DESTROY(L) destroy_list(L)   //销毁链表
 
-#define LIST_CLEAR(L) list_clear(L)
+#define LIST_CLEAR(L) list_clear(L)       //清空链表
 
 #endif
