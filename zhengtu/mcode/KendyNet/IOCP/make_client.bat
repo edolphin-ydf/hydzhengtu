@@ -1,0 +1,1 @@
+gcc -O2 -o client.exe testclient.c iocp.a -lws2_32
