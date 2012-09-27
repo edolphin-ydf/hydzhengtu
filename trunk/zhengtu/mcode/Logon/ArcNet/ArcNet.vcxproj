@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3317BB42-7B32-4F4D-A405-E12D8033C9BB}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ArcNet</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./;./logon;./shared;./include/zlib;./include;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libeay32_win32.lib;zlib.lib;dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>lib</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="logon\AuthSocket.h" />
+    <ClInclude Include="logon\AuthStructs.h" />
+    <ClInclude Include="logon\InfoCore.h" />
+    <ClInclude Include="logon\LogonCommServer.h" />
+    <ClInclude Include="logon\LogonConsole.h" />
+    <ClInclude Include="logon\LogonOpcodes.h" />
+    <ClInclude Include="logon\LogonStdAfx.h" />
+    <ClInclude Include="logon\Main.h" />
+    <ClInclude Include="logon\PeriodicFunctionCall_Thread.h" />
+    <ClInclude Include="shared\arcemuconfig.h" />
+    <ClInclude Include="shared\Array.h" />
+    <ClInclude Include="shared\AuthCodes.h" />
+    <ClInclude Include="shared\auth\bignumber.h" />
+    <ClInclude Include="shared\Auth\MD5.h" />
+    <ClInclude Include="shared\auth\sha1.h" />
+    <ClInclude Include="shared\auth\wowcrypt.h" />
+    <ClInclude Include="shared\bytebuffer.h" />
+    <ClInclude Include="shared\callback.h" />
+    <ClInclude Include="shared\CircularQueue.h" />
+    <ClInclude Include="shared\common.h" />
+    <ClInclude Include="shared\config\config.h" />
+    <ClInclude Include="shared\config\configenv.h" />
+    <ClInclude Include="shared\CrashHandler.h" />
+    <ClInclude Include="shared\crc32.h" />
+    <ClInclude Include="shared\crefcounter.h" />
+    <ClInclude Include="shared\cthreads.h" />
+    <ClInclude Include="shared\dynlib.hpp" />
+    <ClInclude Include="shared\errors.h" />
+    <ClInclude Include="shared\FastQueue.h" />
+    <ClInclude Include="shared\findfiles.hpp" />
+    <ClInclude Include="shared\findfilesresult.hpp" />
+    <ClInclude Include="shared\git_version.h" />
+    <ClInclude Include="shared\locationvector.h" />
+    <ClInclude Include="shared\Log.h" />
+    <ClInclude Include="shared\MapFile.h" />
+    <ClInclude Include="shared\MapFileEntry.h" />
+    <ClInclude Include="shared\mersennetwister.h" />
+    <ClInclude Include="shared\network\circularbuffer.h" />
+    <ClInclude Include="shared\network\listensocketfreebsd.h" />
+    <ClInclude Include="shared\network\listensocketlinux.h" />
+    <ClInclude Include="shared\network\listensocketwin32.h" />
+    <ClInclude Include="shared\network\network.h" />
+    <ClInclude Include="shared\network\socket.h" />
+    <ClInclude Include="shared\network\socketdefines.h" />
+    <ClInclude Include="shared\network\socketmgrfreebsd.h" />
+    <ClInclude Include="shared\network\socketmgrlinux.h" />
+    <ClInclude Include="shared\network\socketmgrwin32.h" />
+    <ClInclude Include="shared\network\socketops.h" />
+    <ClInclude Include="shared\performancecounter.hpp" />
+    <ClInclude Include="shared\PreallocatedQueue.h" />
+    <ClInclude Include="shared\printstacktrace.h" />
+    <ClInclude Include="shared\rc4engine.h" />
+    <ClInclude Include="shared\singleton.h" />
+    <ClInclude Include="shared\stackbuffer.h" />
+    <ClInclude Include="shared\StackTrace.h" />
+    <ClInclude Include="shared\StackWalker.h" />
+    <ClInclude Include="shared\Storage.h" />
+    <ClInclude Include="shared\sysinfo.hpp" />
+    <ClInclude Include="shared\TextFile.h" />
+    <ClInclude Include="shared\threading\atomicboolean.h" />
+    <ClInclude Include="shared\threading\atomiccounter.h" />
+    <ClInclude Include="shared\threading\atomicfloat.h" />
+    <ClInclude Include="shared\threading\atomiculong.h" />
+    <ClInclude Include="shared\threading\conditionvariable.h" />
+    <ClInclude Include="shared\threading\guard.h" />
+    <ClInclude Include="shared\threading\lockedqueue.h" />
+    <ClInclude Include="shared\threading\mutex.h" />
+    <ClInclude Include="shared\Threading\Queue.h" />
+    <ClInclude Include="shared\Threading\RWLock.h" />
+    <ClInclude Include="shared\threading\threading.h" />
+    <ClInclude Include="shared\threading\threadpool.h" />
+    <ClInclude Include="shared\threading\threadstarter.h" />
+    <ClInclude Include="shared\TLSObject.h" />
+    <ClInclude Include="shared\Tokenizer.h" />
+    <ClInclude Include="shared\util.h" />
+    <ClInclude Include="shared\worldpacket.h" />
+    <ClInclude Include="shared\wowguid.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="logon\AuthSocket.cpp" />
+    <ClCompile Include="logon\InfoCore.cpp" />
+    <ClCompile Include="logon\LogonCommServer.cpp" />
+    <ClCompile Include="logon\LogonConsole.cpp" />
+    <ClCompile Include="logon\LogonOpcodes.cpp" />
+    <ClCompile Include="logon\LogonStdAfx.cpp" />
+    <ClCompile Include="logon\Main.cpp" />
+    <ClCompile Include="shared\Auth\BigNumber.cpp" />
+    <ClCompile Include="shared\Auth\MD5.cpp" />
+    <ClCompile Include="shared\Auth\Sha1.cpp" />
+    <ClCompile Include="shared\Auth\WowCrypt.cpp" />
+    <ClCompile Include="shared\Config\Config.cpp" />
+    <ClCompile Include="shared\CrashHandler.cpp" />
+    <ClCompile Include="shared\crc32.cpp" />
+    <ClCompile Include="shared\CThreads.cpp" />
+    <ClCompile Include="shared\DynLib.cpp" />
+    <ClCompile Include="shared\FindFiles.cpp" />
+    <ClCompile Include="shared\Log.cpp" />
+    <ClCompile Include="shared\MapFile.cpp" />
+    <ClCompile Include="shared\MapFileEntry.cpp" />
+    <ClCompile Include="shared\MersenneTwister.cpp" />
+    <ClCompile Include="shared\Network\CircularBuffer.cpp" />
+    <ClCompile Include="shared\Network\Socket.cpp" />
+    <ClCompile Include="shared\Network\SocketFreeBSD.cpp" />
+    <ClCompile Include="shared\Network\SocketLinux.cpp" />
+    <ClCompile Include="shared\Network\SocketMgrFreeBSD.cpp" />
+    <ClCompile Include="shared\Network\SocketMgrLinux.cpp" />
+    <ClCompile Include="shared\Network\SocketMgrWin32.cpp" />
+    <ClCompile Include="shared\Network\SocketOpsFreeBSD.cpp" />
+    <ClCompile Include="shared\Network\SocketOpsLinux.cpp" />
+    <ClCompile Include="shared\Network\SocketOpsWin32.cpp" />
+    <ClCompile Include="shared\Network\SocketWin32.cpp" />
+    <ClCompile Include="shared\PerformanceCounter.cpp" />
+    <ClCompile Include="shared\printStackTrace.cpp" />
+    <ClCompile Include="shared\StackTrace.cpp" />
+    <ClCompile Include="shared\StackWalker.cpp" />
+    <ClCompile Include="shared\SysInfo.cpp" />
+    <ClCompile Include="shared\TextFile.cpp" />
+    <ClCompile Include="shared\Threading\AtomicBoolean.cpp" />
+    <ClCompile Include="shared\Threading\AtomicCounter.cpp" />
+    <ClCompile Include="shared\Threading\AtomicFloat.cpp" />
+    <ClCompile Include="shared\Threading\AtomicULong.cpp" />
+    <ClCompile Include="shared\Threading\ConditionVariable.cpp" />
+    <ClCompile Include="shared\Threading\Mutex.cpp" />
+    <ClCompile Include="shared\Threading\ThreadPool.cpp" />
+    <ClCompile Include="shared\Util.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
