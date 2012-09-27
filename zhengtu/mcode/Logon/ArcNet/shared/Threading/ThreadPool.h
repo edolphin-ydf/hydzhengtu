@@ -85,7 +85,7 @@ class ThreadController
 			pthread_join(handle, NULL);
 		}
 
-		ARCEMU_INLINE uint32 GetId() { return (uint32)thread_id; }
+		MNET_INLINE uint32 GetId() { return (uint32)thread_id; }
 };
 
 #else
@@ -121,7 +121,7 @@ class ThreadController
 		{
 			pthread_join(handle, NULL);
 		}
-		ARCEMU_INLINE uint32 GetId() { return (uint32)thread_id; }
+		MNET_INLINE uint32 GetId() { return (uint32)thread_id; }
 };
 
 #endif
@@ -181,13 +181,13 @@ class SERVER_DECL CThreadPool
 		void KillFreeThreads(uint32 count);
 
 		// resets the gobble counter
-		ARCEMU_INLINE void Gobble() { _threadsEaten = (int32)m_freeThreads.size(); }
+		MNET_INLINE void Gobble() { _threadsEaten = (int32)m_freeThreads.size(); }
 
 		// gets active thread count得到活动线程的数量
-		ARCEMU_INLINE uint32 GetActiveThreadCount() { return (uint32)m_activeThreads.size(); }
+		MNET_INLINE uint32 GetActiveThreadCount() { return (uint32)m_activeThreads.size(); }
 
 		// gets free thread count得到空闲线程的数量
-		ARCEMU_INLINE uint32 GetFreeThreadCount() { return (uint32)m_freeThreads.size(); }
+		MNET_INLINE uint32 GetFreeThreadCount() { return (uint32)m_freeThreads.size(); }
 };
 
 extern SERVER_DECL CThreadPool ThreadPool;

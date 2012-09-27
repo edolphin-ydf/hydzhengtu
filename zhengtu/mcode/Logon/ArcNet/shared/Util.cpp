@@ -426,7 +426,7 @@ volatile long Sync_Sub(volatile long* value)
 #endif
 }
 
-namespace Arcemu
+namespace MNet
 {
 	float round(float f)
 	{

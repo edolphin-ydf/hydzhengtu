@@ -1,21 +1,3 @@
-/*
- * ArcEmu MMORPG Server
- * Copyright (C) 2008-2011 <http://www.ArcEmu.org/>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
 
 #ifndef STORAGE_H_
 #define STORAGE_H_
@@ -76,15 +58,15 @@ class SERVER_DECL StorageContainerIterator
 
 		/** Returns the currently stored object
 		 */
-		ARCEMU_INLINE T* Get() { return Pointer; }
+		MNET_INLINE T* Get() { return Pointer; }
 
 		/** Sets the current object to P
 		 */
-		ARCEMU_INLINE void Set(T* P) { Pointer = P; }
+		MNET_INLINE void Set(T* P) { Pointer = P; }
 
 		/** Are we at the end of the storage container?
 		 */
-		ARCEMU_INLINE bool AtEnd() { return (Pointer == 0); }
+		MNET_INLINE bool AtEnd() { return (Pointer == 0); }
 
 		/** Virtual function to increment to the next element
 		 */
@@ -489,8 +471,8 @@ class SERVER_DECL Storage
 		char* _formatString;
 	public:
 
-		ARCEMU_INLINE char* GetIndexName() { return _indexName; }
-		ARCEMU_INLINE char* GetFormatString() { return _formatString; }
+		MNET_INLINE char* GetIndexName() { return _indexName; }
+		MNET_INLINE char* GetFormatString() { return _formatString; }
 
 		/** False constructor to fool compiler
 		 */
@@ -592,7 +574,7 @@ class SERVER_DECL SQLStorage : public Storage<T, StorageType>
 
 		/** Loads the block using the format string.
 		 */
-		ARCEMU_INLINE void LoadBlock(Field* fields, T* Allocated, bool reload = false)
+		MNET_INLINE void LoadBlock(Field* fields, T* Allocated, bool reload = false)
 		{
 			char* p = Storage<T, StorageType>::_formatString;
 			char* structpointer = (char*)Allocated;

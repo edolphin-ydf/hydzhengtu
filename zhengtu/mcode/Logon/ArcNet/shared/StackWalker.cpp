@@ -37,7 +37,7 @@
 #if _MSC_VER >= 1300
 #include <dbghelp.h>
 #else
-// ARCEMU_INLINE the important dbghelp.h-declarations...
+// MNET_INLINE the important dbghelp.h-declarations...
 typedef enum
 {
 	SymNone = 0,

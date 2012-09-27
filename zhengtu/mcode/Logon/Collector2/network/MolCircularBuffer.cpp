@@ -103,7 +103,7 @@ bool MolCircularBuffer::Write(const void * data,size_t bytes)
 	if (m_buffer == NULL)
 		return false;
 
-	// If buffer B exists, write to it.
+	// 如果B区域存在，则写入B
 	if( m_regionBPointer != NULL )
 	{
 		if( GetBFreeSpace() < bytes )
@@ -115,6 +115,7 @@ bool MolCircularBuffer::Write(const void * data,size_t bytes)
 	}
 
 	// Otherwise, write to buffer A, or initialize buffer B depending on which has more space.
+	// 这种情况，写入到A还是B，取决于哪块空间比较大
 	if( GetAFreeSpace() < GetSpaceBeforeA() )
 	{
 		AllocateB();

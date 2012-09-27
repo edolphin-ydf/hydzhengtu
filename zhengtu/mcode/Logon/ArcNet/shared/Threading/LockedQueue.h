@@ -1,21 +1,3 @@
-/*
- * ArcEmu MMORPG Server
- * Copyright (C) 2008-2011 <http://www.ArcEmu.org/>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
 
 #ifndef _THREADING_LOCKED_QUEUE_H
 #define _THREADING_LOCKED_QUEUE_H
@@ -32,14 +14,14 @@ class LockedQueue
 
 		}
 
-		ARCEMU_INLINE void add(const TYPE & element)
+		MNET_INLINE void add(const TYPE & element)
 		{
 			mutex.Acquire();
 			queue.push_back(element);
 			mutex.Release();
 		}
 
-		ARCEMU_INLINE TYPE next()
+		MNET_INLINE TYPE next()
 		{
 			mutex.Acquire();
 			assert(queue.size() > 0);
@@ -49,7 +31,7 @@ class LockedQueue
 			return t;
 		}
 
-		ARCEMU_INLINE size_t size()
+		MNET_INLINE size_t size()
 		{
 			mutex.Acquire();
 			size_t c = queue.size();
@@ -57,7 +39,7 @@ class LockedQueue
 			return c;
 		}
 
-		ARCEMU_INLINE TYPE get_first_element()
+		MNET_INLINE TYPE get_first_element()
 		{
 			mutex.Acquire();
 			TYPE t;
@@ -69,7 +51,7 @@ class LockedQueue
 			return t;
 		}
 
-		ARCEMU_INLINE void pop()
+		MNET_INLINE void pop()
 		{
 			mutex.Acquire();
 			ASSERT(queue.size() > 0);
@@ -77,7 +59,7 @@ class LockedQueue
 			mutex.Release();
 		}
 
-		ARCEMU_INLINE void clear()
+		MNET_INLINE void clear()
 		{
 			mutex.Acquire();
 			queue.resize(0);

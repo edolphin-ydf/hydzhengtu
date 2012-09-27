@@ -1,21 +1,3 @@
-/*
- * ArcEmu MMORPG Server
- * Copyright (C) 2008-2011 <http://www.ArcEmu.org/>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
 
 #ifndef WOWSERVER_COMMON_H
 #define WOWSERVER_COMMON_H
@@ -53,11 +35,11 @@ enum MsTimeVariables
 };
 
 #ifdef WIN32
-#define ARCEMU_FORCEINLINE __forceinline
+#define MNET_FORCEINLINE __forceinline
 #else
-#define ARCEMU_FORCEINLINE inline
+#define MNET_FORCEINLINE inline
 #endif
-#define ARCEMU_INLINE inline
+#define MNET_INLINE inline
 
 #ifdef HAVE_CONFIG_H
 # include <config.h>
@@ -494,7 +476,7 @@ static inline int long2int32(const double value)
 #include <sys/timeb.h>
 #endif
 
-ARCEMU_INLINE uint32 now()
+MNET_INLINE uint32 now()
 {
 #ifdef WIN32
 	return GetTickCount();
@@ -544,7 +526,7 @@ struct spawn_timed_emotes
 };
 typedef std::list<spawn_timed_emotes*> TimedEmoteList;
 
-ARCEMU_INLINE void reverse_array(uint8* pointer, size_t count)
+MNET_INLINE void reverse_array(uint8* pointer, size_t count)
 {
 	size_t x;
 	uint8* temp = (uint8*)malloc(count);
@@ -562,13 +544,13 @@ std::string ConvertTimeStampToDataTime(uint32 timestamp);
 
 uint32 DecimalToMask(uint32 dec);
 
-ARCEMU_INLINE void arcemu_TOLOWER(std::string & str)
+MNET_INLINE void arcemu_TOLOWER(std::string & str)
 {
 	for(size_t i = 0; i < str.length(); ++i)
 		str[i] = (char)tolower(str[i]);
 }
 
-ARCEMU_INLINE void arcemu_TOUPPER(std::string & str)
+MNET_INLINE void arcemu_TOUPPER(std::string & str)
 {
 	for(size_t i = 0; i < str.length(); ++i)
 		str[i] = (char)toupper(str[i]);
