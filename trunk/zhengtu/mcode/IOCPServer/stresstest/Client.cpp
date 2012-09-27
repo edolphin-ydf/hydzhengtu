@@ -37,7 +37,7 @@ void CClient::SendTestPack(int iSize)
 
 	FS_PACKET *packet = new FS_PACKET;
 	//m_pClient->SendPacket((FS_PACKET*)binStream.GetBufferPtr());
-	m_pClient->SendPacket(packet);
+	m_pClient->SendPacket((const char *)packet,sizeof(FS_PACKET));
 	delete packet;
 	m_pTotalInfo->dwSendCount++;
 }
@@ -94,7 +94,8 @@ DWORD CClient::HandleNetPack()
 
 
 	// 处理网络消息
-	const FS_PACKET* pPacket = m_pClient->GetPacket();
+	int revlen = 0;
+	const FS_PACKET* pPacket = (const FS_PACKET*)m_pClient->GetPacket(revlen);
 	if (pPacket == NULL)
 		return 0;
 
@@ -135,7 +136,16 @@ DWORD CClient::HandleNetPack()
 		break;
 	}
 
-	m_pClient->DeletePacket(&pPacket);
+	m_pClient->DeletePacket((const char **)&pPacket);
 
 	return 0;
+}
+
+void CClient::SendTestPack1()
+{
+	binStream.Clear();
+	binStream.WriteByte(1);	// header
+	binStream.WriteString("pass",5);
+
+	m_pClient->SendPacket((const char *)binStream.GetBufferPtr(),binStream.GetBufferLen());
 }

@@ -51,6 +51,7 @@ public:
 
 	// ·¢ËÍ²âÊÔ°ü
 	void SendTestPack(int iSize);
+	void SendTestPack1();
 
 	FSClient* GetClientNet() {return m_pClient;}
 	

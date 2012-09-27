@@ -1,6 +1,9 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stresstest", "stresstest.vcxproj", "{45FA968F-F6CF-4167-B995-11E3135B9219}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EF740BF5-237D-47A3-9D92-2C377F809AA4} = {EF740BF5-237D-47A3-9D92-2C377F809AA4}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FS_Socket", "..\FS_Socket\FS_Socket.vcxproj", "{EF740BF5-237D-47A3-9D92-2C377F809AA4}"
 EndProject
