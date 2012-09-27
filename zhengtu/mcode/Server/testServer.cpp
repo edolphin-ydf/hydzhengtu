@@ -49,13 +49,13 @@ void testServer::newTCPTask( const SOCKET sock,const WORD srcPort )
 
 	if (srcPort == test_port)
 	{
-		//客户端测试验证连接
+		//一有新的客户端就要进行连接验证
 		CTCPTask *tcpTask = new testTask(testTaskPool,sock);
 		if (NULL == tcpTask)
 		{
 			::closesocket(sock);
 		}
-		else if (!testTaskPool->addVerify(tcpTask))
+		else if (!testTaskPool->addVerify(tcpTask))//加入验证连接的队列
 		{
 			SAFE_DELETE(tcpTask);
 		}

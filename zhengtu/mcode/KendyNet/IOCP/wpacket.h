@@ -23,12 +23,12 @@ typedef struct wpacket
 {
 	list_node next;
 	uint32_t *len;      //包长字段(去除包长度字段以外实际数据的长度)在buf中的地址
-	buffer_t buf;            //所有数据组成的buf链
-	buffer_t writebuf;       //wpos所在的buf
+	buffer_t buf;       //所有数据组成的buf链
+	buffer_t writebuf;  //wpos所在的buf
 	uint32_t wpos;
 	uint8_t factor;
 	uint32_t begin_pos; //属于本包的数据在首buf中的起始位置
-	uint32_t data_size;//实际数据大小,包含包长度
+	uint32_t data_size; //实际数据大小,包含包长度
 	uint8_t  raw;
 }*wpacket_t;
 struct rpacket;

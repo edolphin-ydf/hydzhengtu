@@ -16,7 +16,7 @@ uint32_t send_request = 0;
 uint32_t tick = 0;
 uint32_t now = 0;
 uint32_t bf_count = 0;
-#define MAX_CLIENT 2
+#define MAX_CLIENT 5000
 static struct connection *clients[MAX_CLIENT];
 uint32_t last_recv = 0;
 uint32_t ava_interval = 0;
@@ -154,8 +154,8 @@ void testNet()
 	uint32_t send_interval = 8;
 	uint32_t send_tick = 0;
 	wpacket_t wpk;
-	init_wpacket_pool(500000);
-	init_rpacket_pool(10000000);
+	init_wpacket_pool(5000);  //初始化发送包的缓存
+	init_rpacket_pool(100000);//初始化接收包的缓存
 	buffer_init_maxbuffer_size(2000);
 	buffer_init_64(2000);
 	InitNetSystem();

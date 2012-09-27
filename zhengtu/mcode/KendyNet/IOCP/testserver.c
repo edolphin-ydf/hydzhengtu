@@ -16,7 +16,7 @@ uint32_t bf_count = 0;
 uint32_t clientcount = 0;
 uint32_t last_send_tick = 0;
 
-#define MAX_CLIENT 1000     //最大客户端连接数
+#define MAX_CLIENT 5000     //最大客户端连接数
 static struct connection *clients[MAX_CLIENT];
 
 void init_clients()
@@ -110,15 +110,15 @@ int32_t main()
 
 	uint32_t i = 0;
 	//getchar();
-	init_wpacket_pool(10000000);       //初始化写包池
-	init_rpacket_pool(500000);         //初始化读包池
+	init_wpacket_pool(100000);       //初始化写包池
+	init_rpacket_pool(5000);         //初始化读包池
 	buffer_init_maxbuffer_size(2000);  //??初始化最大的缓冲？
 	buffer_init_64(2000);
 	init_clients();
 	InitNetSystem();
 	iocp = CreateNetEngine(1);         //创建完成端口
 
-	CreateThread(NULL,0,Listen,&iocp,0,&dwThread);
+	CreateThread(NULL,0,Listen,&iocp,0,&dwThread);//创建网络端口监听，并把IOCP端口对象传给socket
 	tick = GetTickCount();
 	while(1)
 	{

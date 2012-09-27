@@ -132,15 +132,17 @@ void CSocket::ReadByte( DWORD size )
 	{
 		int iii = 0;
 	}
+	DWORD m_DwFlag = 0;
 	// 请求读取数据
-	bresult = ReadFile(
-		(HANDLE)sock,
-		m_RecvBuffer.wr_buf(),
-		size,
-		&numRead,
-		(LPOVERLAPPED)&m_ovIn );
+	bresult = WSARecv(sock,(LPWSABUF)m_RecvBuffer.wr_buf(),1,&numRead,&m_DwFlag,(LPOVERLAPPED)&m_ovIn,NULL);
+	/*bresult = ReadFile(
+	(HANDLE)sock,
+	m_RecvBuffer.wr_buf(),
+	size,
+	&numRead,
+	(LPOVERLAPPED)&m_ovIn );*/
 	// 这里,等待一个信息包.
-	if (bresult) return;
+	if (bresult == WSA_IO_PENDING) return;//操作成功返回
 	err = GetLastError();
 	if (err == 64)//连接已关闭
 	{
@@ -178,34 +180,42 @@ int CSocket::SendData( DWORD dwNum = 0 )
 
 	tQueue.Lock();
 
-	bresult = WriteFile(
-		(HANDLE)sock,
-		tQueue.rd_buf(),
-		size,
-		&numRead,
-		(LPOVERLAPPED)&m_ovOut );
+	bresult = WSASend(sock,(LPWSABUF)tQueue.rd_buf(),1,&numRead,0,(LPOVERLAPPED)&m_ovOut,NULL);
+	/*bresult = WriteFile(
+	(HANDLE)sock,
+	tQueue.rd_buf(),
+	size,
+	&numRead,
+	(LPOVERLAPPED)&m_ovOut );*/
 
 	tQueue.UnLock();
 
 	// 这里,等待一个信息包.
 	if (bresult) return size;
-	err = GetLastError();
 
-	if( err == 64 )//连接已关闭
-	{
-		CIocp::getInstance().PostStatus(this,&m_ovOut);//发送写数据失败的完成信息
-		return -1;
-	}
-
-	if( err != 997 )
+	if(bresult==SOCKET_ERROR && (ERROR_IO_PENDING != WSAGetLastError())) 
 	{
 		printf( "发送数据时重叠I/O操作发生错误： %s\n",GetErrMsg(err) );
-		return -1;
+		return -1;		
 	}
+	//err = GetLastError();
+
+	//if( err == 64 )//连接已关闭
+	//{
+	//	CIocp::getInstance().PostStatus(this,&m_ovOut);//发送写数据失败的完成信息
+	//	return -1;
+	//}
+
+	//if( err != 997 )
+	//{
+	//	printf( "发送数据时重叠I/O操作发生错误： %s\n",GetErrMsg(err) );
+	//	return -1;
+	//}
 
 	return size;
 }
 
+//通过Iocp收取数据
 void CSocket::RecvData( DWORD dwNum )
 {
 	unsigned short nLen = 0;
@@ -247,6 +257,7 @@ void CSocket::RecvData( DWORD dwNum )
 	}
 	else
 	{
+		//包头接收已经完成，从包头中读取整个数据的长度
 		nLen = ((PACK_HEAD*)m_RecvBuffer.rd_buf())->Len;
 
 		if( nLen  > MAX_DATASIZE )
@@ -260,6 +271,7 @@ void CSocket::RecvData( DWORD dwNum )
 		if( m_RecvBuffer.rd_size() == nLen + PACKHEADSIZE )
 		{
 			// [ranqd] 收到一个完整的包，放入缓冲
+			printf("收到一个完整的包，放入缓冲\n");
 			_rcv_queue.Lock();
 			_rcv_queue.put( m_RecvBuffer.rd_buf(), nLen + PACKHEADSIZE );
 			_rcv_queue.UnLock();
@@ -270,6 +282,7 @@ void CSocket::RecvData( DWORD dwNum )
 		}
 		else
 		{
+			printf("请求接收后面的数据\n");
 			ReadByte( PACKHEADSIZE + nLen - m_RecvBuffer.rd_size() );// 请求接收后面的数据
 		}
 	}
@@ -370,7 +383,7 @@ int CSocket::WaitSend( bool bWait, int timeout )
 */
 int CSocket::recvToCmd(void *pstrCmd,const int nCmdLen,const bool wait)
 {
-	printf("CSocket::recvToCmd\n");
+	//printf("CSocket::recvToCmd\n");
 	//够一个完整的纪录,不需要向套接口接收数据
 	do { 
 		if (_rcv_raw_size >= packetMinSize()/* && _rcv_queue.rd_size() >= packetMinSize()*/) 
@@ -481,14 +494,6 @@ int  CSocket::Send(const SOCKET sock, const void* pBuffer, const int nLen,int fl
 */
 int CSocket::sendRawData(const void *pBuffer,const int nSize)
 {
-	//fprintf(stderr,"CSocket::sendRawData\n");
-
-	/*if(((Cmd::stNullUserCmd *)pBuffer)->byCmd == 5 && ((Cmd::stNullUserCmd *)pBuffer)->byParam == 55)
-	{
-	Cmd::stMapDataMapScreenUserCmd * tt = (Cmd::stMapDataMapScreenUserCmd *)(pBuffer);
-	WORD _size = tt->mdih.size;
-	fprintf(stderr,"问题消息\n");
-	}*/	
 	if (isset_flag(INCOMPLETE_WRITE))
 	{
 		clear_flag(INCOMPLETE_WRITE);
@@ -535,6 +540,10 @@ bool CSocket::sendRawDataIM(const void *pBuffer,const int nSize)
 	{
 		printf("客户端断开 -1\n");  
 		return false;
+	}
+	else
+	{
+		printf("发送成功\n");
 	}
 	return true;
 }
@@ -940,7 +949,7 @@ int CSocket::waitForWrite()
 */
 int CSocket::recvToBuf()
 {
-	printf("CSocket::recvToBuf\n");
+	//printf("CSocket::recvToBuf\n");
 	int retcode = 0;
 
 	

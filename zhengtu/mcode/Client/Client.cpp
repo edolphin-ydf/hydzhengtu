@@ -10,6 +10,7 @@ int main()
 
 	testClient tClient("testClient1","127.0.0.1",5555);
 	bool rec = tClient.connectTotestServer();
+	tClient.start();
 	if (rec)//连接成功
 	{
 	}

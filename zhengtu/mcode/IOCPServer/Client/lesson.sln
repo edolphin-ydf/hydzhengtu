@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lesson", "lesson.vcproj", "{45FA968F-F6CF-4167-B995-11E3135B9219}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FS_Socket", "..\FS_Socket\FS_Socket.vcproj", "{EF740BF5-237D-47A3-9D92-2C377F809AA4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45FA968F-F6CF-4167-B995-11E3135B9219}.Debug|Win32.ActiveCfg = Debug|Win32
+		{45FA968F-F6CF-4167-B995-11E3135B9219}.Debug|Win32.Build.0 = Debug|Win32
+		{45FA968F-F6CF-4167-B995-11E3135B9219}.Release|Win32.ActiveCfg = Release|Win32
+		{45FA968F-F6CF-4167-B995-11E3135B9219}.Release|Win32.Build.0 = Release|Win32
+		{EF740BF5-237D-47A3-9D92-2C377F809AA4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EF740BF5-237D-47A3-9D92-2C377F809AA4}.Debug|Win32.Build.0 = Debug|Win32
+		{EF740BF5-237D-47A3-9D92-2C377F809AA4}.Release|Win32.ActiveCfg = Release|Win32
+		{EF740BF5-237D-47A3-9D92-2C377F809AA4}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

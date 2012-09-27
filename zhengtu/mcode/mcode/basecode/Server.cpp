@@ -191,7 +191,7 @@ bool Server_MTCP::bind(const std::string &name,const WORD port)
 */
 int Server_MTCP::accept(Sock2Port &res)
 {
-	printf("Server_MTCP::accept\n");
+	//printf("Server_MTCP::accept\n");
 	Mutex_scope_lock scope_lock(mlock);
 	int retval = 0;
 

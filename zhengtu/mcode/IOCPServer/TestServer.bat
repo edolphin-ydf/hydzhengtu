@@ -1,0 +1,1 @@
+@start /D.\TestServer\bin TestServer.exe

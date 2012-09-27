@@ -1,0 +1,1 @@
+@start /D.\Client\bin lesson.exe

@@ -73,7 +73,7 @@ bool CTCPClient::connect()
 		::closesocket(nSocket);
 		return false;
 	}
-	pSocket = new CSocket(nSocket,&addr,compress);
+	pSocket = new CSocket(nSocket,&addr,compress,false);
 	if (NULL == pSocket)
 	{
 		printf("没有足够的内存,不能创建zSocket实例\n");
@@ -92,8 +92,12 @@ bool CTCPClient::connect()
 */
 void CTCPClient::run()
 {
+	if (pSocket == NULL)
+	{
+		return;
+	}
 #ifdef _DEBUG
-	printf("zTCPClient::remoteport= %u localport = %u\n",pSocket->getPort(),pSocket->getLocalPort());
+	printf("TCPClient::remoteport= %u localport = %u\n",pSocket->getPort(),pSocket->getLocalPort());
 
 #endif //_DEBUG
 	while(!isFinal())

@@ -127,12 +127,12 @@ private:
 	*/
 	void _add(CTCPTask *task)
 	{
-		printf("zVerifyThread::_add");
+		printf("VerifyThread::_add\n");
 		m_Lock.lock();
 		tasks.push_back(task);
 		task_count = tasks.size();
 		m_Lock.unlock();
-		printf("zVerifyThread::_add_end");
+		printf("VerifyThread::_add_end\n");
 	}
 public:
 
