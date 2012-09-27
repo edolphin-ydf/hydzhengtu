@@ -7,13 +7,13 @@
 #include <winsock2.h>
 #pragma comment(lib, "ws2_32.lib")
 
-#include <list>
+#include <map>
 using namespace std;
 
 class FS_API CSocketClient :public FSClient
 {
 public:
-	CSocketClient();
+	CSocketClient(int len = 0);
 	virtual ~CSocketClient();
 public:
 
@@ -27,16 +27,16 @@ public:
 	void Disconnect();
 
 	//从消息缓冲区取出一个消息，使用後需delete该消息，如果缓冲区没有消息则返回NULL
-	const FS_PACKET* GetPacket();
+	const char* GetPacket(int &len);
 
 	//发送一个消息，bToSelf == TRUE 则不通过网络而直接发给自己，默认是通过网络传送
-	bool SendPacket(const FS_PACKET* pPacket);
+	bool SendPacket(const char* pPacket, int len);
 
 	//判断是否和服务器处于连接状态
 	virtual bool IsConnect();
 
 	// 释放包
-	void DeletePacket(const FS_PACKET** pPacket);
+	void DeletePacket(const char** pPacket);
 
 protected:
 
@@ -53,8 +53,8 @@ protected:
 	WSAEVENT m_hEventSocket;//Socket事件
 	//用来控制发送和接收缓冲区读写同步
 	CRITICAL_SECTION csSend, csRecv;
-	list< FS_PACKET* > m_listPacketRecv;
-	list< FS_PACKET* > m_listPacketSend;
+	map< char*, int > m_listPacketRecv;
+	map< char*, int > m_listPacketSend;
 
 	HANDLE 	m_threadSend;
 	HANDLE	m_threadRecv;

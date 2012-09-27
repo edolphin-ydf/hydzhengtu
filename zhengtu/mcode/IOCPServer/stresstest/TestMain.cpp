@@ -249,7 +249,8 @@ UINT WINAPI ThreadFuncForSend(void* p)
 	{
 		Sleep(dwSendTick);
 
-		pClient->SendTestPack(dwPackSize);
+		//pClient->SendTestPack(dwPackSize);
+		pClient->SendTestPack1();
 	}
 
 //	pCfgData->bRunning = FALSE;

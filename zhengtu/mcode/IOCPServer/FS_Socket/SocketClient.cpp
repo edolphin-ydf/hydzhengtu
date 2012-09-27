@@ -3,7 +3,8 @@
 
 #include <time.h>
 
-CSocketClient::CSocketClient()
+CSocketClient::CSocketClient(int len)
+	: FSClient(len)
 {
 	m_bRunning = 0;
 
@@ -140,14 +141,15 @@ void CSocketClient::Disconnect()
 	closesocket(m_hSocket);
 }
 
-const FS_PACKET* CSocketClient::GetPacket()
+const char* CSocketClient::GetPacket(int &len)
 {
-	FS_PACKET* pPacket = NULL;
+	char* pPacket = NULL;
 	EnterCriticalSection(&csRecv);
 	if(m_listPacketRecv.size() > 0)
 	{
-		pPacket = m_listPacketRecv.front();
-		m_listPacketRecv.pop_front();
+		pPacket = m_listPacketRecv.begin()->first;
+		len = m_listPacketRecv.begin()->second;
+		m_listPacketRecv.erase(m_listPacketRecv.begin());
 	}
 	LeaveCriticalSection(&csRecv);
 
@@ -156,23 +158,24 @@ const FS_PACKET* CSocketClient::GetPacket()
 
 
 // ÊÍ·Å°ü
-void CSocketClient::DeletePacket(const FS_PACKET** pPacket)
+void CSocketClient::DeletePacket(const char** pPacket)
 {
 	delete *pPacket;
 	*pPacket = NULL;
 }
 
-bool CSocketClient::SendPacket(const FS_PACKET* pPacket)
+bool CSocketClient::SendPacket(const char* pPacket, int len)
 {
-	FS_PACKET* ptr = (FS_PACKET*) new char[pPacket->nSize];
-	memcpy(ptr, pPacket, pPacket->nSize);
+	char* ptr = new char[len];
+	memcpy(ptr, pPacket, len);
 
 	EnterCriticalSection(&csSend);
-	m_listPacketSend.push_back(ptr);
+	m_listPacketSend.insert(map<char*, int>::value_type(ptr,len));
 	LeaveCriticalSection(&csSend);
 
 	return true;
 }
+
 
 DWORD CSocketClient::RecvThreadProc(LPVOID pParam)
 {
@@ -195,11 +198,9 @@ DWORD CSocketClient::RecvThreadProc(LPVOID pParam)
 					if(event.lNetworkEvents & FD_CLOSE)
 					{
 						OutputDebugString(("  Socket closed!\n"));
-						FS_PACKET *ptr = new FS_PACKET;
-						ptr->nID = PID_SOCKET_DISCONNECT;
-						ptr->nSize = sizeof(FS_PACKET);
 						EnterCriticalSection(&pSocketClient->csRecv);
-						pSocketClient->m_listPacketRecv.push_back(ptr);
+						char *temp = "";
+						pSocketClient->m_listPacketRecv.insert(map< char*, int >::value_type(temp,0));
 						LeaveCriticalSection(&pSocketClient->csRecv);
 
 						pSocketClient->m_bRunning = false;
@@ -231,18 +232,20 @@ DWORD CSocketClient::SendThreadProc(LPVOID pParam)
 
 void CSocketClient::Send()
 {
-	FS_PACKET *pPacket = NULL;
+	char *pPacket = NULL;
+	int len = 0;
 	EnterCriticalSection(&csSend);
 	if(m_listPacketSend.size() > 0)
 	{
-		pPacket = m_listPacketSend.front();
-		m_listPacketSend.pop_front();
+		pPacket = m_listPacketSend.begin()->first;
+		len = m_listPacketSend.begin()->second;
+		m_listPacketSend.erase(m_listPacketSend.begin());
 	}
 	LeaveCriticalSection(&csSend);
 
 	if(pPacket != NULL)
 	{
-		int nLen = send(m_hSocket, (char*)pPacket, pPacket->nSize, 0);
+		int nLen = send(m_hSocket, (char*)pPacket, len, 0);
 		if(nLen < 0)
 		{//·¢ËÍÊ§°Ü
 		}
@@ -256,22 +259,27 @@ void CSocketClient::Recv()
  	int nLen = recv(m_hSocket, buffIn + nBytesRemain, MAX_PACKET_SIZE - nBytesRemain, 0 );
 	if( nLen > 0 )
 	{
-		nBytesRemain += nLen;
-
-		while( nBytesRemain >= (sizeof(FS_PACKET))
-			&& nBytesRemain >=  ((FS_PACKET*)buffIn)->nSize
-			)
+		if (m_PacketSize==0 && m_tempPacketSize==0)
 		{
-			FS_PACKET* pPacket = (FS_PACKET*)buffIn;
-			FS_PACKET* ptr = (FS_PACKET*) new char[pPacket->nSize];
-			memcpy(ptr, pPacket, pPacket->nSize);
+			m_tempPacketSize = buffIn[0];
+		}
+		else
+			m_tempPacketSize = m_PacketSize;
+	
+		int fullsize = m_tempPacketSize;
+		while( nBytesRemain >= m_tempPacketSize)
+		{
+			char* pPacket = (char*)buffIn;
+			char* ptr = new char[m_tempPacketSize];
+			memcpy(ptr, pPacket, m_tempPacketSize);
 			EnterCriticalSection(&csRecv);
-			m_listPacketRecv.push_back(ptr);
+			m_listPacketRecv.insert(map< char*, int >::value_type());
 			LeaveCriticalSection(&csRecv);
 
-			nBytesRemain -= pPacket->nSize;
+			nBytesRemain -= m_tempPacketSize;
 			if(nBytesRemain)
-				memmove(buffIn, buffIn + pPacket->nSize, nBytesRemain);
+				memmove(buffIn, buffIn + m_tempPacketSize, nBytesRemain);
+			m_tempPacketSize = 0;
 		}
 	}
 	else
