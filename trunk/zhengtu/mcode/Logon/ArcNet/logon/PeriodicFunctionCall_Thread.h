@@ -78,7 +78,7 @@ class PeriodicFunctionCaller : public ThreadBase
 			/* wait for the thread to exit */
 			while(thread_active)
 			{
-				Arcemu::Sleep(100);
+				MNet::Sleep(100);
 			}
 			LOG_DETAIL("PFC thread exited.");
 #else
@@ -89,7 +89,7 @@ class PeriodicFunctionCaller : public ThreadBase
 	private:
 		CallbackBase* cb;
 		uint32 interval;
-		Arcemu::Threading::AtomicBoolean running;
+		MNet::Threading::AtomicBoolean running;
 #ifdef WIN32
 		bool thread_active;
 		HANDLE hEvent;

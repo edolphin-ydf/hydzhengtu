@@ -13,7 +13,7 @@ enum RealmFlags
     REALM_FLAG_FULL         = 0x80
 };
 
-extern Arcemu::Threading::AtomicBoolean mrunning;
+extern MNet::Threading::AtomicBoolean mrunning;
 class AuthSocket;
 extern set<AuthSocket*> _authSockets;
 extern Mutex _authSocketLock;
@@ -35,7 +35,7 @@ class LogonServer : public Singleton< LogonServer >
 		uint32 min_build;
 		uint8 sql_hash[20];
 
-		Arcemu::PerformanceCounter perfcounter;
+		MNet::PerformanceCounter perfcounter;
 	private:
 		bool m_stopEvent;
 };

@@ -19,7 +19,7 @@ class SERVER_DECL SocketMgr : public Singleton<SocketMgr>
 		SocketMgr();
 		~SocketMgr();
 
-		ARCEMU_INLINE HANDLE GetCompletionPort() { return m_completionPort; }
+		MNET_INLINE HANDLE GetCompletionPort() { return m_completionPort; }
 		void SpawnWorkerThreads();
 		void CloseAll();
 		void ShowStatus();
@@ -46,7 +46,7 @@ class SERVER_DECL SocketMgr : public Singleton<SocketMgr>
 		HANDLE m_completionPort;
 		set<Socket*> _sockets;
 		Mutex socketLock;
-		Arcemu::Threading::AtomicCounter socket_count;
+		MNet::Threading::AtomicCounter socket_count;
 };
 
 #define sSocketMgr SocketMgr::getSingleton()

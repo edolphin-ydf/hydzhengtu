@@ -1,21 +1,3 @@
-/*
- * ArcEmu MMORPG Server
- * Copyright (C) 2008-2011 <http://www.ArcEmu.org/>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
 
 #ifndef _BYTEBUFFER_H
 #define _BYTEBUFFER_H
@@ -334,7 +316,7 @@ class SERVER_DECL ByteBuffer
 
 		const uint8* contents() const { return &_storage[0]; };
 
-		ARCEMU_INLINE size_t size() const { return _storage.size(); };
+		MNET_INLINE size_t size() const { return _storage.size(); };
 		// one should never use resize probably
 		void resize(size_t newsize)
 		{
@@ -479,7 +461,7 @@ class SERVER_DECL ByteBuffer
 			printf("\n");
 		}
 
-		ARCEMU_INLINE void reverse()
+		MNET_INLINE void reverse()
 		{
 			std::reverse(_storage.begin(), _storage.end());
 		}

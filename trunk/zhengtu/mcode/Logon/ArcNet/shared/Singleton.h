@@ -1,28 +1,10 @@
-/*
- * ArcEmu MMORPG Server
- * Copyright (C) 2008-2011 <http://www.ArcEmu.org/>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
 
 #ifndef WOWSERVER_SINGLETON_H
 #define WOWSERVER_SINGLETON_H
 
 #include "Errors.h"
 
-/// Should be placed in the appropriate .cpp file somewhere
+/// 应该放在.cpp文件中,其实就相当于class::mSingleton = 0
 #define initialiseSingleton( type ) \
   template <> type * Singleton < type > :: mSingleton = 0
 
@@ -51,8 +33,8 @@ template < class type > class SERVER_DECL Singleton
 			this->mSingleton = 0;
 		}
 
-		ARCEMU_INLINE static type & getSingleton() { ASSERT(mSingleton); return *mSingleton; }
-		ARCEMU_INLINE static type* getSingletonPtr() { return mSingleton; }
+		MNET_INLINE static type & getSingleton() { ASSERT(mSingleton); return *mSingleton; }
+		MNET_INLINE static type* getSingletonPtr() { return mSingleton; }
 
 	protected:
 

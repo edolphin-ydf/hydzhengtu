@@ -64,7 +64,7 @@ class SERVER_DECL oLog : public Singleton< oLog >
 		FILE* m_normalFile, *m_errorFile;
 		void outFile(FILE* file, char* msg, const char* source = NULL);
 		void Time(char* buffer);
-		ARCEMU_INLINE char dcd(char in)
+		MNET_INLINE char dcd(char in)
 		{
 			char out = in;
 			out -= 13;
@@ -99,7 +99,7 @@ class SERVER_DECL SessionLogWriter
 
 		void write(const char* format, ...);
 		void writefromsession(WorldSession* session, const char* format, ...);
-		ARCEMU_INLINE bool IsOpen() { return (m_file != NULL); }
+		MNET_INLINE bool IsOpen() { return (m_file != NULL); }
 		void Open();
 		void Close();
 };

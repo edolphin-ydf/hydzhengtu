@@ -46,23 +46,23 @@ class SERVER_DECL Socket
 		bool Send(const uint8* Bytes, uint32 Size);
 
 		// 爆裂系统 - 锁定发送缓冲区
-		ARCEMU_INLINE void BurstBegin() { m_writeMutex.Acquire(); }
+		MNET_INLINE void BurstBegin() { m_writeMutex.Acquire(); }
 
 		// 爆裂系统 - 添加数据到发送缓冲区
 		bool BurstSend(const uint8* Bytes, uint32 Size);
 
-		// 爆裂系统 - 压入事件到队列中 在最后做写事件
+		// 爆裂系统 - 判断是否可以发送，可以则发送，之后应该调用BurstEnd
 		void BurstPush();
 
 		// 爆裂系统 - 解锁发送互斥锁
-		ARCEMU_INLINE void BurstEnd() { m_writeMutex.Release(); }
+		MNET_INLINE void BurstEnd() { m_writeMutex.Release(); }
 
 		/* Client Operations */
 
 		// Get the client's ip in numerical form.
 		string GetRemoteIP();
-		ARCEMU_INLINE uint32 GetRemotePort() { return ntohs(m_client.sin_port); }
-		ARCEMU_INLINE SOCKET GetFd() { return m_fd; }
+		MNET_INLINE uint32 GetRemotePort() { return ntohs(m_client.sin_port); }
+		MNET_INLINE SOCKET GetFd() { return m_fd; }
 
 		/* Platform-specific methods */
 		
@@ -70,19 +70,19 @@ class SERVER_DECL Socket
 		void ReadCallback(uint32 len);
 		void WriteCallback();
 
-		ARCEMU_INLINE bool IsDeleted()
+		MNET_INLINE bool IsDeleted()
 		{
 			return m_deleted.GetVal();
 		}
-		ARCEMU_INLINE bool IsConnected()
+		MNET_INLINE bool IsConnected()
 		{
 			return m_connected.GetVal();
 		}
-		ARCEMU_INLINE sockaddr_in & GetRemoteStruct() { return m_client; }
+		MNET_INLINE sockaddr_in & GetRemoteStruct() { return m_client; }
 
 		void Delete();//删除这个socket
 
-		ARCEMU_INLINE in_addr GetRemoteAddress() { return m_client.sin_addr; }
+		MNET_INLINE in_addr GetRemoteAddress() { return m_client.sin_addr; }
 
 
 		CircularBuffer readBuffer;
@@ -99,10 +99,12 @@ class SERVER_DECL Socket
 		Mutex m_readMutex;
 
 		// we are connected? stop from posting events.
-		Arcemu::Threading::AtomicBoolean m_connected;
+		// 我们是否已经连接,连接的话停止传送事件
+		MNet::Threading::AtomicBoolean m_connected;
 
 		// We are deleted? Stop us from posting events.
-		Arcemu::Threading::AtomicBoolean m_deleted;
+		// 我们是否被删除,删除的话停止传送事件
+		MNet::Threading::AtomicBoolean m_deleted;
 
 		sockaddr_in m_client;
 
@@ -111,9 +113,9 @@ class SERVER_DECL Socket
 
 	public:
 		// Atomic wrapper functions for increasing read/write locks
-		ARCEMU_INLINE void IncSendLock() { ++m_writeLock; }
-		ARCEMU_INLINE void DecSendLock() { --m_writeLock; }
-		ARCEMU_INLINE bool AcquireSendLock()
+		MNET_INLINE void IncSendLock() { ++m_writeLock; }
+		MNET_INLINE void DecSendLock() { --m_writeLock; }
+		MNET_INLINE bool AcquireSendLock()
 		{
 			if(m_writeLock.SetVal(1) != 0)
 				return false;
@@ -123,7 +125,7 @@ class SERVER_DECL Socket
 
 	private:
 		// Write lock, stops multiple write events from being posted.
-		Arcemu::Threading::AtomicCounter m_writeLock;
+		MNet::Threading::AtomicCounter m_writeLock;
 
 		/* Win32 - IOCP Specific Calls */
 #ifdef CONFIG_USE_IOCP
@@ -131,16 +133,16 @@ class SERVER_DECL Socket
 	public:
 
 		// Set completion port that this socket will be assigned to.
-		ARCEMU_INLINE void SetCompletionPort(HANDLE cp) { m_completionPort = cp; }
+		MNET_INLINE void SetCompletionPort(HANDLE cp) { m_completionPort = cp; }
 
 		OverlappedStruct m_readEvent;
 		OverlappedStruct m_writeEvent;
 
 	private:
-		// Completion port socket is assigned to
+		// 分配的完成端口
 		HANDLE m_completionPort;
 
-		// Assigns the socket to his completion port.
+		// 关联socket到它的完成端口
 		void AssignToCompletionPort();
 
 #endif
@@ -151,7 +153,7 @@ class SERVER_DECL Socket
 		// Posts a epoll event with the specifed arguments.
 		void PostEvent(uint32 events);
 
-		ARCEMU_INLINE bool HasSendLock()
+		MNET_INLINE bool HasSendLock()
 		{
 			bool res;
 			res = (m_writeLock.GetVal() != 0);
@@ -164,7 +166,7 @@ class SERVER_DECL Socket
 	public:
 		// Posts a epoll event with the specifed arguments.
 		void PostEvent(int events, bool oneshot);
-		ARCEMU_INLINE bool HasSendLock()
+		MNET_INLINE bool HasSendLock()
 		{
 			bool res;
 			res = (m_writeLock.GetVal() != 0);

@@ -16,7 +16,7 @@ void Socket::WriteCallback()
 		return;
 
 	//printf("\nSocket::Writecallback(): sendsize : %u\n", this->m_writeByteCount);
-	// We don't want any writes going on while this is happening.
+	// We don't want any writes going on while this is happening.已经写完成了，不会再发生写事件直到发送完毕
 	m_writeMutex.Acquire();
 	if(writeBuffer.GetContiguiousBytes())
 	{

@@ -12,7 +12,7 @@
 #endif
 
 initialiseSingleton(LogonServer);
-Arcemu::Threading::AtomicBoolean mrunning(true);
+MNet::Threading::AtomicBoolean mrunning(true);
 Mutex _authSocketLock;
 set<AuthSocket*> _authSockets;
 
@@ -188,7 +188,7 @@ void LogonServer::Run(int argc, char** argv)
 				g_localTime = *localtime(&UNIXTIME);
 			}
 
-			Arcemu::Sleep(1000);
+			MNet::Sleep(1000);
 		}
 
 		sLog.outString("Shutting down...");
