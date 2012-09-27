@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="logon">
+      <UniqueIdentifier>{53d10578-d019-4281-82f8-2441e3410572}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="share">
+      <UniqueIdentifier>{cf2421cf-2902-40f0-8425-4ab221eb6534}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="logon\AuthSocket.h">
+      <Filter>logon</Filter>
+    </ClInclude>
+    <ClInclude Include="logon\AuthStructs.h">
+      <Filter>logon</Filter>
+    </ClInclude>
+    <ClInclude Include="logon\LogonCommServer.h">
+      <Filter>logon</Filter>
+    </ClInclude>
+    <ClInclude Include="logon\LogonConsole.h">
+      <Filter>logon</Filter>
+    </ClInclude>
+    <ClInclude Include="logon\LogonOpcodes.h">
+      <Filter>logon</Filter>
+    </ClInclude>
+    <ClInclude Include="logon\LogonStdAfx.h">
+      <Filter>logon</Filter>
+    </ClInclude>
+    <ClInclude Include="logon\Main.h">
+      <Filter>logon</Filter>
+    </ClInclude>
+    <ClInclude Include="logon\PeriodicFunctionCall_Thread.h">
+      <Filter>logon</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\Log.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="logon\InfoCore.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\common.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\wowguid.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\util.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\worldpacket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\Tokenizer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\MapFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\MapFileEntry.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\mersennetwister.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\performancecounter.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\PreallocatedQueue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\printstacktrace.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\rc4engine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\singleton.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\stackbuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\StackTrace.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\StackWalker.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\Storage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\sysinfo.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\TextFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\TLSObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\locationvector.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\CrashHandler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\crc32.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\crefcounter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\cthreads.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\dynlib.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\errors.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\FastQueue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\findfiles.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\findfilesresult.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\git_version.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\CircularQueue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\arcemuconfig.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\Array.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\AuthCodes.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\bytebuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\callback.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\network\circularbuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\network\listensocketfreebsd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\network\listensocketlinux.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\network\listensocketwin32.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\network\network.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\network\socket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\network\socketdefines.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\network\socketmgrfreebsd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\network\socketmgrlinux.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\network\socketmgrwin32.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\network\socketops.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\config\configenv.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\config\config.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\threading\threadstarter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\threading\atomicboolean.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\threading\atomiccounter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\threading\atomicfloat.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\threading\atomiculong.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\threading\conditionvariable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\threading\guard.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\threading\lockedqueue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\threading\mutex.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\Threading\Queue.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\Threading\RWLock.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\threading\threading.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\threading\threadpool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\auth\wowcrypt.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\auth\bignumber.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\Auth\MD5.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\auth\sha1.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="logon\AuthSocket.cpp">
+      <Filter>logon</Filter>
+    </ClCompile>
+    <ClCompile Include="logon\LogonCommServer.cpp">
+      <Filter>logon</Filter>
+    </ClCompile>
+    <ClCompile Include="logon\LogonConsole.cpp">
+      <Filter>logon</Filter>
+    </ClCompile>
+    <ClCompile Include="logon\LogonOpcodes.cpp">
+      <Filter>logon</Filter>
+    </ClCompile>
+    <ClCompile Include="logon\LogonStdAfx.cpp">
+      <Filter>logon</Filter>
+    </ClCompile>
+    <ClCompile Include="logon\Main.cpp">
+      <Filter>logon</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Log.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="logon\InfoCore.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Util.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\MapFile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\MapFileEntry.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\MersenneTwister.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\PerformanceCounter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\printStackTrace.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\StackTrace.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\StackWalker.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\SysInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\TextFile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\CrashHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\crc32.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\CThreads.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\DynLib.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\FindFiles.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Network\CircularBuffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Network\SocketWin32.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Network\Socket.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Network\SocketFreeBSD.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Network\SocketLinux.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Network\SocketMgrFreeBSD.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Network\SocketMgrLinux.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Network\SocketMgrWin32.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Network\SocketOpsFreeBSD.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Network\SocketOpsLinux.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Network\SocketOpsWin32.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Config\Config.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Threading\AtomicBoolean.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Threading\AtomicCounter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Threading\AtomicFloat.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Threading\AtomicULong.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Threading\ConditionVariable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Threading\Mutex.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Threading\ThreadPool.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Auth\BigNumber.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Auth\MD5.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Auth\Sha1.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Auth\WowCrypt.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
