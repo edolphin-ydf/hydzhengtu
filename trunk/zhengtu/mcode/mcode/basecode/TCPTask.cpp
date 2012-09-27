@@ -105,9 +105,9 @@ void VerifyThread::run()
 
 					for(i = 0,it = tasks.begin(); it != tasks.end();)
 					{						
-						printf("verify task size:%d\n",tasks.size());
 						CTCPTask *task = *it;
 						int ret = task->WaitRecv( false );
+						//printf("verify task size:%d,task:%s,ret:%d\n",tasks.size(),task->getIP(),ret);
 						if ( ret == -1 )
 						{
 							//套接口出现错误
@@ -328,7 +328,7 @@ void COkayThread::run()
 						if ( retcode == -1 )
 						{
 							//套接口出现错误
-							printf("zOkayThread::run: 套接口异常错误\n");
+							printf("OkayThread::run: 套接口异常错误\n");
 							task->Terminate(CTCPTask::terminate_active);
 						}
 						else if( retcode > 0 )
@@ -336,7 +336,7 @@ void COkayThread::run()
 							//套接口准备好了读取操作
 							if (!task->ListeningRecv(true))
 							{
-								printf("zOkayThread::run: 套接口读操作错误\n");
+								printf("OkayThread::run: 套接口读操作错误\n");
 								task->Terminate(CTCPTask::terminate_active);
 							}
 						}
@@ -344,7 +344,7 @@ void COkayThread::run()
 						if( retcode == -1 )
 						{
 							//套接口出现错误
-							printf("zOkayThread::run: 套接口异常错误\n");
+							printf("OkayThread::run: 套接口异常错误\n");
 							task->Terminate(CTCPTask::terminate_active);
 						}
 						else if( retcode ==  1 )
@@ -352,7 +352,7 @@ void COkayThread::run()
 							//套接口准备好了写入操作
 							if (!task->ListeningSend())
 							{
-								printf("zOkayThread::run: 套接口写操作错误 port = %u\n",task->getPort());
+								printf("OkayThread::run: 套接口写操作错误 port = %u\n",task->getPort());
 
 								task->Terminate(CTCPTask::terminate_active);
 							}
@@ -367,7 +367,7 @@ void COkayThread::run()
 	}
 
 	//把所有任务队列中的连接加入到回收队列中,回收这些连接
-	fprintf(stderr,"zOkayThread::final\n");
+	fprintf(stderr,"OkayThread::final\n");
 
 	if(tasks.size() == 0)
 		return;

@@ -21,7 +21,7 @@ void init_rpacket_pool(uint32_t pool_size)
 rpacket_t rpacket_create(buffer_t b,uint32_t pos,uint32_t pk_len,uint8_t is_raw)
 {
 
-	rpacket_t r = LIST_POP(rpacket_t,g_rpacket_pool);//calloc(1,sizeof(*r));
+	rpacket_t r = LIST_POP(rpacket_t,g_rpacket_pool);//从缓存中取出一个packet,不用calloc(1,sizeof(*r));
 	if(!r)
 	{
 		printf("r缓存不够了\n");

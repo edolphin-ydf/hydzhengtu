@@ -3,16 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Client.vcxproj", "{369E98B8-662D-4006-BA6F-CD7F73226D3B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StressClient", "StressClient\StressClient.vcxproj", "{EF9A7CCD-9695-49BE-B175-101D5DEFB7FF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FS_Socket", "StressClient\FS_Socket\FS_Socket.vcxproj", "{EF740BF5-237D-47A3-9D92-2C377F809AA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
+		Template|Win32 = Template|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{369E98B8-662D-4006-BA6F-CD7F73226D3B}.Debug|Win32.ActiveCfg = Debug|Win32
 		{369E98B8-662D-4006-BA6F-CD7F73226D3B}.Debug|Win32.Build.0 = Debug|Win32
 		{369E98B8-662D-4006-BA6F-CD7F73226D3B}.Release|Win32.ActiveCfg = Release|Win32
 		{369E98B8-662D-4006-BA6F-CD7F73226D3B}.Release|Win32.Build.0 = Release|Win32
+		{369E98B8-662D-4006-BA6F-CD7F73226D3B}.Template|Win32.ActiveCfg = Release|Win32
+		{369E98B8-662D-4006-BA6F-CD7F73226D3B}.Template|Win32.Build.0 = Release|Win32
+		{EF9A7CCD-9695-49BE-B175-101D5DEFB7FF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EF9A7CCD-9695-49BE-B175-101D5DEFB7FF}.Debug|Win32.Build.0 = Debug|Win32
+		{EF9A7CCD-9695-49BE-B175-101D5DEFB7FF}.Release|Win32.ActiveCfg = Release|Win32
+		{EF9A7CCD-9695-49BE-B175-101D5DEFB7FF}.Release|Win32.Build.0 = Release|Win32
+		{EF9A7CCD-9695-49BE-B175-101D5DEFB7FF}.Template|Win32.ActiveCfg = Template|Win32
+		{EF9A7CCD-9695-49BE-B175-101D5DEFB7FF}.Template|Win32.Build.0 = Template|Win32
+		{EF740BF5-237D-47A3-9D92-2C377F809AA4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EF740BF5-237D-47A3-9D92-2C377F809AA4}.Debug|Win32.Build.0 = Debug|Win32
+		{EF740BF5-237D-47A3-9D92-2C377F809AA4}.Release|Win32.ActiveCfg = Release|Win32
+		{EF740BF5-237D-47A3-9D92-2C377F809AA4}.Release|Win32.Build.0 = Release|Win32
+		{EF740BF5-237D-47A3-9D92-2C377F809AA4}.Template|Win32.ActiveCfg = Release|Win32
+		{EF740BF5-237D-47A3-9D92-2C377F809AA4}.Template|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

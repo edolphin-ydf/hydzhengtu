@@ -4,7 +4,7 @@ bool testClient::connectTotestServer()
 {
 	if (!connect())
 	{
-		printf("连接测试服务器失败");
+		printf("连接测试服务器失败\n");
 		return false;
 	}
 
@@ -21,7 +21,7 @@ void testClient::run()
 	CTCPClient::run();
 
 	//与服务器的连接断开，关闭服务器
-	printf("与服务器的连接断开,服务关闭");
+	printf("与服务器的连接断开,服务关闭\n");
 	
 }
 

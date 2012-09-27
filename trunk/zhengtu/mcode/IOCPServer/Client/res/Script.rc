@@ -1,0 +1,5 @@
+#include "resource.h"
+//#include "afxres.h"
+
+IDI_ICON1   ICON      "大自然 回收站已满.ico"
+IDC_CUR1    CURSOR    "准心.CUR"

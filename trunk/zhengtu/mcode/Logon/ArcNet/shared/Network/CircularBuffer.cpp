@@ -1,52 +1,36 @@
 /*
- * ArcEmu MMORPG Server
- * Copyright (C) 2008-2010 <http://www.ArcEmu.com/>
- *
  * Circular Buffer Class
  * Based on the Bip Buffer concept, from http://www.codeproject.com/KB/IP/bipbuffer.aspx
  * Implementation Copyright (C) 2008-2010 Burlex
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
 #include "../Common.h"
 #include "CircularBuffer.h"
 
-/** Constructor
+/** 构造函数
  */
 CircularBuffer::CircularBuffer()
 {
-	m_buffer = m_bufferEnd = m_regionAPointer = m_regionBPointer = NULL;
+	m_bufferHead = m_bufferEnd = m_regionAPointer = m_regionBPointer = NULL;
 	m_regionASize = m_regionBSize = 0;
 }
 
-/** Destructor
+/** 析构函数
  */
 CircularBuffer::~CircularBuffer()
 {
-	free(m_buffer);
+	free(m_bufferHead);
 }
 
-/** Read bytes from the buffer
- * @param destination pointer to destination where bytes will be written
- * @param bytes number of bytes to read
- * @return true if there was enough data, false otherwise
+/** 从缓冲区中读取数据
+ * @param 用于存储读取的数据
+ * @param 读取的数据大小
+ * @return 如果数据读取成功返回真，否则返回假
  */
 bool CircularBuffer::Read(void* destination, size_t bytes)
 {
-	if(m_buffer == NULL)
+	if(m_bufferHead == NULL)
 		return false;
 
 	// copy as much out of region a
@@ -59,33 +43,35 @@ bool CircularBuffer::Read(void* destination, size_t bytes)
 	// this will contain the "oldest" data
 	if(m_regionASize > 0)
 	{
-		aRead = (cnt > m_regionASize) ? m_regionASize : cnt;
+		aRead = (cnt > m_regionASize) ? m_regionASize : cnt;//如果指定的数据长度大于A的长度，则拷贝A的长度
 		memcpy(destination, m_regionAPointer, aRead);
-		m_regionASize -= aRead;
+		m_regionASize -= aRead;  //清空A被读的数据
 		m_regionAPointer += aRead;
 		cnt -= aRead;
 	}
 
 	// Data left over? read the data from buffer B
+	// 如果需要的数据长度还不够，接着从B拷贝数据
 	if(cnt > 0 && m_regionBSize > 0)
 	{
 		bRead = (cnt > m_regionBSize) ? m_regionBSize : cnt;
 		memcpy((char*)destination + aRead, m_regionBPointer, bRead);
-		m_regionBSize -= bRead;
+		m_regionBSize -= bRead;   //清空B被读的数据
 		m_regionBPointer += bRead;
 		cnt -= bRead;
 	}
 
 	// is buffer A empty? move buffer B to buffer A, to increase future performance
+	// 如果A区域没数据了，把B移动为A
 	if(m_regionASize == 0)
 	{
 		if(m_regionBSize > 0)
 		{
 			// push it all to the start of the buffer.
-			if(m_regionBPointer != m_buffer)
-				memmove(m_buffer, m_regionBPointer, m_regionBSize);
+			if(m_regionBPointer != m_bufferHead)
+				memmove(m_bufferHead, m_regionBPointer, m_regionBSize);
 
-			m_regionAPointer = m_buffer;
+			m_regionAPointer = m_bufferHead;
 			m_regionASize = m_regionBSize;
 			m_regionBPointer = NULL;
 			m_regionBSize = 0;
@@ -95,7 +81,7 @@ bool CircularBuffer::Read(void* destination, size_t bytes)
 			// no data in region b
 			m_regionBPointer = NULL;
 			m_regionBSize = 0;
-			m_regionAPointer = m_buffer;
+			m_regionAPointer = m_bufferHead;
 			m_regionASize = 0;
 		}
 	}
@@ -106,23 +92,24 @@ bool CircularBuffer::Read(void* destination, size_t bytes)
 void CircularBuffer::AllocateB()
 {
 	//printf("[allocating B]\n");
-	m_regionBPointer = m_buffer;
+	m_regionBPointer = m_bufferHead;
 }
 
-/** Write bytes to the buffer
- * @param data pointer to the data to be written
- * @param bytes number of bytes to be written
- * @return true if was successful, otherwise false
+/** 写数据到缓冲区中
+ * @param 要写入到缓冲区中的数据
+ * @param 要写入到缓冲区的数据的大小
+ * @return 如果数据写入成功返回真，否则返回假
  */
 bool CircularBuffer::Write(const void* data, size_t bytes)
 {
-	if(m_buffer == NULL)
+	if(m_bufferHead == NULL)
 		return false;
 
 	// If buffer B exists, write to it.
+	// 如果B区域存在，则写入B
 	if(m_regionBPointer != NULL)
 	{
-		if(GetBFreeSpace() < bytes)
+		if(GetBFreeSpace() < bytes)//判断缓冲区剩余空间是否够存放bytes长的数据
 			return false;
 
 		memcpy(&m_regionBPointer[m_regionBSize], data, bytes);
@@ -131,6 +118,7 @@ bool CircularBuffer::Write(const void* data, size_t bytes)
 	}
 
 	// Otherwise, write to buffer A, or initialize buffer B depending on which has more space.
+	// 这种情况，写入到A还是B，取决于哪块空间比较大
 	if(GetAFreeSpace() < GetSpaceBeforeA())
 	{
 		AllocateB();
@@ -152,7 +140,7 @@ bool CircularBuffer::Write(const void* data, size_t bytes)
 	}
 }
 
-/** Returns the number of available bytes left.
+/** 得到当前缓冲区中还有多少剩余空间
  */
 size_t CircularBuffer::GetSpace()
 {
@@ -172,14 +160,14 @@ size_t CircularBuffer::GetSpace()
 	}
 }
 
-/** Returns the number of bytes currently stored in the buffer.
+/**得到当前缓冲区中数据大小
  */
 size_t CircularBuffer::GetSize()
 {
 	return m_regionASize + m_regionBSize;
 }
 
-/** Returns the number of contiguous bytes (that can be pushed out in one operation)
+/** 返回当前缓冲区一次能取出的数据的大小
  */
 size_t CircularBuffer::GetContiguiousBytes()
 {
@@ -189,8 +177,8 @@ size_t CircularBuffer::GetContiguiousBytes()
 		return m_regionBSize;
 }
 
-/** Removes len bytes from the front of the buffer
- * @param len the number of bytes to "cut"
+/** 从缓冲区开始删除指定大小的数据
+ * @param 要删除的数据的大小
  */
 void CircularBuffer::Remove(size_t len)
 {
@@ -223,10 +211,10 @@ void CircularBuffer::Remove(size_t len)
 		if(m_regionBSize > 0)
 		{
 			// push it all to the start of the buffer.
-			if(m_regionBPointer != m_buffer)
-				memmove(m_buffer, m_regionBPointer, m_regionBSize);
+			if(m_regionBPointer != m_bufferHead)
+				memmove(m_bufferHead, m_regionBPointer, m_regionBSize);
 
-			m_regionAPointer = m_buffer;
+			m_regionAPointer = m_bufferHead;
 			m_regionASize = m_regionBSize;
 			m_regionBPointer = NULL;
 			m_regionBSize = 0;
@@ -236,13 +224,13 @@ void CircularBuffer::Remove(size_t len)
 			// no data in region b
 			m_regionBPointer = NULL;
 			m_regionBSize = 0;
-			m_regionAPointer = m_buffer;
+			m_regionAPointer = m_bufferHead;
 			m_regionASize = 0;
 		}
 	}
 }
 
-/** Returns a pointer at the "end" of the buffer, where new data can be written
+/** 返回缓冲区结尾的指针,以便于压入新数据
  */
 void* CircularBuffer::GetBuffer()
 {
@@ -252,18 +240,18 @@ void* CircularBuffer::GetBuffer()
 		return m_regionAPointer + m_regionASize;
 }
 
-/** Allocate the buffer with room for size bytes
- * @param size the number of bytes to allocate
+/** 重新分配指定大小的缓冲区
+ * @param size 要重新分配缓冲区的大小
  */
 void CircularBuffer::Allocate(size_t size)
 {
-	m_buffer = (uint8*)malloc(size);
-	m_bufferEnd = m_buffer + size;
-	m_regionAPointer = m_buffer;		// reset A to the start
+	m_bufferHead = (uint8*)malloc(size);
+	m_bufferEnd = m_bufferHead + size;
+	m_regionAPointer = m_bufferHead;		// reset A to the start
 }
 
-/** Increments the "writen" pointer forward len bytes
- * @param len number of bytes to step
+/** 向前移动写指针到指定大小的位移
+ * @param 要移动的位移的偏移量
  */
 void CircularBuffer::IncrementWritten(size_t len)			// known as "commit"
 {
@@ -273,7 +261,7 @@ void CircularBuffer::IncrementWritten(size_t len)			// known as "commit"
 		m_regionASize += len;
 }
 
-/** Returns a pointer at the "beginning" of the buffer, where data can be pulled from
+/** 返回缓冲区的开始指针
  */
 void* CircularBuffer::GetBufferStart()
 {
