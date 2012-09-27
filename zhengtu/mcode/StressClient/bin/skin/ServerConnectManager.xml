@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window>
+    <HorizontalLayout name="HorizontalLayoutUI1">
+        <VerticalLayout name="VerticalLayoutUI1">
+            <HorizontalLayout name="HorizontalLayoutUI2" height="100" inset="1,1,0,0">
+                <Container name="ContainerUI1" bkimage="examine_background.bmp">
+                    <Control name="ControlUI1" bkimage="file=&apos;start.png&apos; dest=&apos;14,14,89,69,&apos;" />
+                    <Text name="TextUI1" text="{f 3}StressServer的{/f}{c #F27D30}服务期间链接管理{/c}" float="true" pos="100,20,0,0" width="400" height="80" textpadding="2,0,2,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" showhtml="true" align="wrap" />
+                </Container>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI3" height="30">
+                <Button name="btnServerConnectInfoTCP" text="查看TCP" float="true" pos="600,5,0,0" width="80" height="23" maxheight="23" maxwidth="63" font="0" align="center" normalimage="file=&apos;button.png&apos; source=&apos;0,0,63,23&apos;" hotimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" pushedimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" />
+                <Button name="btnServerConnectInfoUDP" text="查看UDP" float="true" pos="700,5,0,0" width="80" height="23" maxheight="23" maxwidth="63" font="0" align="center" normalimage="file=&apos;button.png&apos; source=&apos;0,0,63,23&apos;" hotimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" pushedimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" />
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI4">
+                <List name="serverconnectlist" width="790" height="300" bkcolor="#FFFFFFFF" menu="true" itemtextcolor="#FF000000" itembkcolor="#FFE2DDDF" itemselectedtextcolor="#FF000000" itemselectedbkcolor="#FFC1E3FF" itemhottextcolor="#FF000000" itemhotbkcolor="#FFE9F5FF" itemdisabledtextcolor="#FFCCCCCC" itemdisabledbkcolor="#FFFFFFFF" headerbkimage="file=&apos;list_header_bg.png&apos;" itemshowhtml="true" vscrollbar="true">
+                    <ListHeader height="24" bkimage="file=&apos;list_header_bg.png&apos;" menu="true">
+                        <ListHeaderItem text="ID" width="80" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                        <ListHeaderItem text="IP地址" width="160" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                        <ListHeaderItem text="发送包数" width="80" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                        <ListHeaderItem text="接收包数" width="80" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                        <ListHeaderItem text="发送字节" width="80" minwidth="16" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                        <ListHeaderItem text="接收字节" width="80" minwidth="16" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                        <ListHeaderItem text="创建时间" width="150" minwidth="16" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                        <ListHeaderItem text="存活秒数" width="80" minwidth="16" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                    </ListHeader>
+                </List>
+            </HorizontalLayout>
+        </VerticalLayout>
+    </HorizontalLayout>
+</Window>

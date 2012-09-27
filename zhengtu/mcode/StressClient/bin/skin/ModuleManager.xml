@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window>
+    <HorizontalLayout name="HorizontalLayoutUI1">
+        <VerticalLayout name="VerticalLayoutUI1">
+            <HorizontalLayout name="HorizontalLayoutUI2" height="100" inset="1,1,0,0">
+                <Container name="ContainerUI1" bkimage="examine_background.bmp">
+                    <Control name="ControlUI1" bkimage="file=&apos;start.png&apos; dest=&apos;14,14,89,69,&apos;" />
+                    <Text name="TextUI1" text="{f 3}StressServer的{/f}{c #F27D30}模块管理{/c}" float="true" pos="100,20,0,0" width="400" height="80" textpadding="2,0,2,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" showhtml="true" align="wrap" />
+                </Container>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI3" width="700" height="50">
+                <VerticalLayout name="VerticalLayoutUI2" width="100">
+                    <Text name="TextUI2" text="服务器信息:" float="true" pos="5,25,0,0" width="145" height="18" textpadding="2,0,2,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="1" align="wrap" />
+                </VerticalLayout>
+                <VerticalLayout name="VerticalLayoutUI3" width="150">
+                    <Edit name="txtServerIP" text="在这里输入服务器IP" float="true" pos="5,20,0,0" width="145" height="23" bkimage="file=&apos;search_bg.png&apos; source=&apos;0,0,258,23&apos; corner=&apos;1,1,1,1" bkcolor="#FFFFFFFF" bordercolor="#00C6CFD8" textpadding="4,3,4,3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+                </VerticalLayout>
+                <VerticalLayout name="VerticalLayoutUI4" width="150">
+                    <Edit name="txtServerPort" text="在这里输入服务器Port" float="true" pos="5,20,0,0" width="145" height="23" bkimage="file=&apos;search_bg.png&apos; source=&apos;0,0,258,23&apos; corner=&apos;1,1,1,1&apos;" bkcolor="#FFFFFFFF" bordercolor="#00C6CFD8" textpadding="4,3,4,3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+                </VerticalLayout>
+                <VerticalLayout name="VerticalLayoutUI5" width="160">
+                    <Button name="btnConnect" text="连接" float="true" pos="5,20,0,0" width="58" height="23" maxheight="23" maxwidth="63" font="0" align="center" normalimage="file=&apos;button.png&apos; source=&apos;0,0,63,23&apos;" hotimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" pushedimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" />
+                    <Button name="btnDisConnect" text="断开" float="true" pos="70,20,0,0" width="58" height="23" maxheight="23" maxwidth="63" font="0" align="center" normalimage="file=&apos;button.png&apos; source=&apos;0,0,63,23&apos;" hotimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" pushedimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" />
+                </VerticalLayout>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI4" width="700" height="50">
+                <VerticalLayout name="VerticalLayoutUI6" width="200">
+                    <Edit name="txtModuleName" text="在这里输入模块文件名" float="true" pos="5,10,0,0" width="195" height="23" bkimage="file=&apos;search_bg.png&apos; source=&apos;0,0,258,23&apos; corner=&apos;1,1,1,1&apos;" bkcolor="#FFFFFFFF" bordercolor="#00C6CFD8" textpadding="4,3,4,3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+                </VerticalLayout>
+                <VerticalLayout name="VerticalLayoutUI7" width="300">
+                    <Button name="btnShowModule" text="显示模块" float="true" pos="5,10,0,0" width="65" height="23" maxheight="23" maxwidth="70" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" align="center" normalimage="file=&apos;button.png&apos; source=&apos;0,0,63,23&apos;" hotimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" pushedimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" />
+                    <Button name="btnUnLoadModule" text="卸载模块" float="true" pos="90,10,0,0" width="70" height="23" maxheight="23" maxwidth="70" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" align="center" normalimage="file=&apos;button.png&apos; source=&apos;0,0,63,23&apos;" hotimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" pushedimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" />
+                    <Button name="btnLoadModule" text="加载/重载模块" float="true" pos="180,10,0,0" width="120" height="23" maxheight="23" maxwidth="120" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" align="center" normalimage="file=&apos;button.png&apos; source=&apos;0,0,63,23&apos;" hotimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" pushedimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" />
+                </VerticalLayout>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI5">
+                <List name="domainlist" width="790" height="300" bkcolor="#FFFFFFFF" menu="true" itemtextcolor="#FF000000" itembkcolor="#FFE2DDDF" itemselectedtextcolor="#FF000000" itemselectedbkcolor="#FFC1E3FF" itemhottextcolor="#FF000000" itemhotbkcolor="#FFE9F5FF" itemdisabledtextcolor="#FFCCCCCC" itemdisabledbkcolor="#FFFFFFFF" headerbkimage="file=&apos;list_header_bg.png&apos;" itemshowhtml="true" vscrollbar="true">
+                    <ListHeader height="24" bkimage="file=&apos;list_header_bg.png&apos;" menu="true">
+                        <ListHeaderItem text="当前已经加载模块" width="300" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                        <ListHeaderItem text="模块名称" width="100" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                        <ListHeaderItem text="模块信息" width="100" minwidth="16" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                        <ListHeaderItem text="加载时间" width="100" minwidth="16" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                    </ListHeader>
+                </List>
+            </HorizontalLayout>
+        </VerticalLayout>
+    </HorizontalLayout>
+</Window>

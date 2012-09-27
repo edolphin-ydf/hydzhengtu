@@ -1,0 +1,37 @@
+#ifndef _DEFINE_H
+#define _DEFINE_H
+
+#include "ace/OS_NS_string.h"
+#include "ace/OS_NS_unistd.h"
+#include "ace/Reactor.h"
+#include "ace/SOCK_Connector.h"
+#include "ace/INET_Addr.h"
+#include "ace/Task.h"
+#include "ace/Get_Opt.h"
+#include "ace/ACE.h"
+#include "ace/Date_Time.h"
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <objbase.h>
+
+#include "UIlib.h"
+using namespace DuiLib;
+
+#define MAX_UDP_PACKET_LEN 1024
+
+struct _ThreadMsg
+{
+	char szIP[20];
+	int nPort;
+	int nCount;
+
+	_ThreadMsg()
+	{
+		szIP[0] = '\0';
+		nCount  = 0;
+		nPort   = 0;
+	}
+};
+
+#endif
