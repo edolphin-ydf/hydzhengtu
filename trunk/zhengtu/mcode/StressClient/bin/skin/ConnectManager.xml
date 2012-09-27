@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window>
+    <HorizontalLayout name="HorizontalLayoutUI1">
+        <VerticalLayout name="VerticalLayoutUI1">
+            <HorizontalLayout name="HorizontalLayoutUI2" height="100" inset="1,1,0,0">
+                <Container name="ContainerUI1" bkimage="examine_background.bmp">
+                    <Control name="ControlUI1" bkimage="file=&apos;start.png&apos; dest=&apos;14,14,89,69,&apos;" />
+                    <Text name="TextUI1" text="{f 3}StressServer的{/f}{c #F27D30}链接管理{/c}" float="true" pos="100,20,0,0" width="400" height="80" textpadding="2,0,2,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" showhtml="true" align="wrap" />
+                </Container>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI3" width="700" height="50">
+                <VerticalLayout name="VerticalLayoutUI2" width="150">
+                    <Button name="btnConnectCount" text="服务器连接个数" float="true" pos="5,20,0,0" width="145" height="23" maxheight="23" maxwidth="63" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" align="center" normalimage="file=&apos;button.png&apos; source=&apos;0,0,63,23&apos;" hotimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" pushedimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" />
+                </VerticalLayout>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI4" width="700" height="50">
+                <VerticalLayout name="VerticalLayoutUI3" width="500">
+                    <Edit name="txtClientInfo" text="这里显示当前服务器连接数" float="true" pos="5,20,0,0" width="495" height="23" bkimage="file=&apos;search_bg.png&apos; source=&apos;0,0,258,23&apos; corner=&apos;1,1,1,1" bkcolor="#FFFFFFFF" bordercolor="#00C6CFD8" textpadding="4,3,4,3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+                </VerticalLayout>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI5" width="700" height="50">
+                <VerticalLayout name="VerticalLayoutUI4" width="500">
+                    <Edit name="txtServerCPU" text="这里显示服务器当前CPU占用率" float="true" pos="5,20,0,0" width="495" height="23" bkimage="file=&apos;search_bg.png&apos; source=&apos;0,0,258,23&apos; corner=&apos;1,1,1,1" bkcolor="#FFFFFFFF" bordercolor="#00C6CFD8" textpadding="4,3,4,3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+                </VerticalLayout>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI6" width="700" height="50">
+                <VerticalLayout name="VerticalLayoutUI5" width="500">
+                    <Button name="btnConnecthistory" text="客户端链接历史" float="true" pos="5,20,0,0" width="145" height="23" maxheight="23" maxwidth="63" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" align="center" normalimage="file=&apos;button.png&apos; source=&apos;0,0,63,23&apos;" hotimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" pushedimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" />
+                </VerticalLayout>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI7">
+                <List name="connecthistory" width="790" height="300" bkcolor="#FFFFFFFF" menu="true" itemtextcolor="#FF000000" itembkcolor="#FFE2DDDF" itemselectedtextcolor="#FF000000" itemselectedbkcolor="#FFC1E3FF" itemhottextcolor="#FF000000" itemhotbkcolor="#FFE9F5FF" itemdisabledtextcolor="#FFCCCCCC" itemdisabledbkcolor="#FFFFFFFF" headerbkimage="file=&apos;list_header_bg.png&apos;" itemshowhtml="true" vscrollbar="true">
+                    <ListHeader height="24" bkimage="file=&apos;list_header_bg.png&apos;" menu="true">
+                        <ListHeaderItem text="IP地址" width="150" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                        <ListHeaderItem text="单位时间链接次数" width="150" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                        <ListHeaderItem text="总链接数" width="150" minwidth="16" textcolor="#FF000000" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                        <ListHeaderItem text="最后链接时间" width="200" minwidth="16" sepwidth="1" align="center" hotimage="file=&apos;list_header_hot.png&apos;" pushedimage="file=&apos;list_header_pushed.png&apos;" sepimage="file=&apos;list_header_sep.png&apos;" />
+                    </ListHeader>
+                </List>
+            </HorizontalLayout>
+        </VerticalLayout>
+    </HorizontalLayout>
+</Window>

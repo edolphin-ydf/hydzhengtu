@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="719,572">
+    <HorizontalLayout name="HorizontalLayoutUI1">
+        <VerticalLayout name="VerticalLayoutUI1">
+            <HorizontalLayout name="HorizontalLayoutUI2" height="100" inset="1,1,0,0">
+                <Container name="ContainerUI1" bkimage="examine_background.bmp">
+                    <Control name="ControlUI1" bkimage="file=&apos;start.png&apos; dest=&apos;14,14,89,69,&apos;" />
+                    <Text name="TextUI1" text="{f 3}StressServer的{/f}{c #F27D30}测试管理{/c}" float="true" pos="100,20,0,0" width="400" height="80" textpadding="2,0,2,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" showhtml="true" align="wrap" />
+                </Container>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI3" width="700" height="50">
+                <VerticalLayout name="VerticalLayoutUI2" width="100">
+                    <Text name="TextUI2" text="服务器信息:" float="true" pos="5,25,0,0" width="145" height="18" textpadding="2,0,2,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="1" align="wrap" />
+                </VerticalLayout>
+                <VerticalLayout name="VerticalLayoutUI3" width="150">
+                    <Edit name="txtTServerIP" text="在这里输入服务器IP" float="true" pos="5,20,0,0" width="145" height="23" bkimage="file=&apos;search_bg.png&apos; source=&apos;0,0,258,23&apos; corner=&apos;1,1,1,1" bkcolor="#FFFFFFFF" bordercolor="#00C6CFD8" textpadding="4,3,4,3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+                </VerticalLayout>
+                <VerticalLayout name="VerticalLayoutUI4" width="150">
+                    <Edit name="txtTServerPort" text="在这里输入服务器Port" float="true" pos="5,20,0,0" width="145" height="23" bkimage="file=&apos;search_bg.png&apos; source=&apos;0,0,258,23&apos; corner=&apos;1,1,1,1&apos;" bkcolor="#FFFFFFFF" bordercolor="#00C6CFD8" textpadding="4,3,4,3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+                </VerticalLayout>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI4" width="700" height="50">
+                <VerticalLayout name="VerticalLayoutUI5" width="100">
+                    <Text name="TextUI3" text="测试的总链接数:" float="true" pos="5,25,0,0" width="145" height="18" textpadding="2,0,2,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="1" align="wrap" />
+                </VerticalLayout>
+                <VerticalLayout name="VerticalLayoutUI6" width="150">
+                    <Edit name="txtTClientCount" text="1" float="true" pos="5,20,0,0" width="145" height="23" bkimage="file=&apos;search_bg.png&apos; source=&apos;0,0,258,23&apos; corner=&apos;1,1,1,1" bkcolor="#FFFFFFFF" bordercolor="#00C6CFD8" textpadding="4,3,4,3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+                </VerticalLayout>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI5" width="700" height="50">
+                <VerticalLayout name="VerticalLayoutUI7" width="100">
+                    <Text name="TextUI4" text="测试的发包数:" float="true" pos="5,25,0,0" width="145" height="18" textpadding="2,0,2,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="1" align="wrap" />
+                </VerticalLayout>
+                <VerticalLayout name="VerticalLayoutUI8" width="150">
+                    <Edit name="txtTClientPacketCount" text="1" float="true" pos="5,20,0,0" width="145" height="23" bkimage="file=&apos;search_bg.png&apos; source=&apos;0,0,258,23&apos; corner=&apos;1,1,1,1" bkcolor="#FFFFFFFF" bordercolor="#00C6CFD8" textpadding="4,3,4,3" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+                </VerticalLayout>
+                <VerticalLayout name="VerticalLayoutUI9" width="300">
+                    <Button name="btnTest" text="开始测试(TCP)" float="true" pos="5,20,0,0" width="115" height="23" maxheight="23" maxwidth="63" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" align="center" normalimage="file=&apos;button.png&apos; source=&apos;0,0,63,23&apos;" hotimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" pushedimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" />
+                    <Button name="btnTestUDP" text="开始测试(UDP)" float="true" pos="130,20,0,0" width="120" height="23" maxheight="23" maxwidth="63" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" font="0" align="center" normalimage="file=&apos;button.png&apos; source=&apos;0,0,63,23&apos;" hotimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" pushedimage="file=&apos;button.png&apos; source=&apos;0,23,63,46&apos;" />
+                </VerticalLayout>
+            </HorizontalLayout>
+            <HorizontalLayout name="HorizontalLayoutUI6" width="700" height="274">
+                <RichEdit>
+                    <Label name="txtTClientReturn" text="显示报告结果" bordersize="2" float="true" pos="28,19,0,0" width="639" height="229" bkcolor="#FFFFFBF0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" />
+                </RichEdit>
+            </HorizontalLayout>
+        </VerticalLayout>
+    </HorizontalLayout>
+</Window>
