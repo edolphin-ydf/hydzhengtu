@@ -5,7 +5,7 @@
 #include <sys/resource.h>
 #endif
 
-#define BANNER "ArcEmu %s %s/%s-%s (%s) :: Logon Server"
+#define BANNER "MNet %s %s/%s-%s (%s) :: Logon Server"
 
 #ifndef WIN32
 #include <sched.h>

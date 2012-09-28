@@ -18,28 +18,19 @@ enum _errors
 #define AUTH_PASS 0
 #define REALM_LIST 1
 #define CANCEL_TRANSFER 2		// 0x34
-#define MAX_AUTH_CMD 3
+#define MAX_AUTH_CMD 4
 
-typedef void (AuthSocket::*AuthHandler)();
+typedef void (AuthSocket::*AuthHandler)(FS_PACKET*);
 static AuthHandler Handlers[MAX_AUTH_CMD] =
 {
-	&AuthSocket::HandlePass,                // 0
-	&AuthSocket::HandleRealmlist,			// 1
-	&AuthSocket::HandleTransferCancel,		// 2
-};
-struct FS_PACKET
-{
-	FS_PACKET() : wHeader(0xFFFF), nSize(0), nID(0xFFFFFFFF)
-	{
-
-	}
-
-	WORD wHeader;
-	DWORD nSize;
-	DWORD nID;
+	&AuthSocket::HandlePress,               // 0
+	&AuthSocket::HandlePass,                // 1
+	&AuthSocket::HandleRealmlist,			// 2
+	&AuthSocket::HandleTransferCancel,		// 3
 };
 
-AuthSocket::AuthSocket(SOCKET fd) : Socket(fd, 32768, 4096)
+
+AuthSocket::AuthSocket(SOCKET fd) : MNetSocket(fd, 32768, 4096,false)
 {
 	m_authenticated = false;
 	m_account = NULL;
@@ -48,6 +39,7 @@ AuthSocket::AuthSocket(SOCKET fd) : Socket(fd, 32768, 4096)
 	_authSocketLock.Acquire();
 	_authSockets.insert(this);
 	_authSocketLock.Release();
+	m_recvNum = 0;
 }
 
 AuthSocket::~AuthSocket()
@@ -67,36 +59,80 @@ void AuthSocket::OnDisconnect()
 
 void AuthSocket::OnRead()
 {
-	if(readBuffer.GetContiguiousBytes() < 1)
-		return;
+	MNetSocket::OnRead();
+	/*if(readBuffer.GetContiguiousBytes() < 1)
+	return;
 
 	uint8 Command = *(uint8*)readBuffer.GetBufferStart();
 	last_recv = UNIXTIME;
 	if(Command < MAX_AUTH_CMD && Handlers[Command] != NULL)
-		(this->*Handlers[Command])();
+	(this->*Handlers[Command])();
 	else
-		LOG_DEBUG("AuthSocket", "Unknown cmd %u", Command);
+	LOG_DEBUG("AuthSocket", "Unknown cmd %u", Command);*/
 }
 
-
-void AuthSocket::HandlePass()
+void AuthSocket::_HandlePacket()
 {
-	int len = readBuffer.GetContiguiousBytes();
+	FS_PACKET* packet = new FS_PACKET;
+	int32 len = sizeof(FS_PACKET);
+	readBuffer.Read(packet,len);
+	uint32 aid = packet->nID;
+	last_recv = UNIXTIME;
+	if (aid < MAX_AUTH_CMD && Handlers[aid] != NULL)
+	{
+		(this->*Handlers[aid])(packet);
+	}
+	else
+		printf("AuthSocket Unknown cmd %d",aid);
+	delete packet;
+	printf("m_recvNum:%d\n",++m_recvNum);
+}
+
+void AuthSocket::HandlePass(FS_PACKET* pac)
+{
+	/*int len = readBuffer.GetContiguiousBytes();
 	char *recv = new char[len];
 	bool rec = readBuffer.Read(recv,len);
-	recv++;
-	printf(recv);
+	recv++;*/
+	printf("HandlePass");
+	FS_PACKET* packet = new FS_PACKET;
+	packet->nID = 1;
+	SendPacket((const uint8 *)packet,sizeof(FS_PACKET));
+	delete packet;
+
+	bool rec = Connect("127.0.0.1",8093);
+
 }
 
-
-void AuthSocket::HandleRealmlist()
+void AuthSocket::HandleRealmlist(FS_PACKET* pac)
 {
-	sInfoCore.SendRealms(this);
+	//sInfoCore.SendRealms(this);
+	FS_PACKET* packet = new FS_PACKET;
+	packet->nID = 2;
+	SendPacket((const uint8 *)packet,sizeof(FS_PACKET));
+	printf("HandleRealmlist");
+	delete packet;
 }
 
-void AuthSocket::HandleTransferCancel()
+void AuthSocket::HandleTransferCancel(FS_PACKET* pac)
 {
 	//RemoveReadBufferBytes(1,false);
-	readBuffer.Remove(1);
-	Disconnect();
+	//readBuffer.Remove(1);
+	FS_PACKET* packet = new FS_PACKET;
+	packet->nID = 3;
+	SendPacket((const uint8 *)packet,sizeof(FS_PACKET));
+	printf("HandleTransferCancel");
+	//Disconnect();
+	delete packet;
+}
+
+void AuthSocket::HandlePress(FS_PACKET* pac)
+{
+	FS_PACKET* packet = new FS_PACKET;
+	packet->dwClientSendTime = pac->dwClientSendTime;
+	packet->nID = 0;
+	SendPacket((const uint8 *)packet,sizeof(FS_PACKET));
+	int atime = time(NULL);
+	printf("HandlePress==%d==\n",atime);
+	delete packet;
 }

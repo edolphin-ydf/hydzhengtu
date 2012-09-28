@@ -20,7 +20,7 @@
 
 #include "shared/Auth/BigNumber.h"
 #include "shared/Auth/Sha1.h"
-#include "shared/Auth/WowCrypt.h"
+#include "shared/Auth/PacketCrypt.h"
 
 #include "LogonOpcodes.h"
 #include "Main.h"
