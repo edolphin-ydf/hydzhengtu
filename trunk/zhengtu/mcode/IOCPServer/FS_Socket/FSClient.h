@@ -5,7 +5,7 @@
 class FS_API FSClient
 {
 public:
-	FSClient(int len = 0){  m_PacketSize=len;m_tempPacketSize=0; }
+	FSClient(int len = 0){  m_PacketSize=len; }
 	virtual ~FSClient(void);
 
 	// 连接服务器，之前必须调用Initialize
@@ -28,5 +28,4 @@ public:
 
 protected:
 	int m_PacketSize;
-	int m_tempPacketSize;
 };

@@ -15,6 +15,7 @@ struct FS_API FS_PACKET
 	WORD wHeader;
 	DWORD nSize;
 	DWORD nID;
+	DWORD dwClientSendTime;		// 客户端发送的时间
 };
 
 

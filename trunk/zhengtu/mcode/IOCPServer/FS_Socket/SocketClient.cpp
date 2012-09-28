@@ -93,6 +93,7 @@ bool CSocketClient::Connect(LPCSTR lpszServerIP, unsigned short nPort)
 				if( 0 != event.iErrorCode[FD_CONNECT_BIT])
 				{
 					OutputDebugString((" Connect failure\n"));
+					Disconnect();
 					return false;
 				}
 				else
@@ -145,7 +146,7 @@ const char* CSocketClient::GetPacket(int &len)
 {
 	char* pPacket = NULL;
 	EnterCriticalSection(&csRecv);
-	if(m_listPacketRecv.size() > 0)
+	if(m_listPacketRecv.size() > 0 && IsConnect())
 	{
 		pPacket = m_listPacketRecv.begin()->first;
 		len = m_listPacketRecv.begin()->second;
@@ -198,12 +199,7 @@ DWORD CSocketClient::RecvThreadProc(LPVOID pParam)
 					if(event.lNetworkEvents & FD_CLOSE)
 					{
 						OutputDebugString(("  Socket closed!\n"));
-						EnterCriticalSection(&pSocketClient->csRecv);
-						char *temp = "";
-						pSocketClient->m_listPacketRecv.insert(map< char*, int >::value_type(temp,0));
-						LeaveCriticalSection(&pSocketClient->csRecv);
-
-						pSocketClient->m_bRunning = false;
+						pSocketClient->Disconnect();
 					}
 				}
 			}
@@ -259,27 +255,26 @@ void CSocketClient::Recv()
  	int nLen = recv(m_hSocket, buffIn + nBytesRemain, MAX_PACKET_SIZE - nBytesRemain, 0 );
 	if( nLen > 0 )
 	{
-		if (m_PacketSize==0 && m_tempPacketSize==0)
+		nBytesRemain += nLen;
+		if (m_PacketSize == 0)
 		{
-			m_tempPacketSize = buffIn[0];
+			m_PacketSize = *buffIn;
+			nBytesRemain -= sizeof(int);
 		}
-		else
-			m_tempPacketSize = m_PacketSize;
 	
-		int fullsize = m_tempPacketSize;
-		while( nBytesRemain >= m_tempPacketSize)
+		while( nBytesRemain >= m_PacketSize && m_PacketSize>0)
 		{
 			char* pPacket = (char*)buffIn;
-			char* ptr = new char[m_tempPacketSize];
-			memcpy(ptr, pPacket, m_tempPacketSize);
+			char* ptr = new char[m_PacketSize];
+			memcpy(ptr, pPacket+4, m_PacketSize);
 			EnterCriticalSection(&csRecv);
-			m_listPacketRecv.insert(map< char*, int >::value_type());
+			m_listPacketRecv.insert(map< char*, int >::value_type(ptr,m_PacketSize));
 			LeaveCriticalSection(&csRecv);
 
-			nBytesRemain -= m_tempPacketSize;
+			nBytesRemain -= m_PacketSize;
 			if(nBytesRemain)
-				memmove(buffIn, buffIn + m_tempPacketSize, nBytesRemain);
-			m_tempPacketSize = 0;
+				memmove(buffIn, buffIn + m_PacketSize, nBytesRemain);
+			m_PacketSize = 0;
 		}
 	}
 	else
@@ -287,7 +282,7 @@ void CSocketClient::Recv()
 		int nErr = WSAGetLastError();
 		if(nErr != WSAEWOULDBLOCK)
 		{
-			closesocket(m_hSocket);
+			Disconnect();
 		}
 	}
 }
