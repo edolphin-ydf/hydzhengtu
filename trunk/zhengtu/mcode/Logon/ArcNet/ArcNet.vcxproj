@@ -93,7 +93,7 @@
     <ClInclude Include="shared\auth\bignumber.h" />
     <ClInclude Include="shared\Auth\MD5.h" />
     <ClInclude Include="shared\auth\sha1.h" />
-    <ClInclude Include="shared\auth\wowcrypt.h" />
+    <ClInclude Include="shared\auth\PacketCrypt.h" />
     <ClInclude Include="shared\bytebuffer.h" />
     <ClInclude Include="shared\callback.h" />
     <ClInclude Include="shared\CircularQueue.h" />
@@ -117,6 +117,7 @@
     <ClInclude Include="shared\mersennetwister.h" />
     <ClInclude Include="shared\network\circularbuffer.h" />
     <ClInclude Include="shared\network\listensocketwin32.h" />
+    <ClInclude Include="shared\Network\MNetSocket.h" />
     <ClInclude Include="shared\network\network.h" />
     <ClInclude Include="shared\network\socket.h" />
     <ClInclude Include="shared\network\socketdefines.h" />
@@ -163,7 +164,7 @@
     <ClCompile Include="shared\Auth\BigNumber.cpp" />
     <ClCompile Include="shared\Auth\MD5.cpp" />
     <ClCompile Include="shared\Auth\Sha1.cpp" />
-    <ClCompile Include="shared\Auth\WowCrypt.cpp" />
+    <ClCompile Include="shared\Auth\PacketCrypt.cpp" />
     <ClCompile Include="shared\Config\Config.cpp" />
     <ClCompile Include="shared\CrashHandler.cpp" />
     <ClCompile Include="shared\crc32.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="shared\MapFileEntry.cpp" />
     <ClCompile Include="shared\MersenneTwister.cpp" />
     <ClCompile Include="shared\Network\CircularBuffer.cpp" />
+    <ClCompile Include="shared\Network\MNetSocket.cpp" />
     <ClCompile Include="shared\Network\Socket.cpp" />
     <ClCompile Include="shared\Network\SocketMgrWin32.cpp" />
     <ClCompile Include="shared\Network\SocketOpsWin32.cpp" />

@@ -231,9 +231,6 @@
     <ClInclude Include="shared\threading\threadpool.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="shared\auth\wowcrypt.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="shared\auth\bignumber.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -241,6 +238,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="shared\auth\sha1.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\Network\MNetSocket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\auth\PacketCrypt.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -359,10 +362,13 @@
     <ClCompile Include="shared\Auth\Sha1.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="shared\Auth\WowCrypt.cpp">
+    <ClCompile Include="shared\Network\SocketOpsWin32.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="shared\Network\SocketOpsWin32.cpp">
+    <ClCompile Include="shared\Network\MNetSocket.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Auth\PacketCrypt.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

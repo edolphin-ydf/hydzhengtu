@@ -3,10 +3,26 @@
 #define AUTHSOCKET_H
 
 #include "InfoCore.h"
-#include "AuthStructs.h"
+#include "../shared/Network/MNetSocket.h"
+
+#pragma pack(1)//设定字节对齐
+struct FS_PACKET
+{
+	FS_PACKET() : wHeader(0xFFFF), nSize(0), nID(0xFFFFFFFF)
+	{
+
+	}
+
+	WORD wHeader;//WORD2字节
+	DWORD nSize; //DWORD4字节
+	DWORD nID;
+	DWORD dwClientSendTime;		// 客户端发送的时间
+};
 
 
-class AuthSocket : public Socket
+#pragma pack()
+
+class AuthSocket : public MNetSocket
 {
 	public:
 
@@ -21,16 +37,17 @@ class AuthSocket : public Socket
 		///////////////////////////////////////////////////
 		// Client Packet Handlers
 		//////////////////////////
-
-		void HandlePass();              //判断密码是否通过
-		void HandleRealmlist();         //处理Realmlist
-		void HandleTransferCancel();    //断开连接
+		void _HandlePacket();
+		void HandlePress(FS_PACKET* packet);             //压力测试
+		void HandlePass(FS_PACKET* packet);              //判断密码是否通过
+		void HandleRealmlist(FS_PACKET* packet);         //处理Realmlist
+		void HandleTransferCancel(FS_PACKET* packet);    //断开连接
 
 		///////////////////////////////////////////////////
 		// Server Packet Builders
 		//////////////////////////
 
-		inline void SendPacket(const uint8* data, const uint16 len) { Send(data, len); }
+		//inline void SendPacket(const uint8* data, const uint16 len) { Send(data, len); }
 		void OnDisconnect();
 		inline time_t GetLastRecv() { return last_recv; }
 		bool removedFromSet;
@@ -44,6 +61,7 @@ class AuthSocket : public Socket
 		// Session Key
 		/////////////////////////
 		time_t last_recv;
+		uint32 m_recvNum;
 };
 
 #endif
