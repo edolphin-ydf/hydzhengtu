@@ -1,7 +1,7 @@
 #pragma once
 
 // 压力测试程序结构
-#define PACK_TYPE_STRESS_TEST		100
+#define PACK_TYPE_STRESS_TEST		0
 
 #pragma pack(1)
 
