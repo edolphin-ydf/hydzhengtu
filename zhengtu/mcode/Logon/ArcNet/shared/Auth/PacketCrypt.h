@@ -10,11 +10,11 @@
 #include <openssl/sha.h>
 #include <openssl/rc4.h>
 
-class WowCrypt
+class PacketCrypt
 {
 	public:
-		WowCrypt();
-		~WowCrypt();
+		PacketCrypt(uint8* K = NULL);
+		~PacketCrypt();
 
 		void Init(uint8* K);
 		MNET_INLINE void DecryptRecv(uint8* pData, size_t len) { if(!m_initialized) { return; } RC4(&m_clientDecrypt, (unsigned long)len, pData, pData); }
