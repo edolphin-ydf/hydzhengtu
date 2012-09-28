@@ -33,7 +33,32 @@ struct STotalInfo
 
 #include <list>
 using namespace std;
+class CClient;
+struct SConfigData 
+{
+	BOOL bRunning;
+	CClient* pClient;
+	DWORD dwSendTick;
+	DWORD dwPackNum;
+	DWORD dwPackSize;
+	STotalInfo sTotalInfo;
 
+	SConfigData()
+	{
+		bRunning = FALSE;
+		pClient = NULL;
+		dwSendTick = 0;
+		dwPackNum = 0;
+	}
+
+	~SConfigData()
+	{
+		if(pClient)
+			delete pClient;
+		pClient = NULL;
+		bRunning = FALSE;
+	}
+};
 class CClient
 {
 public:
@@ -41,7 +66,7 @@ public:
 	virtual ~CClient(void);
 
 	// 游戏初始化，返回0退出游戏
-	BOOL Init(const char* strSrvIP, UINT nPort, STotalInfo* pTotalInfo);
+	BOOL Init(const char* strSrvIP, UINT nPort, SConfigData* pTotalInfo);
 
 	// 重连
 	BOOL Reconnect();
@@ -50,20 +75,20 @@ public:
 	DWORD HandleNetPack();
 
 	// 发送测试包
-	void SendTestPack(int iSize);
-	void SendTestPack1();
+	void SendTestPack(int aid);
 
-	FSClient* GetClientNet() {return m_pClient;}
+	FSClient* GetClientNet() {return m_pFSClient;}
 	
 
 
 private:
-	FSClient *m_pClient;	//网络
+	FSClient *m_pFSClient;	//网络
 
 	char m_szIP[20];
 	UINT m_nPort;
 	STotalInfo* m_pTotalInfo;
 	CBinaryStream binStream;
+	SConfigData *sData;
 };
 
 

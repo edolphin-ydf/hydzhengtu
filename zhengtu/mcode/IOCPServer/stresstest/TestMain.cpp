@@ -14,34 +14,7 @@ UINT WINAPI ThreadFuncForReceive(void* p);
 
 #define CONFIG_FILE	".\\config.ini"
 
-
-
-struct SConfigData 
-{
-	BOOL bRunning;
-	CClient* pClient;
-	DWORD dwSendTick;
-	DWORD dwPackNum;
-	DWORD dwPackSize;
-	STotalInfo sTotalInfo;
-
-	SConfigData()
-	{
-		bRunning = FALSE;
-		pClient = NULL;
-		dwSendTick = 0;
-		dwPackNum = 0;
-	}
-
-	~SConfigData()
-	{
-		delete pClient;
-		pClient = NULL;
-		bRunning = FALSE;
-	}
-};
-
-
+int m_runing = 0;
 BOOL LogTestResult(const char* strMsg)
 {
 	SYSTEMTIME sysTime;
@@ -85,7 +58,8 @@ void main()
 	wDisProb = GetPrivateProfileInt("config", "DisProb", 0, CONFIG_FILE);         // 断开概率
 	wRecProb = GetPrivateProfileInt("config", "RecProb", 0, CONFIG_FILE);         // 重连概率
 	
-	dwThreadNum = 1;
+	//dwThreadNum = 1;
+	//dwPackNum = 1;
 	nPort = 3724;
 
 	vector<SConfigData*> pCfgDataList;	// 客户端对象
@@ -96,7 +70,7 @@ void main()
 	{
 		SConfigData* pCfgData = new SConfigData;
 		pCfgData->pClient = new CClient;
-		if ( !pCfgData->pClient->Init(chIP, nPort, &pCfgData->sTotalInfo) )
+		if ( !pCfgData->pClient->Init(chIP, nPort, pCfgData) )
 		{
 			printf("连接服务器失败! ID=%d, IP=%s, Port=%d\n", i, chIP, nPort);
 			delete pCfgData;
@@ -146,16 +120,16 @@ void main()
 
 		DWORD dwCurTime = GetTickCount();
 
-		double dwSendCount = 0;
-		double dwReceiveCnt = 0;
-		double dwMinTick = 0xFFFFFFFF;
-		double dwMaxTick = 0;
-		double dwTotalTick = 0;
-		double dwLastTotalTick = 0;
-		double dwLastMinTick = 0xFFFFFFFF;
-		double dwLastMaxTick = 0;
-		double dwRecFailTotal = 0;
-		double dwInvalidPackCnt = 0;
+		double dwSendCount = 0;              //发送包数
+		double dwReceiveCnt = 0;             //接受包数
+		double dwMinTick = 0xFFFFFFFF;       //最短时间(毫秒)
+		double dwMaxTick = 0;                //最长时间(毫秒)
+		double dwTotalTick = 0;              //时间统计(毫秒)
+		double dwLastTotalTick = 0;          //
+		double dwLastMinTick = 0xFFFFFFFF;   //最新最短时间(毫秒)
+		double dwLastMaxTick = 0;            //最新最长时间(毫秒)
+		double dwRecFailTotal = 0;           //重连失败统计
+		double dwInvalidPackCnt = 0;         //无效数据包
 		for (UINT k=0; k<pCfgDataList.size(); k++)
 		{
 			dwSendCount			+= pCfgDataList[k]->sTotalInfo.dwSendCount;
@@ -223,6 +197,15 @@ void main()
 			}
 		}
 	}
+	for (UINT i=0; i<pCfgDataList.size(); i++)
+	{
+		// 创建线程处理网络包
+		pCfgDataList[i]->bRunning=false;
+	}
+	while(m_runing>0)
+	{
+		Sleep(10);
+	}
 
 	while(!pCfgDataList.empty())
 	{
@@ -239,6 +222,7 @@ void main()
 
 UINT WINAPI ThreadFuncForSend(void* p)
 {
+	m_runing++;
 	SConfigData* pCfgData = (SConfigData*)p;
 	CClient* pClient = pCfgData->pClient;
 	DWORD dwSendTick = pCfgData->dwSendTick;
@@ -249,30 +233,31 @@ UINT WINAPI ThreadFuncForSend(void* p)
 	{
 		Sleep(dwSendTick);
 
-		//pClient->SendTestPack(dwPackSize);
-		pClient->SendTestPack1();
+		pClient->SendTestPack(0);
+		//pClient->SendTestPack1(1);
 	}
 
 //	pCfgData->bRunning = FALSE;
-
+	m_runing--;
 	return 0;
 }
 
 UINT WINAPI ThreadFuncForReceive(void* p)
 {
+	m_runing++;
 	SConfigData* pCfgData = (SConfigData*)p;
-	CClient* pClient = pCfgData->pClient;
 	DWORD dwSendTick = pCfgData->dwSendTick;
 	DWORD dwPackNum = pCfgData->dwPackNum;
 
 	while (pCfgData->bRunning)
 	{
+		CClient* pClient = pCfgData->pClient;
 		pClient->HandleNetPack();
 		Sleep(1);
 	}
 
 	//delete pCfgData;
-
+	m_runing--;
 	return 0;
 }
 

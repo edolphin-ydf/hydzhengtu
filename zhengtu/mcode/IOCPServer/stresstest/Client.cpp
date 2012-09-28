@@ -11,56 +11,40 @@ WORD wRecProb = 10000;	// 重练的概率
 CClient::CClient(void) : m_nPort(10000)
 {
 	// _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);	// 检测内存泄漏
-	m_pClient = NULL;
+	m_pFSClient = NULL;
 	m_pTotalInfo = NULL;
 	m_szIP[0] = '\0';
+	sData = NULL;
 }
 
 CClient::~CClient(void)
 {
-	delete m_pClient;
-}
-
-// 发送测试包
-void CClient::SendTestPack(int iSize)
-{
-	binStream.Clear();
-	binStream.WriteWord(0xFFFF);	// header
-	binStream.WriteDWord(iSize);	// size
-	binStream.WriteDWord(PACK_TYPE_STRESS_TEST);	// command
-	binStream.WriteByte(2);	// type
-	binStream.WriteDWord(GetTickCount());	// tick
-	int iCurSize = binStream.GetBufferLen();
-	BYTE *pBuf = new BYTE[iSize-iCurSize];
-	binStream.WriteData(pBuf, iSize-iCurSize);
-	delete[] pBuf;
-
-	FS_PACKET *packet = new FS_PACKET;
-	//m_pClient->SendPacket((FS_PACKET*)binStream.GetBufferPtr());
-	m_pClient->SendPacket((const char *)packet,sizeof(FS_PACKET));
-	delete packet;
-	m_pTotalInfo->dwSendCount++;
+	if(m_pFSClient)
+	{
+		delete m_pFSClient;
+		m_pFSClient = NULL;
+	}
 }
 
 // 游戏初始化，返回0退出游戏
-BOOL CClient::Init(const char* strSrvIP, UINT nPort, STotalInfo* pTotalInfo)
+BOOL CClient::Init(const char* strSrvIP, UINT nPort, SConfigData* pCfgData)
 {
 	strcpy(m_szIP, strSrvIP);
 	m_nPort = nPort;
-	m_pClient = FSSocketFactory::CreateClient();
-	if( !m_pClient->Connect(m_szIP, m_nPort) )
+	m_pFSClient = FSSocketFactory::CreateClient();
+	if( !m_pFSClient->Connect(m_szIP, m_nPort) )
 	{
 		//printf("连接服务器失败!\n");
 		return FALSE;
 	}
-	m_pTotalInfo = pTotalInfo;
+	m_pTotalInfo = &(pCfgData->sTotalInfo);
 
 	return TRUE;
 }
 
 BOOL CClient::Reconnect()
 {
-	if( !m_pClient->Connect(m_szIP, m_nPort) )
+	if(m_pFSClient && !m_pFSClient->Connect(m_szIP, m_nPort) )
 	{
 		//printf("连接服务器失败!\n");
 		return FALSE;
@@ -72,12 +56,12 @@ BOOL CClient::Reconnect()
 
 DWORD CClient::HandleNetPack()
 {
-	if ( m_pClient->IsConnect() )
+	if ( m_pFSClient && m_pFSClient->IsConnect() )
 	{
 		WORD nRnd = rand() % 10000;
 		if (nRnd < wDisProb)
 		{
-			m_pClient->Disconnect();
+			m_pFSClient->Disconnect();
 		}
 	}
 	else
@@ -95,7 +79,7 @@ DWORD CClient::HandleNetPack()
 
 	// 处理网络消息
 	int revlen = 0;
-	const FS_PACKET* pPacket = (const FS_PACKET*)m_pClient->GetPacket(revlen);
+	const FS_PACKET* pPacket = (const FS_PACKET*)m_pFSClient->GetPacket(revlen);
 	if (pPacket == NULL)
 		return 0;
 
@@ -109,8 +93,8 @@ DWORD CClient::HandleNetPack()
 
 	case PACK_TYPE_STRESS_TEST:
 		{
-			PACKET_StressTest *pEvent = (PACKET_StressTest*)pPacket;
-			DWORD elapse = GetTickCount() - pEvent->dwClientSendTime;
+			//PACKET_StressTest *pEvent = (PACKET_StressTest*)pPacket;
+			DWORD elapse = GetTickCount() - pPacket->dwClientSendTime;
 			m_pTotalInfo->dwReceiveCnt++;
 			m_pTotalInfo->dwTotalTick += elapse;
 			if (elapse < m_pTotalInfo->dwMinTick)
@@ -125,7 +109,15 @@ DWORD CClient::HandleNetPack()
 			m_pTotalInfo->dwCurElapse = elapse;
 		}
 		break;
-
+	case 1:
+		SendTestPack(2);
+		break;
+	case 2:
+		SendTestPack(3);
+		break;
+	case 3:
+		m_pFSClient->Disconnect();
+		break;
 	default:
 		{
 			m_pTotalInfo->dwInvalidPackCnt++;
@@ -136,16 +128,20 @@ DWORD CClient::HandleNetPack()
 		break;
 	}
 
-	m_pClient->DeletePacket((const char **)&pPacket);
+	m_pFSClient->DeletePacket((const char **)&pPacket);
 
 	return 0;
 }
 
-void CClient::SendTestPack1()
+void CClient::SendTestPack(int aid)
 {
 	binStream.Clear();
-	binStream.WriteByte(1);	// header
-	binStream.WriteString("pass",5);
-
-	m_pClient->SendPacket((const char *)binStream.GetBufferPtr(),binStream.GetBufferLen());
+	FS_PACKET *packet = new FS_PACKET;
+	packet->nID = aid;
+	packet->dwClientSendTime = GetTickCount();
+	int len = sizeof(FS_PACKET);
+	binStream.WriteInt(len);
+	binStream.WriteData(packet,sizeof(FS_PACKET));
+	m_pFSClient->SendPacket((const char *)binStream.GetBufferPtr(),binStream.GetBufferLen());
+	delete packet;
 }
