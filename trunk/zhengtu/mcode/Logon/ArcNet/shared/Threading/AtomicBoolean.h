@@ -1,7 +1,9 @@
 
 #ifndef ATOMICBOOLEAN_HPP__
 #define ATOMICBOOLEAN_HPP__
-
+////////////////////////////////////////////////////////////////
+/// @namespace MNet
+/// @brief MÍøÂç¿â
 namespace MNet
 {
 	namespace Threading

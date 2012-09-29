@@ -1,7 +1,9 @@
 
 #ifndef CREFCOUNTER_HPP
 #define CREFCOUNTER_HPP
-
+////////////////////////////////////////////////////////////////
+/// @namespace MNet
+/// @brief MÍøÂç¿â
 namespace MNet
 {
 	namespace Shared

@@ -1,7 +1,9 @@
 
 #ifndef ATOMICCOUNTER_HPP_
 #define ATOMICCOUNTER_HPP_
-
+////////////////////////////////////////////////////////////////
+/// @namespace MNet
+/// @brief MÍøÂç¿â
 namespace MNet
 {
 	namespace Threading

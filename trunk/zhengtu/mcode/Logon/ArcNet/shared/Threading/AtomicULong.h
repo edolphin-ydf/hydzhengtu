@@ -1,7 +1,9 @@
 
 #ifndef ATOMICULONG_HPP_
 #define ATOMICULONG_HPP_
-
+////////////////////////////////////////////////////////////////
+/// @namespace MNet
+/// @brief MÍøÂç¿â
 namespace MNet
 {
 	namespace Threading

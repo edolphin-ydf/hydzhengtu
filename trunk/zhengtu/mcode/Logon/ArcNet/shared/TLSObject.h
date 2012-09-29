@@ -1,7 +1,9 @@
 
 #pragma once
 #include "Common.h"
-
+////////////////////////////////////////////////////////////////
+/// @namespace MNet
+/// @brief MÍøÂç¿â
 namespace MNet
 {
 	namespace Utility
