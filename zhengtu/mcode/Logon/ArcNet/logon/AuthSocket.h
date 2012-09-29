@@ -5,7 +5,11 @@
 #include "InfoCore.h"
 #include "../shared/Network/MNetSocket.h"
 
-#pragma pack(1)//设定字节对齐
+#pragma pack(1) /**< 设定字节对齐  */ 
+////////////////////////////////////////////////////////////////
+/// @struct FS_PACKET
+/// @brief  压力测试包结构体
+////////////////////////////////////////////////////////////////
 struct FS_PACKET
 {
 	FS_PACKET() : wHeader(0xFFFF), nSize(0), nID(0xFFFFFFFF)

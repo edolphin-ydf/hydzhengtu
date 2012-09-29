@@ -3,6 +3,9 @@
 
 #include "Common.h"
 using namespace std;
+////////////////////////////////////////////////////////////////
+/// @namespace MNet
+/// @brief MÍøÂç¿â
 namespace MNet
 {
 	namespace Utility

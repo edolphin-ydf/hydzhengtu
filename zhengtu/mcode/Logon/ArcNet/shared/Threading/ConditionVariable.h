@@ -1,7 +1,9 @@
 
 #ifndef CONDITIONVARIABLE_H
 #define CONDITIONVARIABLE_H
-
+////////////////////////////////////////////////////////////////
+/// @namespace MNet
+/// @brief MÍøÂç¿â
 namespace MNet
 {
 

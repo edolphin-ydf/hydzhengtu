@@ -1,7 +1,9 @@
 
 #include "PerformanceCounter.hpp"
 #include "SysInfo.hpp"
-
+////////////////////////////////////////////////////////////////
+/// @namespace MNet
+/// @brief MÍøÂç¿â
 namespace MNet
 {
 

@@ -40,6 +40,9 @@ typedef struct tagTHREADNAME_INFO
 
 #endif
 
+////////////////////////////////////////////////////////////////
+/// @namespace MNet
+/// @brief MÍøÂç¿â
 namespace MNet
 {
 	SERVER_DECL float round(float f);

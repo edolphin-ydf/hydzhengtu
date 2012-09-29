@@ -407,7 +407,9 @@ volatile long Sync_Sub(volatile long* value)
 	return __sync_sub_and_fetch(value, 1);
 #endif
 }
-
+////////////////////////////////////////////////////////////////
+/// @namespace MNet
+/// @brief MÍøÂç¿â
 namespace MNet
 {
 	float round(float f)

@@ -7,7 +7,9 @@
 
 #include "DynLib.hpp"
 
-
+////////////////////////////////////////////////////////////////
+/// @namespace MNet
+/// @brief MÍøÂç¿â
 namespace MNet
 {
 

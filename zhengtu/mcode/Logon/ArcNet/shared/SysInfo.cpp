@@ -36,7 +36,9 @@
 #include <mach/mach.h>
 #endif
 
-
+////////////////////////////////////////////////////////////////
+/// @namespace MNet
+/// @brief MÍøÂç¿â
 namespace MNet
 {
 
