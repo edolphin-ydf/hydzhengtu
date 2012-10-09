@@ -8,6 +8,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcx
 		{31B4B73A-D0A0-401A-8810-81CF3F42F079} = {31B4B73A-D0A0-401A-8810-81CF3F42F079}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hash", "Hash\Hash.vcxproj", "{FF4C441E-3D1F-434B-B7F5-693FE1F643C7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MemoryPools", "MemoryPools\MemoryPools.vcxproj", "{A564DFAA-2203-4571-962E-C94456E3B40D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -22,6 +26,14 @@ Global
 		{774E97E8-638A-495C-87C8-806A11C96EE8}.Debug|Win32.Build.0 = Debug|Win32
 		{774E97E8-638A-495C-87C8-806A11C96EE8}.Release|Win32.ActiveCfg = Release|Win32
 		{774E97E8-638A-495C-87C8-806A11C96EE8}.Release|Win32.Build.0 = Release|Win32
+		{FF4C441E-3D1F-434B-B7F5-693FE1F643C7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FF4C441E-3D1F-434B-B7F5-693FE1F643C7}.Debug|Win32.Build.0 = Debug|Win32
+		{FF4C441E-3D1F-434B-B7F5-693FE1F643C7}.Release|Win32.ActiveCfg = Release|Win32
+		{FF4C441E-3D1F-434B-B7F5-693FE1F643C7}.Release|Win32.Build.0 = Release|Win32
+		{A564DFAA-2203-4571-962E-C94456E3B40D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A564DFAA-2203-4571-962E-C94456E3B40D}.Debug|Win32.Build.0 = Debug|Win32
+		{A564DFAA-2203-4571-962E-C94456E3B40D}.Release|Win32.ActiveCfg = Release|Win32
+		{A564DFAA-2203-4571-962E-C94456E3B40D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
