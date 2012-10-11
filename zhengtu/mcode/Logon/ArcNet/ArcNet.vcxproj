@@ -78,6 +78,9 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\global.h" />
+    <ClInclude Include="include\vld\vld.h" />
+    <ClInclude Include="include\vld\vld_def.h" />
     <ClInclude Include="logon\AuthSocket.h" />
     <ClInclude Include="logon\AuthStructs.h" />
     <ClInclude Include="logon\InfoCore.h" />
@@ -114,7 +117,12 @@
     <ClInclude Include="shared\Log.h" />
     <ClInclude Include="shared\MapFile.h" />
     <ClInclude Include="shared\MapFileEntry.h" />
+    <ClInclude Include="shared\MemoryPools\MemoryPools.h" />
+    <ClInclude Include="shared\MemoryPools\needdefine.h" />
+    <ClInclude Include="shared\MemoryPools\ThreadLock.h" />
     <ClInclude Include="shared\mersennetwister.h" />
+    <ClInclude Include="shared\MruList\ListTemplate.h" />
+    <ClInclude Include="shared\MruList\MapTemplate.h" />
     <ClInclude Include="shared\network\circularbuffer.h" />
     <ClInclude Include="shared\network\listensocketwin32.h" />
     <ClInclude Include="shared\Network\MNetSocket.h" />
@@ -174,7 +182,9 @@
     <ClCompile Include="shared\Log.cpp" />
     <ClCompile Include="shared\MapFile.cpp" />
     <ClCompile Include="shared\MapFileEntry.cpp" />
+    <ClCompile Include="shared\MemoryPools\MemoryPools.cpp" />
     <ClCompile Include="shared\MersenneTwister.cpp" />
+    <ClCompile Include="shared\MruList\MruList.cpp" />
     <ClCompile Include="shared\Network\CircularBuffer.cpp" />
     <ClCompile Include="shared\Network\MNetSocket.cpp" />
     <ClCompile Include="shared\Network\Socket.cpp" />

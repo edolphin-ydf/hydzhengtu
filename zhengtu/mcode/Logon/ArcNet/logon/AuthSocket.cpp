@@ -97,7 +97,7 @@ void AuthSocket::HandlePass(FS_PACKET* pac)
 	SendPacket((const uint8 *)packet,sizeof(FS_PACKET));
 	delete packet;
 
-	bool rec = Connect("127.0.0.1",8093);
+	//bool rec = Connect("127.0.0.1",8093);
 
 }
 
