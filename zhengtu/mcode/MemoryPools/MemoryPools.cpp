@@ -58,18 +58,18 @@ void CMemoryPools::Close()
 
 void* CMemoryPools::SetMemoryHead(void* pBuff, _MemoryList* pList, _MemoryBlock* pBlock)
 {
-	//组成内存包头
+	/**< 组成内存包头  */
 	if(NULL == pBuff)
 	{
 		return NULL;
 	}
 
-	//因为一个long是4个字节，在linux和windows下都是一样的。所以加起来是12个
+	/** @brief 因为一个long是4个字节，在linux和windows下都是一样的。所以加起来是12个 */
 	UINT32* plData = (UINT32*)pBuff;
 
-	plData[0] = (UINT32)pList;         //内存链表首地址
-	plData[1] = (UINT32)pBlock;        //所在链表的地址
-	plData[2] = (UINT32)MAGIC_CODE;    //验证码
+	plData[0] = (UINT32)pList;         /**< 内存链表首地址  */
+	plData[1] = (UINT32)pBlock;        /**< 所在链表的地址  */
+	plData[2] = (UINT32)MAGIC_CODE;    /**< 验证码  */
 
 	return &plData[3];
 }
@@ -235,47 +235,48 @@ void* CMemoryPools::GetBuff(size_t szBuffSize)
 	}
 
 	//如果已有内存中不存在以上内存块，则新建一个Memorylist
-
-	//没有剩余的自由内存块，新建内存块。
-	pBuff = malloc(szBuffSize + MAX_MEMORYHEAD_SIZE);
-	if(NULL == pBuff)
 	{
-		//printf_s("[CMemoryPools::GetBuff] (m_pMemoryList) pBuff malloc = NULL.\n");
-		return NULL;
+		//没有剩余的自由内存块，新建内存块。
+		pBuff = malloc(szBuffSize + MAX_MEMORYHEAD_SIZE);
+		if(NULL == pBuff)
+		{
+			//printf_s("[CMemoryPools::GetBuff] (m_pMemoryList) pBuff malloc = NULL.\n");
+			return NULL;
+		}
+
+		//_MemoryList* pMemoryList = new _MemoryList();
+		_MemoryList* pMemoryList = (_MemoryList* )malloc(sizeof(_MemoryList));
+		if(NULL == pMemoryList)
+		{
+			//printf_s("[CMemoryPools::GetBuff] (m_pMemoryList) m_pMemoryList new = NULL.\n");
+			free(pBuff);
+			return NULL;
+		}
+		pMemoryList->Init();
+
+		//新建一个内存块链表
+		//_MemoryBlock* pMemoryUsed = new _MemoryBlock();
+		_MemoryBlock* pMemoryUsed = (_MemoryBlock* )malloc(sizeof(_MemoryBlock));
+		if(NULL == pMemoryUsed)
+		{
+			//printf_s("[CMemoryPools::GetBuff] (m_pMemoryList) pMemoryBrick new = NULL.\n");
+			free(pBuff);
+			return NULL;
+		}
+		pMemoryUsed->Init();
+
+		pMemoryUsed->m_pBrick = pBuff;
+
+		pMemoryList->m_nSize           = (int)szBuffSize;
+		pMemoryList->m_pMemoryUsed     = pMemoryUsed;
+		pMemoryList->m_pMemoryUsedLast = pMemoryUsed;
+
+		m_pMemoryListLast->m_pMemLNext = pMemoryList;
+		m_pMemoryListLast = pMemoryList;
+
+		//return pBuff;
+		return SetMemoryHead(pBuff, pMemoryList, pMemoryUsed);
 	}
-
-	//_MemoryList* pMemoryList = new _MemoryList();
-	_MemoryList* pMemoryList = (_MemoryList* )malloc(sizeof(_MemoryList));
-	if(NULL == pMemoryList)
-	{
-		//printf_s("[CMemoryPools::GetBuff] (m_pMemoryList) m_pMemoryList new = NULL.\n");
-		free(pBuff);
-		return NULL;
-	}
-	pMemoryList->Init();
-
-	//新建一个内存块链表
-	//_MemoryBlock* pMemoryUsed = new _MemoryBlock();
-	_MemoryBlock* pMemoryUsed = (_MemoryBlock* )malloc(sizeof(_MemoryBlock));
-	if(NULL == pMemoryUsed)
-	{
-		//printf_s("[CMemoryPools::GetBuff] (m_pMemoryList) pMemoryBrick new = NULL.\n");
-		free(pBuff);
-		return NULL;
-	}
-	pMemoryUsed->Init();
-
-	pMemoryUsed->m_pBrick = pBuff;
-
-	pMemoryList->m_nSize           = (int)szBuffSize;
-	pMemoryList->m_pMemoryUsed     = pMemoryUsed;
-	pMemoryList->m_pMemoryUsedLast = pMemoryUsed;
-
-	m_pMemoryListLast->m_pMemLNext = pMemoryList;
-	m_pMemoryListLast = pMemoryList;
-
-	//return pBuff;
-	return SetMemoryHead(pBuff, pMemoryList, pMemoryUsed);
 }
 
 bool CMemoryPools::DelBuff(size_t szBuffSize, void* pBuff)

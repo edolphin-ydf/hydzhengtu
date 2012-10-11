@@ -103,6 +103,8 @@ public:
 	void* GetBuff(size_t szBuffSize);
 	bool DelBuff(size_t szBuffSize, void* pBuff);
 	bool DelBuff(void* pBuff);
+	/** @brief 对应着打印出内存池此时此刻正在使用的内存链表个数，
+	每个链表中有多少内存块在使用，有多少是自由内存，用于内存泄露的跟踪*/
 	void DisplayMemoryList();
 
 private:
