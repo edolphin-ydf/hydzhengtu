@@ -1,3 +1,4 @@
+
 #include "LogonStdAfx.h"
 #include <signal.h>
 #include "git_version.h"
@@ -61,6 +62,13 @@ int main(int argc, char** argv)
 	// Run!
 	LogonServer::getSingleton().Run(argc, argv);
 	delete LogonServer::getSingletonPtr();
+
+	/** @brief 查看内存池使用情况 */
+	CMemoryPools::Instance().DisplayMemoryList();
+	CMemoryPools::release();
+	getchar();
+	/** @brief 检查内存泄漏 */
+	_CrtDumpMemoryLeaks();
 }
 
 #define DEF_VALUE_NOT_SET 0xDEADBEEF

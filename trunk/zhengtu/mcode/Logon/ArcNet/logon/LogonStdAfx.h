@@ -31,6 +31,6 @@
 #include "LogonCommServer.h"
 #include "LogonConsole.h"
 #include "WorldPacket.h"
-
+#include "global.h"
 #define CONFDIR "configs"
 

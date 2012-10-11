@@ -246,6 +246,30 @@
     <ClInclude Include="shared\auth\PacketCrypt.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="shared\MruList\ListTemplate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\MruList\MapTemplate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\MemoryPools\ThreadLock.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\MemoryPools\MemoryPools.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\MemoryPools\needdefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vld\vld.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\vld\vld_def.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\global.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="logon\AuthSocket.cpp">
@@ -369,6 +393,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="shared\Auth\PacketCrypt.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\MruList\MruList.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\MemoryPools\MemoryPools.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
