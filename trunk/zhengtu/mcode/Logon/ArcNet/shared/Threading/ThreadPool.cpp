@@ -1,38 +1,25 @@
-/*
- * Thread Pool Class
- * Copyright (C) Burlex <burlex@gmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
+//////////////////////////////////////////////////////////////////////////
+///  Copyright(c) 1999-2012,TQ Digital Entertainment, All Right Reserved
+///  Author:      hyd
+///  Create:      2012/10/17
+///
+/// @file         ThreadPool.cpp
+/// @brief        线程池
+/// @version      1.0
+//////////////////////////////////////////////////////////////////////////
 
 #include "ThreadPool.h"
 #include "../Log.h"
 
 #ifdef WIN32
-
 #include <process.h>
-
 #else
-
 volatile int threadid_count = 0;
 int GenerateThreadId()
 {
 	int i = ++threadid_count;
 	return i;
 }
-
 #endif
 
 #define THREAD_RESERVE 10//预备的线程数
@@ -47,23 +34,24 @@ CThreadPool::CThreadPool()
 	_threadsFreedSinceLastCheck = 0;
 }
 
+/** @brief 线程从当前状态退出 */
 bool CThreadPool::ThreadExit(Thread* t)
 {
 	_mutex.Acquire();
 
-	// we're definitely no longer active
+	/**< 从激活的队列移除  */
 	m_activeThreads.erase(t);
-
-	// do we have to kill off some threads?
+	++_threadsExitedSinceLastCheck;
+	/** @brief 是不是还有待杀死的线程数目 */
 	if(_threadsToExit > 0)
 	{
 		// kill us.
-		--_threadsToExit;
-		++_threadsExitedSinceLastCheck;
 		if(t->DeleteAfterExit)
 		{
+			--_threadsToExit;
+			Log.Debug("ThreadPool", "Thread %u exit the free pool.", t->ControlInterface.GetId());
 			m_freeThreads.erase(t);
-			//Macro_Delete(t);
+			Macro_Delete(t);
 		}
 
 		_mutex.Release();
@@ -71,23 +59,33 @@ bool CThreadPool::ThreadExit(Thread* t)
 	}
 
 	// enter the "suspended" pool
-	++_threadsExitedSinceLastCheck;
 	++_threadsEaten;
 	ThreadSet::iterator itr = m_freeThreads.find(t);
 
 	if(itr != m_freeThreads.end())
 	{
-		sLog.outError("Thread %u duplicated with thread %u", (*itr)->ControlInterface.GetId(), t->ControlInterface.GetId());
+		//sLog.outError("Thread %u duplicated with thread %u", (*itr)->ControlInterface.GetId(), t->ControlInterface.GetId());
 	}
-	m_freeThreads.insert(t);
-
-	Log.Debug("ThreadPool", "Thread %u entered the free pool.", t->ControlInterface.GetId());
+	else
+	{
+		++_threadsFreedSinceLastCheck;
+		m_freeThreads.insert(t);
+		Log.Debug("ThreadPool", "Thread %u entered the free pool.", t->ControlInterface.GetId());
+	}
+	
 	_mutex.Release();
 	return true;
 }
 
+/** @brief 线程执行任务*/
 void CThreadPool::ExecuteTask(ThreadBase* ExecutionTarget)
 {
+	if (ExecutionTarget == NULL)
+	{
+		Log.Error("ThreadPool", "ExecuteTask ExecutionTarget==NULL");
+		return;
+	}
+	
 	Thread* t;
 	_mutex.Acquire();
 	++_threadsRequestedSinceLastCheck;
@@ -153,9 +151,7 @@ void CThreadPool::IntegrityCheck()
 
 	if(gobbled < 0)
 	{
-		// this means we requested more threads than we had in the pool last time.
 		// 这意味着我们需要更多的线程
-		// spawn "gobbled" + THREAD_RESERVE extra threads.
 		uint32 new_threads = abs(gobbled) + THREAD_RESERVE;
 		_threadsEaten = 0;
 
@@ -166,9 +162,7 @@ void CThreadPool::IntegrityCheck()
 	}
 	else if(gobbled < THREAD_RESERVE)
 	{
-		// this means while we didn't run out of threads, we were getting damn low.
 		// 这意味着我们没有耗尽线程，但需要创建线程了
-		// spawn enough threads to keep the reserve amount up.
 		uint32 new_threads = (THREAD_RESERVE - gobbled);
 		for(uint32 i = 0; i < new_threads; ++i)
 			StartThread(NULL);
@@ -177,8 +171,6 @@ void CThreadPool::IntegrityCheck()
 	}
 	else if(gobbled > THREAD_RESERVE)
 	{
-		// this means we had "excess" threads sitting around doing nothing.
-		// lets kill some of them off.
 		//不需要的线程太多，结束一些没必要的
 		uint32 kill_count = (gobbled - THREAD_RESERVE);
 		KillFreeThreads(kill_count);
@@ -187,7 +179,7 @@ void CThreadPool::IntegrityCheck()
 	}
 	else
 	{
-		// perfect! we have the ideal number of free threads.
+		// 完美状态！
 		Log.Debug("ThreadPool", "IntegrityCheck: Perfect!");
 	}
 
@@ -210,8 +202,8 @@ void CThreadPool::KillFreeThreads(uint32 count)
 		t = *itr;
 		t->ExecutionTarget = NULL;
 		t->DeleteAfterExit = true;
-		++_threadsToExit;
-		t->ControlInterface.Resume();
+		++_threadsToExit;/**< 退出线程+1  */
+		t->ControlInterface.Resume();/**< 睡眠线程恢复运行  */
 	}
 
 	_mutex.Release();
@@ -228,6 +220,7 @@ void CThreadPool::Shutdown()
 	for(ThreadSet::iterator itr = m_activeThreads.begin(); itr != m_activeThreads.end(); ++itr)
 	{
 		Thread* t = *itr;
+		t->DeleteAfterExit = true;
 		if(t->ExecutionTarget)
 			t->ExecutionTarget->OnShutdown();
 		else
@@ -239,7 +232,7 @@ void CThreadPool::Shutdown()
 	{
 		_mutex.Acquire();
 		// 循环等待所有线程退出
-		if(m_activeThreads.size() || m_freeThreads.size())
+		if(m_activeThreads.size() || m_freeThreads.size() || _threadsToExit>0)
 		{
 			if(i != 0 && m_freeThreads.size() != 0)
 			{
@@ -250,6 +243,7 @@ void CThreadPool::Shutdown()
 				for(itr = m_freeThreads.begin(); itr != m_freeThreads.end(); ++itr)
 				{
 					t = *itr;
+					t->DeleteAfterExit = true;
 					t->ControlInterface.Resume();
 				}
 			}
@@ -305,6 +299,11 @@ static unsigned long WINAPI thread_proc(void* param)
 	ExitThread(0);
 }
 
+/**
+* @brief 启动一个新线程
+* @param 线程执行目标
+* @return 返回线程信息结构休
+*/
 Thread* CThreadPool::StartThread(ThreadBase* ExecutionTarget)
 {
 	HANDLE h;
@@ -313,6 +312,10 @@ Thread* CThreadPool::StartThread(ThreadBase* ExecutionTarget)
 
 	t->DeleteAfterExit = false;
 	t->ExecutionTarget = ExecutionTarget;
+	if (ExecutionTarget == NULL)
+	{
+		m_freeThreads.insert(t);
+	}
 	//h = (HANDLE)_beginthreadex(NULL, 0, &thread_proc, (void*)t, 0, NULL);
 	t->SetupMutex.Acquire();
 	h = CreateThread(NULL, 0, &thread_proc, (LPVOID)t, 0, (LPDWORD)&t->ControlInterface.thread_id);
@@ -360,6 +363,10 @@ Thread* CThreadPool::StartThread(ThreadBase* ExecutionTarget)
 	Thread* t = NULL;
 	Macro_NewClass(t,Thread);
 	t->ExecutionTarget = ExecutionTarget;
+	if (ExecutionTarget == NULL)
+	{
+		m_freeThreads.insert(t);
+	}
 	t->DeleteAfterExit = false;
 
 	// lock the main mutex, to make sure id generation doesn't get messed up

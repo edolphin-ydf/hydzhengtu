@@ -1,3 +1,9 @@
+//////////////////////////////////////////////////
+/// @file : threadpool.h
+/// @brief : 
+/// @date:  2012/10/17
+/// @author : hyd
+//////////////////////////////////////////////////
 
 #include "../Common.h"
 #include "shared/Singleton.h"
@@ -140,17 +146,17 @@ typedef std::set<Thread*> ThreadSet;
 
 class SERVER_DECL CThreadPool
 {
-		int GetNumCpus();//得到CPU的个数
+		int GetNumCpus();/**< 得到CPU的个数 */
 
 		uint32 _threadsRequestedSinceLastCheck;
-		uint32 _threadsFreedSinceLastCheck;
-		uint32 _threadsExitedSinceLastCheck;
+		uint32 _threadsFreedSinceLastCheck; /**< 从上回检查到现在变成空闲的线程数目  */
+		uint32 _threadsExitedSinceLastCheck;/**< 从上回检查到现在调用退出函数的线程数目  */
 		uint32 _threadsToExit;
 		int32 _threadsEaten;
 		Mutex _mutex;
 
-		ThreadSet m_activeThreads;//正在工作的线程队列
-		ThreadSet m_freeThreads;  //空闲的线程队列，使用的时候需要启动Resume()
+		ThreadSet m_activeThreads;/**< 正在工作的线程队列 */
+		ThreadSet m_freeThreads;  /**< 空闲的线程队列，使用的时候需要启动Resume() */
 
 	public:
 		CThreadPool();
@@ -159,38 +165,38 @@ class SERVER_DECL CThreadPool
 			m_activeThreads.clear();
 			m_freeThreads.clear();
 		}
-		// 每两分钟调用一次
+		/** @brief 每两分钟调用一次 */ 
 		void IntegrityCheck();
 
-		// 开始调用
+		/** @brief  开始调用 */ 
 		void Startup();
 
-		// 卸载所有的线程
+		/** @brief 卸载所有的线程 */ 
 		void Shutdown();
-		// 退出线程
+		/** @brief 退出线程
 		// return true - suspend ourselves, and wait for a future task.
-		// return false - exit, we're shutting down or no longer needed.
+		// return false - exit, we're shutting down or no longer needed. */ 
 		bool ThreadExit(Thread* t);
 
-		// creates a thread, returns a handle to it.建立线程
+		/** @brief 建立线程 */ 
 		Thread* StartThread(ThreadBase* ExecutionTarget);
 
-		// grabs/spawns a thread, and tells it to execute a task.分配一个线程开始一个任务
+		/** @brief 分配一个线程开始一个任务 */ 
 		void ExecuteTask(ThreadBase* ExecutionTarget);
 
-		// prints some neat debug stats打印调试消息
+		/** @brief  stats打印调试消息 */ 
 		void ShowStats();
 
-		// kills x free threads关闭指定数量的空闲线程
+		/** @brief 关闭指定数量的空闲线程 */ 
 		void KillFreeThreads(uint32 count);
 
-		// resets the gobble counter
+		/** @brief resets the gobble counter */ 
 		MNET_INLINE void Gobble() { _threadsEaten = (int32)m_freeThreads.size(); }
 
-		// gets active thread count得到活动线程的数量
+		/** @brief 得到活动线程的数量 */ 
 		MNET_INLINE uint32 GetActiveThreadCount() { return (uint32)m_activeThreads.size(); }
 
-		// gets free thread count得到空闲线程的数量
+		/** @brief 得到空闲线程的数量 */ 
 		MNET_INLINE uint32 GetFreeThreadCount() { return (uint32)m_freeThreads.size(); }
 };
 

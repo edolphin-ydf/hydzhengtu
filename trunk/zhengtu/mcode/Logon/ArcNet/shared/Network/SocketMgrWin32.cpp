@@ -25,6 +25,7 @@ SocketMgr::~SocketMgr()
 
 }
 
+/** @brief 建立工作线程 */
 void SocketMgr::SpawnWorkerThreads()
 {
 	SYSTEM_INFO si;
@@ -32,7 +33,7 @@ void SocketMgr::SpawnWorkerThreads()
 
 	threadcount = si.dwNumberOfProcessors;
 
-	sLog.outDetail("IOCP: Spawning %u worker threads.", threadcount);
+	sLog.outDetail("IOCP: 生成 %u 个工作者线程.", threadcount);
 	for(long x = 0; x < threadcount; ++x)
 	{
 		char name[200];

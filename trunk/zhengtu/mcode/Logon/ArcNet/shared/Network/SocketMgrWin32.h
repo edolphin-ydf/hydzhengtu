@@ -20,7 +20,7 @@ class SERVER_DECL SocketMgr : public Singleton<SocketMgr>
 		~SocketMgr();
 
 		MNET_INLINE HANDLE GetCompletionPort() { return m_completionPort; }
-		void SpawnWorkerThreads();
+		void SpawnWorkerThreads();/**< 建立工作线程  */
 		void CloseAll();
 		void ShowStatus();
 		void AddSocket(Socket* s)
