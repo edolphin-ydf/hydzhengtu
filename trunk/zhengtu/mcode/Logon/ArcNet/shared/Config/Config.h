@@ -2,7 +2,7 @@
 #if !defined (CONFIG_H)
 #define CONFIG_H
 #include "Common.h"
-
+#include "shared/Singleton.h"
 #ifndef EOL
 #ifdef WIN32
 #define EOL "\r\n"
@@ -64,10 +64,10 @@ class SERVER_DECL ConfigMgr
 {
 		// Mainly used for WS, others will probably only have one.
 	public:
-		ConfigFile MainConfig;
-		ConfigFile RealmConfig;
-		ConfigFile ClusterConfig;
-		ConfigFile OptionalConfig;
+		//ConfigFile MainConfig;
+		//ConfigFile RealmConfig;
+		//ConfigFile ClusterConfig;
+		//ConfigFile OptionalConfig;
 };
 
 extern SERVER_DECL ConfigMgr Config;

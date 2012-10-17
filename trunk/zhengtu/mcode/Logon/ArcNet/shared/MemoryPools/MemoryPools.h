@@ -9,10 +9,16 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <map>
 #include "ThreadLock.h"
 
+#ifdef _DEBUG
+/** @brief 4个字节的指针块地址 + 4个字节的链表首地址 + 4位验证码 + 4个字节的map索引号 + 4个字节的行号 */
+#define MAX_MEMORYHEAD_SIZE 20  
+#else
 /** @brief 4个字节的指针块地址 + 4个字节的链表首地址 + 4位验证码*/
 #define MAX_MEMORYHEAD_SIZE 12    
+#endif
 /** @brief 验证码*/
 #define MAGIC_CODE          0x123456
 
@@ -71,6 +77,18 @@ struct _MemoryList
 };
 
 ////////////////////////////////////////////////////////////////
+/// @struct 
+/// @brief
+////////////////////////////////////////////////////////////////
+struct _MemoryInfo
+{
+	int nUsedCount;
+	int nUsedSize;
+	int nFreeCount;
+	int nFreeSize;
+};
+
+////////////////////////////////////////////////////////////////
 /// @class CMemoryPools
 /// @brief 内存池类
 ///
@@ -82,8 +100,8 @@ public:
 	{
 		if(m_pMemoryPools == NULL)
 		{
-			m_pMemoryPools = (CMemoryPools* )malloc(sizeof(CMemoryPools));
-			m_pMemoryPools->Init();
+			m_pMemoryPools = new CMemoryPools();
+			//m_pMemoryPools->Init();
 		}
 
 		return *m_pMemoryPools;
@@ -92,7 +110,9 @@ public:
 	{
 		if(m_pMemoryPools)
 		{
-			free(m_pMemoryPools);
+			//m_pMemoryPools->~CMemoryPools();
+			//free(m_pMemoryPools);
+			delete m_pMemoryPools;
 			m_pMemoryPools = NULL;
 		}
 	}
@@ -100,20 +120,36 @@ public:
 public:
 	~CMemoryPools(void);
 
-	void* GetBuff(size_t szBuffSize);
-	bool DelBuff(size_t szBuffSize, void* pBuff);
+	void* GetBuff(size_t szBuffSize,const char *file = NULL, int line = 0);
+	bool DelBuff(size_t szBuffSize, void* pBuff); /**< 基本上不用这个接口  */
 	bool DelBuff(void* pBuff);
-	/** @brief 对应着打印出内存池此时此刻正在使用的内存链表个数，
-	每个链表中有多少内存块在使用，有多少是自由内存，用于内存泄露的跟踪*/
-	void DisplayMemoryList();
+	/** @brief 对应着打印出内存池此时此刻正在使用的内存链表个数，\n
+	每个链表中有多少内存块在使用，有多少是自由内存，用于内存泄露的跟踪
+	*/
+	_MemoryInfo GetAndPlayMemoryList();
 
+	template< class T >	
+#ifdef _DEBUG
+	T * Alloc(const char *file, int line)
+	{
+		unsigned long lSize = sizeof(T);
+		void* ptMem = GetBuff(lSize, file, line);
+#else
+	T * Alloc()
+	{
+		unsigned long lSize = sizeof(T);
+		void* ptMem = GetBuff(lSize);
+#endif
+		if( !ptMem) return NULL;
+		return (T*)ptMem;
+	}
 private:
 	CMemoryPools(void);
 	void Close();
 	void Init();
-	void* SetMemoryHead(void* pBuff, _MemoryList* pList, _MemoryBlock* pBlock);
+	void* SetMemoryHead(void* pBuff, _MemoryList* pList, _MemoryBlock* pBlock,int aindex = -1,int line = 0);
 	void* GetMemoryHead(void* pBuff);
-	bool GetHeadMemoryBlock(void* pBuff, _MemoryList*& pList, _MemoryBlock*& pBlock);
+	bool GetHeadMemoryBlock(void* pBuff, _MemoryList*& pList, _MemoryBlock*& pBlock,int& map_inex);
 	
 
 private:
@@ -121,6 +157,49 @@ private:
 	_MemoryList*         m_pMemoryList;
 	_MemoryList*         m_pMemoryListLast;    /**< 最后一个内存管理链表指针  */
 	CThreadLock          m_ThreadLock;
+
+#ifdef _DEBUG
+	typedef std::map<unsigned int,std::string> MAP_FILE;
+	MAP_FILE map_file;
+#endif
 };
 
+#define MemPools CMemoryPools::Instance()
+#define Macro_New(szBuffSize) \
+	do {\
+	MemPools.GetBuff(szBuffSize,__FILE__,__LINE__);\
+	}while (0)
+
+#define Macro_Delete(pBuff) \
+	do {\
+	if(MemPools.DelBuff(pBuff))\
+		pBuff=NULL;\
+	}while (0)
+
+#define Macro_NewClass(pObject, ClassName) \
+do {\
+	pObject = (ClassName*)MemPools.Alloc<ClassName>(__FILE__,__LINE__);\
+	pObject->ClassName::ClassName();\
+}while (0)
+
+#define Macro_DeleteClass(pObject, ClassName) \
+do {\
+	if(pObject!=NULL)\
+{\
+	void *ptr = pObject;\
+	pObject->ClassName::~ClassName();\
+	MemPools.DelBuff(ptr);\
+}\
+}while (0)
+
+#define Macro_SaveDeleteClass(pObject, ClassName) \
+	do {\
+	if(pObject!=NULL)\
+{\
+	void *ptr = pObject;\
+	pObject->ClassName::~ClassName();\
+	if(MemPools.DelBuff(ptr))\
+	pObject=NULL;\
+}\
+	}while (0)
 #endif

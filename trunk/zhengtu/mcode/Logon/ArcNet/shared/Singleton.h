@@ -3,7 +3,7 @@
 #define WOWSERVER_SINGLETON_H
 
 #include "Errors.h"
-
+#include "MemoryPools/Node.h"
 /// 应该放在.cpp文件中,其实就相当于class::mSingleton = 0
 #define initialiseSingleton( type ) \
   template <> type * Singleton < type > :: mSingleton = 0

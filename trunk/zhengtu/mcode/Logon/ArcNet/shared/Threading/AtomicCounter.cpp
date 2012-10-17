@@ -18,7 +18,7 @@ namespace MNet
 #ifdef __GNUC__
 			val = __sync_add_and_fetch(&Value, 1);
 #else
-#error Your platform (architecture and compiler) is NOT supported. Arcemu requires little endian architecture, and at least GCC 4.1
+#error Your platform (architecture and compiler) is NOT supported. Requires little endian architecture, and at least GCC 4.1
 #endif
 #endif
 
@@ -35,7 +35,7 @@ namespace MNet
 #ifdef __GNUC__
 			val = __sync_add_and_fetch(&Value, -1);
 #else
-#error Your platform (architecture and compiler) is NOT supported. Arcemu requires little endian architecture, and at least GCC 4.1
+#error Your platform (architecture and compiler) is NOT supported. Requires little endian architecture, and at least GCC 4.1
 #endif
 #endif
 			return val;

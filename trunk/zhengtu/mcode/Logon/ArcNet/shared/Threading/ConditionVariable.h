@@ -16,7 +16,7 @@ namespace MNet
 		//
 		//
 		/////////////////////////////////////////////////////////////////
-		class ConditionVariable
+		class SERVER_DECL ConditionVariable
 		{
 
 			public:

@@ -1,7 +1,7 @@
 
 #ifndef STORAGE_H_
 #define STORAGE_H_
-
+#include "MemoryPools/Node.h"
 #ifdef WIN32
 #pragma warning(disable:4312)
 #endif

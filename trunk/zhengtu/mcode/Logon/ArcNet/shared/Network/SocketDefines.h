@@ -55,7 +55,7 @@ enum SocketIOEvent
     NUM_SOCKET_IO_EVENTS			= 3,
 };
 
-class OverlappedStruct
+class SERVER_DECL OverlappedStruct
 {
 	public:
 		OVERLAPPED m_overlap;

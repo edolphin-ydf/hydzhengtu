@@ -7,30 +7,12 @@
 #ifndef __circularbuffer_H__
 #define __circularbuffer_H__
 
-
-class circularbuffer
-{
-public:
-	circularbuffer()
-	{
-	}
-	~circularbuffer()
-	{
-	}
-public:
-	
-};
-#endif
-
-#ifndef _NETLIB_CIRCULARBUFFER_H
-#define _NETLIB_CIRCUALRBUFFER_H
-
 ////////////////////////////////////////////////////////////////
 /// @class CircularBuffer
 /// @brief 高效的两段式循环缓冲区
 ///
 /// @note 环形结构的缓冲区
-class CircularBuffer
+class SERVER_DECL CircularBuffer
 {
 		/** @brief 整个缓冲区的头指针和尾指针*/
 		uint8* m_bufferHead;///< 整块缓冲区的头指针

@@ -7,7 +7,7 @@
 #include <openssl/sha.h>
 #include "Auth/BigNumber.h"
 
-class Sha1Hash
+class SERVER_DECL Sha1Hash
 {
 	public:
 		Sha1Hash();

@@ -15,7 +15,7 @@ namespace MNet
 		//  Implements atomic incrementation and decrementation
 		//
 		//////////////////////////////////////////////////////////
-		class AtomicCounter : public AtomicULong
+		class SERVER_DECL AtomicCounter : public AtomicULong
 		{
 			public:
 				AtomicCounter() { Value = 0; }

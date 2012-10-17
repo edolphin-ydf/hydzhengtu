@@ -10,7 +10,7 @@
 #include "Network.h"
 #include "../Auth/PacketCrypt.h"
 
-class SERVER_DECL MNetSocket : public Socket
+class MNetSocket : public Socket
 {
 public:
 	MNetSocket(SOCKET fd, uint32 sendbuffersize, uint32 recvbuffersize, bool iCrypt/* «∑Òº”√‹*/, uint8* Key = NULL);

@@ -34,8 +34,8 @@ void oLog::outFile(FILE* file, char* msg, const char* source)
 {
 	char time_buffer[TIME_FORMAT_LENGTH];
 	char szltr_buffer[SZLTR_LENGTH];
+	strcpy(szltr_buffer,SZLTR);
 	Time(time_buffer);
-	pdcds(SZLTR, szltr_buffer);
 
 	if(source != NULL)
 	{
@@ -417,7 +417,7 @@ WorldLog::WorldLog()
 	bEnabled = false;
 	m_file = NULL;
 
-	if(Config.MainConfig.GetBoolDefault("LogLevel", "World", false))
+	/*if(Config.MainConfig.GetBoolDefault("LogLevel", "World", false))
 	{
 		Log.Notice("WorldLog", "Enabling packetlog output to \"world.log\"");
 		Enable();
@@ -425,7 +425,7 @@ WorldLog::WorldLog()
 	else
 	{
 		Disable();
-	}
+	}*/
 }
 
 void WorldLog::Enable()

@@ -12,10 +12,10 @@ namespace MNet
 		/////////////////////////////////////////////////
 		//class AtomicULong
 		//  Stores an unsigned long atomically.
-		//  Base class for all Arcemu atomics.
+		//  Base class for all atomics.
 		//
 		////////////////////////////////////////////////
-		class AtomicULong
+		class SERVER_DECL AtomicULong
 		{
 			public:
 				AtomicULong() { Value = 0; }

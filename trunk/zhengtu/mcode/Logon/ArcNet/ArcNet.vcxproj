@@ -17,7 +17,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -39,6 +39,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>../bin/$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -49,13 +50,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./;./logon;./shared;./include/zlib;./include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;./shared;../include/zlib;../include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libeay32_win32.lib;zlib.lib;dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -81,15 +82,6 @@
     <ClInclude Include="include\global.h" />
     <ClInclude Include="include\vld\vld.h" />
     <ClInclude Include="include\vld\vld_def.h" />
-    <ClInclude Include="logon\AuthSocket.h" />
-    <ClInclude Include="logon\AuthStructs.h" />
-    <ClInclude Include="logon\InfoCore.h" />
-    <ClInclude Include="logon\LogonCommServer.h" />
-    <ClInclude Include="logon\LogonConsole.h" />
-    <ClInclude Include="logon\LogonOpcodes.h" />
-    <ClInclude Include="logon\LogonStdAfx.h" />
-    <ClInclude Include="logon\Main.h" />
-    <ClInclude Include="logon\PeriodicFunctionCall_Thread.h" />
     <ClInclude Include="shared\arcemuconfig.h" />
     <ClInclude Include="shared\Array.h" />
     <ClInclude Include="shared\AuthCodes.h" />
@@ -119,6 +111,7 @@
     <ClInclude Include="shared\MapFileEntry.h" />
     <ClInclude Include="shared\MemoryPools\MemoryPools.h" />
     <ClInclude Include="shared\MemoryPools\needdefine.h" />
+    <ClInclude Include="shared\MemoryPools\Node.h" />
     <ClInclude Include="shared\MemoryPools\ThreadLock.h" />
     <ClInclude Include="shared\mersennetwister.h" />
     <ClInclude Include="shared\MruList\ListTemplate.h" />
@@ -131,7 +124,7 @@
     <ClInclude Include="shared\network\socketdefines.h" />
     <ClInclude Include="shared\network\socketmgrwin32.h" />
     <ClInclude Include="shared\network\socketops.h" />
-    <ClInclude Include="shared\performancecounter.hpp" />
+    <ClInclude Include="shared\performancecounter.h" />
     <ClInclude Include="shared\PreallocatedQueue.h" />
     <ClInclude Include="shared\printstacktrace.h" />
     <ClInclude Include="shared\rc4engine.h" />
@@ -162,13 +155,6 @@
     <ClInclude Include="shared\wowguid.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="logon\AuthSocket.cpp" />
-    <ClCompile Include="logon\InfoCore.cpp" />
-    <ClCompile Include="logon\LogonCommServer.cpp" />
-    <ClCompile Include="logon\LogonConsole.cpp" />
-    <ClCompile Include="logon\LogonOpcodes.cpp" />
-    <ClCompile Include="logon\LogonStdAfx.cpp" />
-    <ClCompile Include="logon\Main.cpp" />
     <ClCompile Include="shared\Auth\BigNumber.cpp" />
     <ClCompile Include="shared\Auth\MD5.cpp" />
     <ClCompile Include="shared\Auth\Sha1.cpp" />

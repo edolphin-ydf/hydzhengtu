@@ -23,7 +23,7 @@ typedef unsigned __int64 SIZE_T, *PSIZE_T;
 typedef unsigned long SIZE_T, *PSIZE_T;
 #endif
 #endif  // _MSC_VER < 1300
-
+#include "MemoryPools/Node.h"
 class __declspec(dllexport) StackWalkerInternal;  // forward
 class __declspec(dllexport) StackWalker
 {

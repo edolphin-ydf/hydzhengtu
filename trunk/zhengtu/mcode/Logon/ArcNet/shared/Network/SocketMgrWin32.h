@@ -53,7 +53,7 @@ class SERVER_DECL SocketMgr : public Singleton<SocketMgr>
 
 typedef void(*OperationHandler)(Socket* s, uint32 len);
 
-class SocketWorkerThread : public ThreadBase
+class SERVER_DECL SocketWorkerThread : public ThreadBase
 {
 	public:
 		SocketWorkerThread(std::string name) : ThreadBase(name){}

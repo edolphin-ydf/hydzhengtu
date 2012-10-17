@@ -15,7 +15,7 @@ namespace MNet
 		//  Implemented using AtomicULong.
 		//
 		////////////////////////////////////////////////
-		class AtomicFloat
+		class SERVER_DECL AtomicFloat
 		{
 			public:
 				AtomicFloat() : Value(0) {}

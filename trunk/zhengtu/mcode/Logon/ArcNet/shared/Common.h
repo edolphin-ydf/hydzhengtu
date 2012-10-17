@@ -355,8 +355,8 @@ Scripting system exports/imports
 
 #ifdef WIN32
 #ifndef SCRIPTLIB
-#define SERVER_DECL __declspec(dllexport)
-#define SCRIPT_DECL __declspec(dllimport)
+#define SERVER_DECL //__declspec(dllexport)
+#define SCRIPT_DECL //__declspec(dllimport)
 #else
 #define SERVER_DECL __declspec(dllimport)
 #define SCRIPT_DECL __declspec(dllexport)
@@ -371,7 +371,7 @@ Scripting system exports/imports
 #define SCRIPT_DECL
 #define DECL_LOCAL
 #endif
-
+#include "MemoryPools/MemoryPools.h"
 // Include all threading files
 #include <cassert>
 #include "Threading/Threading.h"
@@ -622,6 +622,6 @@ inline static unsigned int MakeIP(const char* str)
 #include "DynLib.hpp"
 #include "FindFiles.hpp"
 #include "SysInfo.hpp"
-#include "PerformanceCounter.hpp"
+#include "PerformanceCounter.h"
 
 #endif

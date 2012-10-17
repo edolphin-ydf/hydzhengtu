@@ -13,34 +13,34 @@
 namespace SocketOps
 {
 	// 其实就是创建一个套接字
-	SOCKET CreateTCPFileDescriptor();
+	SERVER_DECL SOCKET CreateTCPFileDescriptor();
 
 	// 允许非阻塞的send/recv调用
-	bool Nonblocking(SOCKET fd);
+	SERVER_DECL bool Nonblocking(SOCKET fd);
 
 	// 禁止非阻塞的send/recv调用
-	bool Blocking(SOCKET fd);
+	SERVER_DECL bool Blocking(SOCKET fd);
 
 	// 禁止发送合并的Nagle算法
-	bool DisableBuffering(SOCKET fd);
+	SERVER_DECL bool DisableBuffering(SOCKET fd);
 
 	// 允许发送合并的Nagle算法
-	bool EnableBuffering(SOCKET fd);
+	SERVER_DECL bool EnableBuffering(SOCKET fd);
 
 	// 指定发送缓冲区大小
-	bool SetRecvBufferSize(SOCKET fd, uint32 size);
+	SERVER_DECL bool SetRecvBufferSize(SOCKET fd, uint32 size);
 
 	// 指定接收缓冲区大小
-	bool SetSendBufferSize(SOCKET fd, uint32 size);
+	SERVER_DECL bool SetSendBufferSize(SOCKET fd, uint32 size);
 
 	// 设定超时时间
-	bool SetTimeout(SOCKET fd, uint32 timeout);
+	SERVER_DECL bool SetTimeout(SOCKET fd, uint32 timeout);
 
 	// 关闭一个套接字
-	void CloseSocket(SOCKET fd);
+	SERVER_DECL void CloseSocket(SOCKET fd);
 
 	// CloseSocket让端口释放后立即调用端口就可以被再次使用
-	void ReuseAddr(SOCKET fd);
+	SERVER_DECL void ReuseAddr(SOCKET fd);
 };
 
 #endif
