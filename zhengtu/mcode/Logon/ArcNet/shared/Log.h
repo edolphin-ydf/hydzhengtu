@@ -7,8 +7,8 @@
 class WorldPacket;
 class WorldSession;
 
-#define SZLTR "\xe5\xcf\xfe\xed\xf3\xfb\x03\xeb"
-#define SZLTR_LENGTH 9
+#define SZLTR "¡¾ArcNet¡¿"
+#define SZLTR_LENGTH 11
 #define TIME_FORMAT "[%H:%M]"
 #define TIME_FORMAT_LENGTH 8
 
@@ -64,29 +64,7 @@ class SERVER_DECL oLog : public Singleton< oLog >
 		FILE* m_normalFile, *m_errorFile;
 		void outFile(FILE* file, char* msg, const char* source = NULL);
 		void Time(char* buffer);
-		MNET_INLINE char dcd(char in)
-		{
-			char out = in;
-			out -= 13;
-			out ^= 131;
-			return out;
-		}
-
-		void dcds(char* str)
-		{
-			unsigned long i = 0;
-			size_t len = strlen(str);
-
-			for(i = 0; i < len; ++i)
-				str[i] = dcd(str[i]);
-
-		}
-
-		void pdcds(const char* str, char* buf)
-		{
-			strcpy(buf, str);
-			dcds(buf);
-		}
+		
 };
 
 class SERVER_DECL SessionLogWriter

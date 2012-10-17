@@ -14,7 +14,7 @@ namespace MNet
 		//  Stores a Boolean atomically, using an AtomicULong
 		//
 		//////////////////////////////////////////////////////
-		class AtomicBoolean
+		class SERVER_DECL AtomicBoolean
 		{
 
 			public:

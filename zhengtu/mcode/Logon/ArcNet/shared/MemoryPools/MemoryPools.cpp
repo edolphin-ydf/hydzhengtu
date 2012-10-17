@@ -21,10 +21,10 @@ void CMemoryPools::Init()
 
 void CMemoryPools::Close()
 {
-	//添加线程安全
+	/** @brief 添加线程安全 */
 	CAutoLock autolock(&m_ThreadLock);
 
-	//删除所有已经分配的文件块
+	/** @brief 删除所有已经分配的文件块 */
 	_MemoryList* pCurrMemoryList = m_pMemoryList;
 	while(NULL != pCurrMemoryList)
 	{
@@ -36,8 +36,9 @@ void CMemoryPools::Close()
 				free(pMemoryUsed->m_pBrick);
 				pMemoryUsed->m_pBrick = NULL;
 			}
-
+			_MemoryBlock* toDel = pMemoryUsed;
 			pMemoryUsed     = pMemoryUsed->m_pNext;
+			free(toDel);
 		}
 
 		_MemoryBlock* pMemoryFree     = pCurrMemoryList->m_pMemoryFree;
@@ -49,14 +50,17 @@ void CMemoryPools::Close()
 				pMemoryFree->m_pBrick = NULL;
 			}
 
+			_MemoryBlock* toDel = pMemoryFree;
 			pMemoryFree     = pMemoryFree->m_pNext;
+			free(toDel);
 		}
-
+		m_pMemoryList = pCurrMemoryList;
 		pCurrMemoryList = pCurrMemoryList->m_pMemLNext;
+		free(m_pMemoryList);
 	}
 }
 
-void* CMemoryPools::SetMemoryHead(void* pBuff, _MemoryList* pList, _MemoryBlock* pBlock)
+void* CMemoryPools::SetMemoryHead(void* pBuff, _MemoryList* pList, _MemoryBlock* pBlock,int aindex ,int line )
 {
 	/**< 组成内存包头  */
 	if(NULL == pBuff)
@@ -66,12 +70,16 @@ void* CMemoryPools::SetMemoryHead(void* pBuff, _MemoryList* pList, _MemoryBlock*
 
 	/** @brief 因为一个long是4个字节，在linux和windows下都是一样的。所以加起来是12个 */
 	UINT32* plData = (UINT32*)pBuff;
+	int i = 0;
+	plData[i++] = (UINT32)pList;         /**< 内存链表首地址  */
+	plData[i++] = (UINT32)pBlock;        /**< 所在链表的地址  */
+#ifdef _DEBUG
+	plData[i++] = (UINT32)aindex;
+	plData[i++] = (UINT32)line;
+#endif
+	plData[i++] = (UINT32)MAGIC_CODE;    /**< 验证码  */
 
-	plData[0] = (UINT32)pList;         /**< 内存链表首地址  */
-	plData[1] = (UINT32)pBlock;        /**< 所在链表的地址  */
-	plData[2] = (UINT32)MAGIC_CODE;    /**< 验证码  */
-
-	return &plData[3];
+	return &plData[i];
 }
 
 void* CMemoryPools::GetMemoryHead(void* pBuff)
@@ -82,14 +90,19 @@ void* CMemoryPools::GetMemoryHead(void* pBuff)
 	}
 
 	long* plData = (long*)pBuff;
-	return &plData[3];
+
+	return &plData[MAX_MEMORYHEAD_SIZE/4];
 }
 
-bool CMemoryPools::GetHeadMemoryBlock(void* pBuff, _MemoryList*& pList, _MemoryBlock*& pBlock)
+bool CMemoryPools::GetHeadMemoryBlock(void* pBuff, _MemoryList*& pList, _MemoryBlock*& pBlock, int& map_inex)
 {
+	if (pBuff == NULL)
+	{
+		return false;
+	}
 	char* szbuf = (char*)pBuff;
 	UINT32* plData = (UINT32*)(szbuf - MAX_MEMORYHEAD_SIZE);
-	if(plData[2] != (long)MAGIC_CODE)
+	if(plData[MAX_MEMORYHEAD_SIZE/4-1] != (long)MAGIC_CODE)
 	{
 		return false;
 	}
@@ -97,15 +110,18 @@ bool CMemoryPools::GetHeadMemoryBlock(void* pBuff, _MemoryList*& pList, _MemoryB
 	{
 		pList  = (_MemoryList*)plData[0];   //内存链表首地址
 		pBlock = (_MemoryBlock*)plData[1];  //所在链表的地址
+#ifdef _DEBUG
+		map_inex = plData[2];//返回MAP地址
+#endif
 
 		return true;
 	}
 
 }
 
-void* CMemoryPools::GetBuff(size_t szBuffSize)
+void* CMemoryPools::GetBuff(size_t szBuffSize,const char *file, int line)
 {
-	//添加线程安全
+	/** @brief 添加线程安全 */
 	CAutoLock autolock(&m_ThreadLock);
 
 	void* pBuff = NULL;
@@ -114,6 +130,10 @@ void* CMemoryPools::GetBuff(size_t szBuffSize)
 	if(NULL == m_pMemoryList)
 	{
 		//第一次使用内存管理器
+#ifdef _DEBUG
+		int aindex = map_file.size();
+		map_file.insert(MAP_FILE::value_type(aindex,file));
+#endif
 		pBuff = malloc(szBuffSize + MAX_MEMORYHEAD_SIZE);
 		if(NULL == pBuff)
 		{
@@ -150,7 +170,11 @@ void* CMemoryPools::GetBuff(size_t szBuffSize)
 		m_pMemoryListLast = m_pMemoryList;
 
 		//return pBuff;
+#ifdef _DEBUG
+		return SetMemoryHead(pBuff, m_pMemoryList, pMemoryUsed,aindex,line);
+#else
 		return SetMemoryHead(pBuff, m_pMemoryList, pMemoryUsed);
+#endif
 	}
 
 	//查找已有的链表中是否存在空余内存块
@@ -164,6 +188,10 @@ void* CMemoryPools::GetBuff(size_t szBuffSize)
 			if(NULL == pMemoryFree)
 			{
 				//没有剩余的自由内存块，新建内存块。
+#ifdef _DEBUG
+				int aindex = map_file.size();
+				map_file.insert(MAP_FILE::value_type(aindex,file));
+#endif
 				pBuff = malloc(szBuffSize + MAX_MEMORYHEAD_SIZE);
 				if(NULL == pBuff)
 				{
@@ -191,7 +219,11 @@ void* CMemoryPools::GetBuff(size_t szBuffSize)
 					pCurrMemoryList->m_pMemoryUsed     = pMemoryUsed;
 					pCurrMemoryList->m_pMemoryUsedLast = pMemoryUsed;
 					//return pBuff;
+#ifdef _DEBUG
+					return SetMemoryHead(pBuff, pCurrMemoryList, pMemoryUsed,aindex,line);
+#else
 					return SetMemoryHead(pBuff, pCurrMemoryList, pMemoryUsed);
+#endif
 				}
 				else
 				{
@@ -199,7 +231,11 @@ void* CMemoryPools::GetBuff(size_t szBuffSize)
 					pCurrMemoryList->m_pMemoryUsedLast->m_pNext = pMemoryUsed;
 					pCurrMemoryList->m_pMemoryUsedLast          = pMemoryUsed;
 					//return pBuff;
+#ifdef _DEBUG
+					return SetMemoryHead(pBuff, pCurrMemoryList, pMemoryUsed,aindex,line);
+#else
 					return SetMemoryHead(pBuff, pCurrMemoryList, pMemoryUsed);
+#endif
 				}
 			}
 			else
@@ -237,6 +273,10 @@ void* CMemoryPools::GetBuff(size_t szBuffSize)
 	//如果已有内存中不存在以上内存块，则新建一个Memorylist
 	{
 		//没有剩余的自由内存块，新建内存块。
+#ifdef _DEBUG
+		int aindex = map_file.size();
+		map_file.insert(MAP_FILE::value_type(aindex,file));
+#endif
 		pBuff = malloc(szBuffSize + MAX_MEMORYHEAD_SIZE);
 		if(NULL == pBuff)
 		{
@@ -275,13 +315,17 @@ void* CMemoryPools::GetBuff(size_t szBuffSize)
 		m_pMemoryListLast = pMemoryList;
 
 		//return pBuff;
-		return SetMemoryHead(pBuff, pMemoryList, pMemoryUsed);
+#ifdef _DEBUG
+		return SetMemoryHead(pBuff, m_pMemoryList, pMemoryUsed,aindex,line);
+#else
+		return SetMemoryHead(pBuff, m_pMemoryList, pMemoryUsed);
+#endif
 	}
 }
 
 bool CMemoryPools::DelBuff(size_t szBuffSize, void* pBuff)
 {
-	//添加线程安全
+	/** @brief 添加线程安全 */
 	CAutoLock autolock(&m_ThreadLock);
 
 	//在内存块中寻找指定的地址似是否存在，如果存在标记为已经释放。
@@ -377,16 +421,21 @@ bool CMemoryPools::DelBuff(size_t szBuffSize, void* pBuff)
 
 bool CMemoryPools::DelBuff(void* pBuff)
 {
-	//添加线程安全
+	/** @brief 添加线程安全 */
 	CAutoLock autolock(&m_ThreadLock);
 
 	_MemoryBlock* pMemoryUsed     = NULL;
 	_MemoryList*  pCurrMemoryList = NULL;
+	int map_index = 0;
 
-	if(false == GetHeadMemoryBlock(pBuff, pCurrMemoryList, pMemoryUsed))
+	if(false == GetHeadMemoryBlock(pBuff, pCurrMemoryList, pMemoryUsed,map_index))
 	{
 		return false;
 	}
+
+#ifdef _DEBUG
+	map_file.erase(map_index);
+#endif
 
 	if(NULL != pMemoryUsed && NULL != pCurrMemoryList)
 	{
@@ -442,8 +491,11 @@ bool CMemoryPools::DelBuff(void* pBuff)
 	return false;
 }
 
-void CMemoryPools::DisplayMemoryList()
+_MemoryInfo CMemoryPools::GetAndPlayMemoryList()
 {
+	_MemoryInfo _info;
+	_info.nUsedSize = 0;
+	_info.nFreeSize = 0;
 	int nUsedCount = 0;
 	int nFreeCount = 0;
 
@@ -461,16 +513,21 @@ void CMemoryPools::DisplayMemoryList()
 			nUsedCount++;
 			pMemoryUsed = pMemoryUsed->m_pNext;
 		}
-		printf_s("[CMemoryPools::DisplayMemoryList] pMemoryUsed nUsedCount = %d, Size = %d.\n", nUsedCount, pCurrMemoryList->m_nSize * nUsedCount);
+		_info.nUsedSize = pCurrMemoryList->m_nSize * nUsedCount;
+		printf_s("[CMemoryPools::DisplayMemoryList] pMemoryUsed nUsedCount = %d, Size = %d.\n", nUsedCount, _info.nUsedSize);
 
 		while(NULL != pMemoryFree)
 		{
 			nFreeCount++;
 			pMemoryFree = pMemoryFree->m_pNext;
 		}
-		printf_s("[CMemoryPools::DisplayMemoryList] pMemoryFree nFreeCount = %d, Size = %d.\n", nFreeCount, pCurrMemoryList->m_nSize * nFreeCount);
+		_info.nFreeSize = pCurrMemoryList->m_nSize * nFreeCount;
+		printf_s("[CMemoryPools::DisplayMemoryList] pMemoryFree nFreeCount = %d, Size = %d.\n", nFreeCount, _info.nFreeSize);
 
 		pCurrMemoryList = pCurrMemoryList->m_pMemLNext;
 	}
+	_info.nUsedCount = nUsedCount;
+	_info.nFreeCount = nFreeCount;
+	return _info;
 }
 

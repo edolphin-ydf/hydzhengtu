@@ -1,7 +1,7 @@
 
 #include "ConfigEnv.h"
 ConfigMgr Config;
-
+//initialiseSingleton(ConfigMgr);
 //#define _CONFIG_DEBUG
 
 ConfigFile::ConfigFile()

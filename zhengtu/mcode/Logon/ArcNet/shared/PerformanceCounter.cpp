@@ -1,5 +1,5 @@
 
-#include "PerformanceCounter.hpp"
+#include "PerformanceCounter.h"
 #include "SysInfo.hpp"
 ////////////////////////////////////////////////////////////////
 /// @namespace MNet

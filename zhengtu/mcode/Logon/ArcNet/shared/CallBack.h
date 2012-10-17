@@ -2,6 +2,7 @@
 
 #ifndef _CALLBACK_H
 #define _CALLBACK_H
+#include "MemoryPools/Node.h"
 
 class CallbackBase
 {

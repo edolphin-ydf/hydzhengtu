@@ -5,7 +5,7 @@
 //Create by freeeyes
 //2010-11-02
 
-class CListNode
+class SERVER_DECL CListNode
 {
 public:
 	CListNode()

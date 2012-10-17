@@ -2,6 +2,8 @@
 #ifndef _THREADING_STARTER_H
 #define _THREADING_STARTER_H
 
+#include "MemoryPools/Node.h"
+
 class SERVER_DECL ThreadBase
 {
 	public:

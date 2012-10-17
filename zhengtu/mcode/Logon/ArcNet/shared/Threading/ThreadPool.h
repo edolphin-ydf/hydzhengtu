@@ -1,6 +1,6 @@
 
 #include "../Common.h"
-
+#include "shared/Singleton.h"
 #ifndef __THREADPOOL_H
 #define __THREADPOOL_H
 
@@ -130,8 +130,8 @@ class ThreadController
 
 struct SERVER_DECL Thread
 {
-	ThreadBase* ExecutionTarget;
-	ThreadController ControlInterface;
+	ThreadBase* ExecutionTarget;         /**< 线程基类,执行目标  */
+	ThreadController ControlInterface;   /**< 线程管理器  */
 	Mutex SetupMutex;
 	bool DeleteAfterExit;
 };
@@ -154,7 +154,11 @@ class SERVER_DECL CThreadPool
 
 	public:
 		CThreadPool();
-
+		~CThreadPool()
+		{
+			m_activeThreads.clear();
+			m_freeThreads.clear();
+		}
 		// 每两分钟调用一次
 		void IntegrityCheck();
 

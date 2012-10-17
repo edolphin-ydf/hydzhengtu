@@ -32,7 +32,6 @@
 
 #include "StackWalker.h"
 
-
 // If VC7 and later, then use the shipped 'dbghelp.h'-file
 #if _MSC_VER >= 1300
 #include <dbghelp.h>

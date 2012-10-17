@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="logon">
-      <UniqueIdentifier>{53d10578-d019-4281-82f8-2441e3410572}</UniqueIdentifier>
-    </Filter>
     <Filter Include="share">
       <UniqueIdentifier>{cf2421cf-2902-40f0-8425-4ab221eb6534}</UniqueIdentifier>
     </Filter>
@@ -24,34 +21,7 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="logon\AuthSocket.h">
-      <Filter>logon</Filter>
-    </ClInclude>
-    <ClInclude Include="logon\AuthStructs.h">
-      <Filter>logon</Filter>
-    </ClInclude>
-    <ClInclude Include="logon\LogonCommServer.h">
-      <Filter>logon</Filter>
-    </ClInclude>
-    <ClInclude Include="logon\LogonConsole.h">
-      <Filter>logon</Filter>
-    </ClInclude>
-    <ClInclude Include="logon\LogonOpcodes.h">
-      <Filter>logon</Filter>
-    </ClInclude>
-    <ClInclude Include="logon\LogonStdAfx.h">
-      <Filter>logon</Filter>
-    </ClInclude>
-    <ClInclude Include="logon\Main.h">
-      <Filter>logon</Filter>
-    </ClInclude>
-    <ClInclude Include="logon\PeriodicFunctionCall_Thread.h">
-      <Filter>logon</Filter>
-    </ClInclude>
     <ClInclude Include="shared\Log.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="logon\InfoCore.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="shared\common.h">
@@ -76,9 +46,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="shared\mersennetwister.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="shared\performancecounter.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="shared\PreallocatedQueue.h">
@@ -270,30 +237,15 @@
     <ClInclude Include="include\global.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="shared\performancecounter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\MemoryPools\Node.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="logon\AuthSocket.cpp">
-      <Filter>logon</Filter>
-    </ClCompile>
-    <ClCompile Include="logon\LogonCommServer.cpp">
-      <Filter>logon</Filter>
-    </ClCompile>
-    <ClCompile Include="logon\LogonConsole.cpp">
-      <Filter>logon</Filter>
-    </ClCompile>
-    <ClCompile Include="logon\LogonOpcodes.cpp">
-      <Filter>logon</Filter>
-    </ClCompile>
-    <ClCompile Include="logon\LogonStdAfx.cpp">
-      <Filter>logon</Filter>
-    </ClCompile>
-    <ClCompile Include="logon\Main.cpp">
-      <Filter>logon</Filter>
-    </ClCompile>
     <ClCompile Include="shared\Log.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="logon\InfoCore.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="shared\Util.cpp">

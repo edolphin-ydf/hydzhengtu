@@ -36,6 +36,7 @@ int GenerateThreadId()
 #endif
 
 #define THREAD_RESERVE 10//预备的线程数
+
 SERVER_DECL CThreadPool ThreadPool;
 
 CThreadPool::CThreadPool()
@@ -60,17 +61,19 @@ bool CThreadPool::ThreadExit(Thread* t)
 		--_threadsToExit;
 		++_threadsExitedSinceLastCheck;
 		if(t->DeleteAfterExit)
+		{
 			m_freeThreads.erase(t);
+			//Macro_Delete(t);
+		}
 
 		_mutex.Release();
-		delete t;
 		return false;
 	}
 
 	// enter the "suspended" pool
 	++_threadsExitedSinceLastCheck;
 	++_threadsEaten;
-	std::set<Thread*>::iterator itr = m_freeThreads.find(t);
+	ThreadSet::iterator itr = m_freeThreads.find(t);
 
 	if(itr != m_freeThreads.end())
 	{
@@ -128,7 +131,7 @@ void CThreadPool::Startup()
 	for(i = 0; i < tcount; ++i)
 		StartThread(NULL);
 
-	Log.Debug("ThreadPool", "Startup, launched %u threads.", tcount);
+	Log.Debug("ThreadPool", "线程池启动, 启动 %u 条线程.", tcount);
 }
 
 void CThreadPool::ShowStats()
@@ -210,6 +213,7 @@ void CThreadPool::KillFreeThreads(uint32 count)
 		++_threadsToExit;
 		t->ControlInterface.Resume();
 	}
+
 	_mutex.Release();
 }
 
@@ -217,15 +221,13 @@ void CThreadPool::Shutdown()
 {
 	_mutex.Acquire();
 	size_t tcount = m_activeThreads.size() + m_freeThreads.size();		// exit all
-	Log.Debug("ThreadPool", "Shutting down %u threads.", tcount);
+	Log.Debug("ThreadPool", "结束所有线程： %u 条.", tcount);
 	KillFreeThreads((uint32)m_freeThreads.size());
 	_threadsToExit += (uint32)m_activeThreads.size();
 
-	for(std::set< Thread* >::iterator itr = m_activeThreads.begin(); itr != m_activeThreads.end(); ++itr)
+	for(ThreadSet::iterator itr = m_activeThreads.begin(); itr != m_activeThreads.end(); ++itr)
 	{
-
 		Thread* t = *itr;
-
 		if(t->ExecutionTarget)
 			t->ExecutionTarget->OnShutdown();
 		else
@@ -236,6 +238,7 @@ void CThreadPool::Shutdown()
 	for(int i = 0;; i++)
 	{
 		_mutex.Acquire();
+		// 循环等待所有线程退出
 		if(m_activeThreads.size() || m_freeThreads.size())
 		{
 			if(i != 0 && m_freeThreads.size() != 0)
@@ -250,7 +253,7 @@ void CThreadPool::Shutdown()
 					t->ControlInterface.Resume();
 				}
 			}
-			Log.Debug("ThreadPool", "%u active and %u free threads remaining...", m_activeThreads.size(), m_freeThreads.size());
+			Log.Debug("ThreadPool", "%u 条激活状态 and %u 条空闲状态线程 remaining...", m_activeThreads.size(), m_freeThreads.size());
 			_mutex.Release();
 			MNet::Sleep(1000);
 			continue;
@@ -285,7 +288,7 @@ static unsigned long WINAPI thread_proc(void* param)
 
 		if(!ThreadPool.ThreadExit(t))
 		{
-			Log.Debug("ThreadPool", "Thread %u exiting.", tid);
+			Log.Debug("ThreadPool", "线程 %u 退出.", tid);
 			break;
 		}
 		else
@@ -305,7 +308,8 @@ static unsigned long WINAPI thread_proc(void* param)
 Thread* CThreadPool::StartThread(ThreadBase* ExecutionTarget)
 {
 	HANDLE h;
-	Thread* t = new Thread;
+	Thread* t = NULL;
+	Macro_NewClass(t,Thread);
 
 	t->DeleteAfterExit = false;
 	t->ExecutionTarget = ExecutionTarget;
@@ -353,7 +357,8 @@ static void* thread_proc(void* param)
 Thread* CThreadPool::StartThread(ThreadBase* ExecutionTarget)
 {
 	pthread_t target;
-	Thread* t = new Thread;
+	Thread* t = NULL;
+	Macro_NewClass(t,Thread);
 	t->ExecutionTarget = ExecutionTarget;
 	t->DeleteAfterExit = false;
 

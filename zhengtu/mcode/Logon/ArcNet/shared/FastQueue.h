@@ -2,6 +2,8 @@
 #ifndef _FASTQUEUE_H
 #define _FASTQUEUE_H
 
+#include "MemoryPools/Node.h"
+
 /** dummy lock to use a non-locked queue.
  */
 class DummyLock
