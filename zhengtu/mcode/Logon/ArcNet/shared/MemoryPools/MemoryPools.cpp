@@ -316,9 +316,9 @@ void* CMemoryPools::GetBuff(size_t szBuffSize,const char *file, int line)
 
 		//return pBuff;
 #ifdef _DEBUG
-		return SetMemoryHead(pBuff, m_pMemoryList, pMemoryUsed,aindex,line);
+		return SetMemoryHead(pBuff, pMemoryList, pMemoryUsed,aindex,line);
 #else
-		return SetMemoryHead(pBuff, m_pMemoryList, pMemoryUsed);
+		return SetMemoryHead(pBuff, pMemoryList, pMemoryUsed);
 #endif
 	}
 }
@@ -530,4 +530,16 @@ _MemoryInfo CMemoryPools::GetAndPlayMemoryList()
 	_info.nFreeCount = nFreeCount;
 	return _info;
 }
+#ifdef _DEBUG
+/** @brief 打印map中保存的文件地址 */
+void CMemoryPools::DisPlayMap()
+{
+	CAutoLock autolock(&m_ThreadLock);
+	MAP_FILE::iterator it;
+	for (it=map_file.begin();it!=map_file.end();it++)
+	{
+		printf_s("[CMemoryPools::DisPlayMap] %s \n",it->second.c_str());
+	}
+}
 
+#endif

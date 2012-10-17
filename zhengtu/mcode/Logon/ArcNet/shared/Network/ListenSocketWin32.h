@@ -96,7 +96,7 @@ class SERVER_DECL ListenSocket : public ThreadBase
 		}
 
 		MNET_INLINE bool IsOpen() { return m_opened; }
-
+		void OnShutdown() { Close(); }
 	private:
 		SOCKET m_socket;
 		struct sockaddr_in m_address;

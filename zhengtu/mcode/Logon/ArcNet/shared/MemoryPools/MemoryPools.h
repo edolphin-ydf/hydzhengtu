@@ -127,7 +127,10 @@ public:
 	每个链表中有多少内存块在使用，有多少是自由内存，用于内存泄露的跟踪
 	*/
 	_MemoryInfo GetAndPlayMemoryList();
-
+#ifdef _DEBUG
+	/** @brief 打印map中保存的文件地址 */
+	void DisPlayMap();
+#endif
 	template< class T >	
 #ifdef _DEBUG
 	T * Alloc(const char *file, int line)
