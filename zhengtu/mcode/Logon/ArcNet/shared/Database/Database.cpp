@@ -1,28 +1,3 @@
-/*
- * ArcEmu MMORPG Server
- * Copyright (C) 2008-2011 <http://www.ArcEmu.org/>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
-//////////////////////////////////////////////
-// Notes: .Execute is ASYNC! -
-// We should probably be using QueryBuffer for ASYNC and NONE-ASYNC queries to not lag the emu.
-// See: Player::_SavePetSpells for example of usage
-// updated: Tuesday, June 16th 2009 - Hasbro
-//////////////////////////////////////////////
 
 #include "DatabaseEnv.h"
 
@@ -31,7 +6,7 @@ SQLCallbackBase::~SQLCallbackBase()
 
 }
 
-Database::Database() : CThread()
+Database::Database() : CThread("Database")
 {
 	_counter = 0;
 	Connections = NULL;
@@ -256,7 +231,7 @@ bool Database::run()
 			if(con != NULL)
 				con->Busy.Release();
 			con = NULL;
-			Arcemu::Sleep(10);
+			MNet::Sleep(10);
 		}
 	}
 
@@ -342,7 +317,7 @@ void Database::EndThreads()
 
 	while(ThreadRunning || qt)
 	{
-		Arcemu::Sleep(100);
+		MNet::Sleep(100);
 		if(!ThreadRunning)
 			break;
 	}
@@ -378,7 +353,7 @@ void Database::thread_proc_query()
 
 		q = query_buffer.pop();
 		if(q == NULL)
-			Arcemu::Sleep(10);
+			MNet::Sleep(10);
 	}
 
 	con->Busy.Release();

@@ -1,10 +1,10 @@
 
 
-// arcemu Configuration Header File
+// mnet Configuration Header File
 // Feel free to customize to your needs.
 
-#ifndef __arcemuCONFIG_H
-#define __arcemuCONFIG_H
+#ifndef __mnetCONFIG_H
+#define __mnetCONFIG_H
 
 #ifndef ENABLE_IMPROVED_TICKETSYSTEM
 #define GM_TICKET_MY_MASTER_COMPATIBLE
@@ -58,5 +58,5 @@
 // LOGON_MAXBUILD maximum allowed build number that the logonserver will allow clients to connect with
 #define LOGON_MAXBUILD 12340
 
-#endif		// __arcemuCONFIG_H
+#endif		// __mnetCONFIG_H
 

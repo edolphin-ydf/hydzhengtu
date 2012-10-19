@@ -1,21 +1,3 @@
-/*
- * ArcEmu MMORPG Server
- * Copyright (C) 2008-2011 <http://www.ArcEmu.org/>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
 
 #ifndef _DATABASE_H
 #define _DATABASE_H
@@ -51,7 +33,7 @@ class SERVER_DECL AsyncQuery
 		~AsyncQuery();
 		void AddQuery(const char* format, ...);
 		void Perform();
-		ARCEMU_INLINE void SetDB(Database* dbb) { db = dbb; }
+		void SetDB(Database* dbb) { db = dbb; }
 };
 
 class SERVER_DECL QueryBuffer
@@ -98,9 +80,9 @@ class SERVER_DECL Database : public CThread
 		// Initialized on load: Database::Database() : CThread()
 		bool ThreadRunning;
 
-		ARCEMU_INLINE const string & GetHostName() { return mHostname; }
-		ARCEMU_INLINE const string & GetDatabaseName() { return mDatabaseName; }
-		ARCEMU_INLINE const uint32 GetQueueSize() { return queries_queue.get_size(); }
+		const string & GetHostName() { return mHostname; }
+		const string & GetDatabaseName() { return mDatabaseName; }
+		const uint32 GetQueueSize() { return queries_queue.get_size(); }
 
 		virtual string EscapeString(string Escape) = 0;
 		virtual void EscapeLongString(const char* str, uint32 len, stringstream & out) = 0;
@@ -166,9 +148,9 @@ class SERVER_DECL QueryResult
 		virtual bool NextRow() = 0;
 		void Delete() { delete this; }
 
-		ARCEMU_INLINE Field* Fetch() { return mCurrentRow; }
-		ARCEMU_INLINE uint32 GetFieldCount() const { return mFieldCount; }
-		ARCEMU_INLINE uint32 GetRowCount() const { return mRowCount; }
+		Field* Fetch() { return mCurrentRow; }
+		uint32 GetFieldCount() const { return mFieldCount; }
+		uint32 GetRowCount() const { return mRowCount; }
 
 	protected:
 		uint32 mFieldCount;
@@ -181,7 +163,7 @@ class SERVER_DECL QueryThread : public CThread
 		friend class Database;
 		Database* db;
 	public:
-		QueryThread(Database* d) : CThread(), db(d) {}
+		QueryThread(Database* d) : CThread("db_QueryThread"), db(d) {}
 		~QueryThread();
 		bool run();
 };

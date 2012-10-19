@@ -52,13 +52,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./;../ArcNet/;../ArcNet/shared/;../include/zlib;../include;../include/hiredis;../include/redis;redis</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../ArcNet/;../ArcNet/shared/;../include/zlib;../include;../include/hiredis;../include/redis;redis;../dep/redis/deps/hiredis</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../bin/$(Configuration)\;../lib;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libeay32_win32.lib;zlib.lib;dbghelp.lib;ArcNet.lib;hiredis.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libeay32_win32.lib;zlib.lib;dbghelp.lib;ArcNet.lib;hiredis.lib;ws2_32.lib;libmysql_debug_win32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -82,6 +82,7 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AccountCache.cpp" />
     <ClCompile Include="Cache.cpp" />
     <ClCompile Include="redis\Redis.cpp" />
     <ClCompile Include="redis\win32fixes.c" />
@@ -89,11 +90,13 @@
     <ClCompile Include="redis\zmalloc.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AccountCache.h" />
+    <ClInclude Include="DataInterface.h" />
     <ClInclude Include="redis\Redis.h" />
     <ClInclude Include="redis\r_common.h" />
-    <ClInclude Include="ServerData.h" />
     <ClInclude Include="redis\win32fixes.h" />
     <ClInclude Include="redis\win32_wsiocp.h" />
+    <ClInclude Include="ServerData.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

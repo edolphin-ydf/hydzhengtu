@@ -7,8 +7,12 @@
 #ifndef __r_common_H__
 #define __r_common_H__
 
-#include "hiredis.h"
-#include "win32fixes.h"
+#include "Common.h"
 
+#include "Redis.h"
 
+#include "shared/Config/ConfigEnv.h"
+#include "shared/Database/DatabaseEnv.h"
+
+extern Database* sCacheSQL;
 #endif

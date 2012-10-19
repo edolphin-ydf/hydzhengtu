@@ -82,7 +82,7 @@
     <ClInclude Include="include\global.h" />
     <ClInclude Include="include\vld\vld.h" />
     <ClInclude Include="include\vld\vld_def.h" />
-    <ClInclude Include="shared\arcemuconfig.h" />
+    <ClInclude Include="shared\mnet_config.h" />
     <ClInclude Include="shared\Array.h" />
     <ClInclude Include="shared\AuthCodes.h" />
     <ClInclude Include="shared\auth\bignumber.h" />
@@ -99,6 +99,11 @@
     <ClInclude Include="shared\crc32.h" />
     <ClInclude Include="shared\crefcounter.h" />
     <ClInclude Include="shared\cthreads.h" />
+    <ClInclude Include="shared\Database\Database.h" />
+    <ClInclude Include="shared\Database\DatabaseEnv.h" />
+    <ClInclude Include="shared\Database\DataStore.h" />
+    <ClInclude Include="shared\Database\Field.h" />
+    <ClInclude Include="shared\Database\MySQLDatabase.h" />
     <ClInclude Include="shared\dynlib.hpp" />
     <ClInclude Include="shared\errors.h" />
     <ClInclude Include="shared\FastQueue.h" />
@@ -163,6 +168,9 @@
     <ClCompile Include="shared\CrashHandler.cpp" />
     <ClCompile Include="shared\crc32.cpp" />
     <ClCompile Include="shared\CThreads.cpp" />
+    <ClCompile Include="shared\Database\CreateInterface.cpp" />
+    <ClCompile Include="shared\Database\Database.cpp" />
+    <ClCompile Include="shared\Database\MySQLDatabase.cpp" />
     <ClCompile Include="shared\DynLib.cpp" />
     <ClCompile Include="shared\FindFiles.cpp" />
     <ClCompile Include="shared\Log.cpp" />

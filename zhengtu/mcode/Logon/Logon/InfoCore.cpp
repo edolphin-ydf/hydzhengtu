@@ -47,8 +47,8 @@ void AccountMgr::AddAccount()
 		//sLogonSQL->Execute("UPDATE accounts SET muted = 0 WHERE acct=%u", acct->AccountId);
 	}
 	// Convert username/password to uppercase. this is needed ;)
-	arcemu_TOUPPER(Username);
-	arcemu_TOUPPER(Password);
+	mnet_TOUPPER(Username);
+	mnet_TOUPPER(Password);
 
 	// prefer encrypted passwords over nonencrypted
 	// Prehash the I value.

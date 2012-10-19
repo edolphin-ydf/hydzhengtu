@@ -117,9 +117,6 @@
     <ClInclude Include="shared\CircularQueue.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="shared\arcemuconfig.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="shared\Array.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -243,6 +240,24 @@
     <ClInclude Include="shared\MemoryPools\Node.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="shared\Database\MySQLDatabase.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\Database\Database.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\Database\DatabaseEnv.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\Database\DataStore.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\Database\Field.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="shared\mnet_config.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="shared\Log.cpp">
@@ -351,6 +366,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="shared\MemoryPools\MemoryPools.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Database\CreateInterface.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Database\Database.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="shared\Database\MySQLDatabase.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
