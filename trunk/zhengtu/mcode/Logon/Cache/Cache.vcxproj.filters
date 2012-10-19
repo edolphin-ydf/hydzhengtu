@@ -24,18 +24,27 @@
     <ClCompile Include="redis\zmalloc.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="redis\Redis.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
     <ClCompile Include="redis\win32_wsiocp.c">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="redis\win32fixes.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="redis\Redis.cpp">
+    <ClCompile Include="AccountCache.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ServerData.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
     <ClInclude Include="redis\r_common.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="redis\Redis.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="redis\win32_wsiocp.h">
@@ -44,10 +53,10 @@
     <ClInclude Include="redis\win32fixes.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="redis\Redis.h">
+    <ClInclude Include="AccountCache.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ServerData.h">
+    <ClInclude Include="DataInterface.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

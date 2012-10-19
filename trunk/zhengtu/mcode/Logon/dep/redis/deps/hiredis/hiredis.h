@@ -217,6 +217,52 @@ void *redisvCommand(redisContext *c, const char *format, va_list ap);
 void *redisCommand(redisContext *c, const char *format, ...);
 void *redisCommandArgv(redisContext *c, int argc, const char **argv, const size_t *argvlen);
 
+/** @brief hydÌí¼Ó */
+int redis_ping(redisContext *c);
+
+#define CREDIS_SERVER_MASTER 1
+#define CREDIS_SERVER_SLAVE 2
+
+#define VERSION_STRING_SIZE 32
+#define MULTIPLEXING_API_SIZE 16
+#define USED_MEMORY_HUMAN_SIZE 32
+
+#define _STRINGIF(arg) #arg
+#define STRINGIFY(arg) _STRINGIF(arg)
+#define CR_VERSION_STRING_SIZE_STR STRINGIFY(CREDIS_VERSION_STRING_SIZE)
+#define CR_MULTIPLEXING_API_SIZE_STR STRINGIFY(CREDIS_MULTIPLEXING_API_SIZE)
+#define CR_USED_MEMORY_HUMAN_SIZE_STR STRINGIFY(CREDIS_USED_MEMORY_HUMAN_SIZE)
+
+typedef struct _cr_info {
+	char redis_version[VERSION_STRING_SIZE];
+	int arch_bits;
+	char multiplexing_api[MULTIPLEXING_API_SIZE];
+	long process_id;
+	long uptime_in_seconds;
+	long uptime_in_days;
+	int connected_clients;
+	int connected_slaves;
+	int blocked_clients;
+	unsigned long used_memory;
+	char used_memory_human[USED_MEMORY_HUMAN_SIZE];
+	long long changes_since_last_save;
+	int bgsave_in_progress;
+	long last_save_time;
+	int bgrewriteaof_in_progress;
+	long long total_connections_received;
+	long long total_commands_processed;
+	long long expired_keys;
+	unsigned long hash_max_zipmap_entries;
+	unsigned long hash_max_zipmap_value;
+	long pubsub_channels;
+	unsigned int pubsub_patterns;
+	int vm_enabled;
+	int role;
+} REDIS_INFO;
+int redis_info(redisContext *c, REDIS_INFO *info);
+
+redisReply * cr_incr(redisContext *c, int incr, int decr, const char *key);
+redisReply* cr_push(redisContext *c, int left, const char *key, const char *val);
 #ifdef __cplusplus
 }
 #endif

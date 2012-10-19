@@ -45,7 +45,7 @@ enum MsTimeVariables
 # include <config.h>
 #endif
 
-#include "arcemuConfig.h"
+#include "mnet_Config.h"
 
 #include <cstdlib>
 #include <cstdio>
@@ -544,13 +544,14 @@ std::string ConvertTimeStampToDataTime(uint32 timestamp);
 
 uint32 DecimalToMask(uint32 dec);
 
-MNET_INLINE void arcemu_TOLOWER(std::string & str)
+MNET_INLINE void mnet_TOLOWER(std::string & str)
 {
 	for(size_t i = 0; i < str.length(); ++i)
 		str[i] = (char)tolower(str[i]);
 }
 
-MNET_INLINE void arcemu_TOUPPER(std::string & str)
+/** @brief ×ª»»Îª´óÐ´*/
+MNET_INLINE void mnet_TOUPPER(std::string & str)
 {
 	for(size_t i = 0; i < str.length(); ++i)
 		str[i] = (char)toupper(str[i]);

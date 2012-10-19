@@ -1,7 +1,7 @@
 #ifndef GIT_VERSION_HPP
 #define GIT_VERSION_HPP
 
-#define BUILD_TAG "4.0-TRUNK"
+#define BUILD_TAG "1.0-TRUNK"
 #define BUILD_HASH 0x0
 #define COMMIT_TIMESTAMP 0
 #define BUILD_HASH_STR "0"

@@ -1361,3 +1361,98 @@ void *redisCommandArgv(redisContext *c, int argc, const char **argv, const size_
         return NULL;
     return __redisBlockForReply(c);
 }
+
+//////////////////////////////////////////////////////////////////////////
+/** @brief hydÌí¼Ó */
+int redis_ping( redisContext *c )
+{
+	int rc = 0;
+	redisReply *reply;
+	reply = redisCommand(c,"PING");
+	rc = atoi(reply->str);
+	freeReplyObject(reply);
+
+	return rc;
+}
+
+/* Parse Redis `info' string for a particular `field', storing its value to 
+ * `storage' according to `format'.
+ */
+void cr_parseinfo(const char *info, const char *field, const char *format, void *storage)
+{
+  char *str = strstr(info, field);
+  if (str) {
+    str += strlen(field) + 1; /* also skip the ':' */
+    sscanf(str, format, storage); 
+  }
+}
+
+int redis_info( redisContext *c, REDIS_INFO *info )
+{
+	int rc;
+	redisReply *reply = redisCommand(c, "INFO");
+	rc = reply->len;
+	if (rc > 0) {
+		char role;
+		memset(info, 0, sizeof(REDIS_INFO));
+		cr_parseinfo(reply->str, "redis_version", "%"CR_VERSION_STRING_SIZE_STR"s\r\n", &(info->redis_version));
+		cr_parseinfo(reply->str, "arch_bits", "%d", &(info->arch_bits));
+		cr_parseinfo(reply->str, "multiplexing_api", "%"CR_MULTIPLEXING_API_SIZE_STR"s\r\n", &(info->multiplexing_api));
+		cr_parseinfo(reply->str, "process_id", "%ld", &(info->process_id));
+		cr_parseinfo(reply->str, "uptime_in_seconds", "%ld", &(info->uptime_in_seconds));
+		cr_parseinfo(reply->str, "uptime_in_days", "%ld", &(info->uptime_in_days));
+		cr_parseinfo(reply->str, "connected_clients", "%d", &(info->connected_clients));
+		cr_parseinfo(reply->str, "connected_slaves", "%d", &(info->connected_slaves));
+		cr_parseinfo(reply->str, "blocked_clients", "%d", &(info->blocked_clients));
+#ifdef WIN32
+		cr_parseinfo(reply->str, "used_memory", "%llu", &(info->used_memory));
+#else
+		cr_parseinfo(reply->str, "used_memory", "%zu", &(info->used_memory));
+#endif
+		cr_parseinfo(reply->str, "used_memory_human", "%"CR_USED_MEMORY_HUMAN_SIZE_STR"s", &(info->used_memory_human));
+		cr_parseinfo(reply->str, "changes_since_last_save", "%lld", &(info->changes_since_last_save));
+		cr_parseinfo(reply->str, "bgsave_in_progress", "%d", &(info->bgsave_in_progress));
+		cr_parseinfo(reply->str, "last_save_time", "%ld", &(info->last_save_time));
+		cr_parseinfo(reply->str, "bgrewriteaof_in_progress", "%d", &(info->bgrewriteaof_in_progress));
+		cr_parseinfo(reply->str, "total_connections_received", "%lld", &(info->total_connections_received));
+		cr_parseinfo(reply->str, "total_commands_processed", "%lld", &(info->total_commands_processed));
+		cr_parseinfo(reply->str, "expired_keys", "%lld", &(info->expired_keys));
+#ifdef WIN32
+		cr_parseinfo(reply->str, "hash_max_zipmap_entries", "%llu", &(info->hash_max_zipmap_entries));
+		cr_parseinfo(reply->str, "hash_max_zipmap_value", "%llu", &(info->hash_max_zipmap_value));
+#else
+		cr_parseinfo(reply->str, "hash_max_zipmap_entries", "%zu", &(info->hash_max_zipmap_entries));
+		cr_parseinfo(reply->str, "hash_max_zipmap_value", "%zu", &(info->hash_max_zipmap_value));
+#endif
+		cr_parseinfo(reply->str, "pubsub_channels", "%ld", &(info->pubsub_channels));
+		cr_parseinfo(reply->str, "pubsub_patterns", "%u", &(info->pubsub_patterns));
+		cr_parseinfo(reply->str, "vm_enabled", "%d", &(info->vm_enabled));
+		cr_parseinfo(reply->str, "role", "%c", &role);
+
+		info->role = ((role=='m')?CREDIS_SERVER_MASTER:CREDIS_SERVER_SLAVE);
+	}
+
+	freeReplyObject(reply);
+	return rc;
+}
+
+redisReply * cr_incr(redisContext *c, int incr, int decr, const char *key)
+{
+	redisReply *reply;
+	if (incr == 1 || decr == 1)
+		reply = redisCommand(c, "%s %s", incr>0?"INCR":"DECR", key);
+	else if (incr > 1 || decr > 1)
+		reply = redisCommand(c, "%s %s %d", incr>0?"INCRBY":"DECRBY", key, incr>0?incr:decr);
+
+
+	return reply;
+}
+
+redisReply* cr_push(redisContext *c, int left, const char *key, const char *val)
+{
+	redisReply *reply;
+	reply = redisvCommand(c,"%s %s %s",left==1?"LPUSH":"RPUSH", key, val);
+
+	return reply;
+}
+ 
