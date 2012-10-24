@@ -10,7 +10,11 @@
 #define SOCKET_H
 
 #include "SocketDefines.h"
-
+////////////////////////////////////////////////////////////////
+/// @class Socket
+/// @brief 套接字基类
+///
+/// @note 注意此对象不需要自己释放，只需要调用Delete或者Disconnect
 class SERVER_DECL Socket
 {
 	public:
@@ -88,6 +92,10 @@ class SERVER_DECL Socket
 		CircularBuffer readBuffer;
 		CircularBuffer writeBuffer;
 
+		virtual void SendPing() = 0;         /**< 发送PING心跳  */
+		virtual void HandPong() = 0;         /**< 接收PING返回  */
+		virtual void SendExit() = 0;
+		virtual void HandExit() = 0;
 	protected:
 
 		// Called when connection is opened.
@@ -100,11 +108,11 @@ class SERVER_DECL Socket
 
 		// we are connected? stop from posting events.
 		// 我们是否已经连接,连接的话停止传送事件
-		MNet::Threading::AtomicBoolean m_connected;
+		MCodeNet::Threading::AtomicBoolean m_connected;
 
 		// We are deleted? Stop us from posting events.
 		// 我们是否被删除,删除的话停止传送事件
-		MNet::Threading::AtomicBoolean m_deleted;
+		MCodeNet::Threading::AtomicBoolean m_deleted;
 
 		sockaddr_in m_client;
 
@@ -125,7 +133,7 @@ class SERVER_DECL Socket
 
 	private:
 		// Write lock, stops multiple write events from being posted.
-		MNet::Threading::AtomicCounter m_writeLock;
+		MCodeNet::Threading::AtomicCounter m_writeLock;
 
 		/* Win32 - IOCP Specific Calls */
 #ifdef CONFIG_USE_IOCP
@@ -220,9 +228,13 @@ T* ConnectTCPSocket(const char* hostname, u_short port)
 	return s;
 }
 
-/* Socket Garbage Collector */
-#define SOCKET_GC_TIMEOUT 15
 
+#define SOCKET_GC_TIMEOUT 15
+////////////////////////////////////////////////////////////////
+/// @class SocketGarbageCollector
+/// @brief 套接字垃圾收集器
+///
+/// @note
 class SocketGarbageCollector : public Singleton<SocketGarbageCollector>
 {
 		map<Socket*, time_t> deletionQueue;

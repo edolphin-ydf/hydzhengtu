@@ -168,10 +168,7 @@ private:
 };
 
 #define MemPools CMemoryPools::Instance()
-#define Macro_New(szBuffSize) \
-	do {\
-	MemPools.GetBuff(szBuffSize,__FILE__,__LINE__);\
-	}while (0)
+#define Macro_New(szBuffSize) MemPools.GetBuff(szBuffSize,__FILE__,__LINE__);
 
 #define Macro_Delete(pBuff) \
 	do {\

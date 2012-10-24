@@ -2,9 +2,9 @@
 #ifndef CREFCOUNTER_HPP
 #define CREFCOUNTER_HPP
 ////////////////////////////////////////////////////////////////
-/// @namespace MNet
+/// @namespace MCodeNet
 /// @brief MÍøÂç¿â
-namespace MNet
+namespace MCodeNet
 {
 	namespace Shared
 	{
@@ -61,7 +61,7 @@ namespace MNet
 
 
 			private:
-				MNet::Threading::AtomicCounter Counter;
+				MCodeNet::Threading::AtomicCounter Counter;
 
 		};
 	}

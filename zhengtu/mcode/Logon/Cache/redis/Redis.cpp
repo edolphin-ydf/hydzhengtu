@@ -9,8 +9,36 @@
 //////////////////////////////////////////////////////////////////////////
 
 #include "Redis.h"
+#include "hiredis.h"
+/*
+ * @defgroup ²âÊÔredis
+ * @{
+ */
+ 
+//RedisClient ge("192.168.1.116");
+//int re = ge.exists_key("kalle");
+//
+//REDIS_TYPE atype = ge.type_key("kalle");
+//
+//ge.get_keys("kalle");
+//
+//ge.random_key();
+//
+//ge.rename_key("kalle","kall");
+//
+//ge.renamenx("kall","kalle");
+//
+//ge.dbsize();
+//
+//ge.expire_key("kalle",1000);
+//
+//ge.ttl_key("kalle");
+//
+//ge.select_index(1);
+//
+//ge.move("kalle",2);
 
-
+/** @} */ // Ä£¿é½áÎ²
 
 bool RedisClient::Connect()
 {
@@ -575,5 +603,18 @@ int RedisClient::sort( const char *query )
 	__reply = (redisReply *)redisCommand(__redis,"SORT %s",query);
 
 	return __reply->elements;
+}
+
+RedisClient* RedisClient::CreateRedisInterface(const char *ip, int port)
+{
+	return new RedisClient(ip,port);
+}
+
+char* RedisClient::errorreply()
+{
+	if(__redis)
+		return __redis->errstr;
+	else 
+		return NULL;
 }
 

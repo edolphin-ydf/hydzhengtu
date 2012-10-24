@@ -3,9 +3,9 @@
 #define MNET_PERFORMANCECOUNTER_HPP
 #include "Common.h"
 ////////////////////////////////////////////////////////////////
-/// @namespace MNet
+/// @namespace MCodeNet
 /// @brief MÍøÂç¿â
-namespace MNet{
+namespace MCodeNet{
 
 	/////////////////////////////////////////////////////////
 	//class PerformanceCounter

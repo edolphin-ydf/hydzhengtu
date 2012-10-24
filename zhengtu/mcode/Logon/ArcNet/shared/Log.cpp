@@ -25,7 +25,6 @@ string FormatOutputString(const char* Prefix, const char* Description, bool useT
 }
 
 createFileSingleton(oLog);
-initialiseSingleton(WorldLog);
 
 SERVER_DECL time_t UNIXTIME;
 SERVER_DECL tm g_localTime;
@@ -412,58 +411,6 @@ void SessionLogWriter::write(const char* format, ...)
 	va_end(ap);
 }
 
-WorldLog::WorldLog()
-{
-	bEnabled = false;
-	m_file = NULL;
-
-	if(Config.MainConfig.GetBoolDefault("LogLevel", "World", false))
-	{
-		Log.Notice("WorldLog", "Enabling packetlog output to \"world.log\"");
-		Enable();
-	}
-	else
-	{
-		Disable();
-	}
-}
-
-void WorldLog::Enable()
-{
-	if(bEnabled)
-		return;
-
-	bEnabled = true;
-	if(m_file != NULL)
-	{
-		Disable();
-		bEnabled = true;
-	}
-	m_file = fopen("world.log", "a");
-}
-
-void WorldLog::Disable()
-{
-	if(!bEnabled)
-		return;
-
-	bEnabled = false;
-	if(!m_file)
-		return;
-
-	fflush(m_file);
-	fclose(m_file);
-	m_file = NULL;
-}
-
-WorldLog::~WorldLog()
-{
-	if(m_file)
-	{
-		fclose(m_file);
-		m_file = NULL;
-	}
-}
 
 void SessionLogWriter::Open()
 {

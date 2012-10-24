@@ -116,10 +116,19 @@ string Socket::GetRemoteIP()
 void Socket::Disconnect()
 {
 	//if returns false it means it's already disconnected
-	if(!m_connected.SetVal(false))
-		return;
+	if (m_connected.GetVal())
+	{
+		SendExit();
+		if(!m_connected.SetVal(false))
+			return;
+	}
+	else
+	{
+		if(!IsDeleted())
+			Delete();
+	}
 
-	sLog.outDetail("Socket::Disconnect on socket %u", m_fd);
+	sLog.outDetail("Socket::Á¬½Ó %u¶Ï¿ª£¡", m_fd);
 
 	// remove from mgr
 	sSocketMgr.RemoveSocket(this);

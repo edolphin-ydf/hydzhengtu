@@ -200,7 +200,8 @@ enum MsTimeVariables
 #include <cstring>
 #include <climits>
 #include <cstdlib>
-//#include <iostream>
+#include <iostream>
+using namespace std;
 
 #if defined ( __GNUC__ )
 #	define LIKELY( _x ) \

@@ -408,9 +408,9 @@ volatile long Sync_Sub(volatile long* value)
 #endif
 }
 ////////////////////////////////////////////////////////////////
-/// @namespace MNet
+/// @namespace MCodeNet
 /// @brief MÍøÂç¿â
-namespace MNet
+namespace MCodeNet
 {
 	float round(float f)
 	{

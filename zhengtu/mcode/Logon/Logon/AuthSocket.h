@@ -25,7 +25,7 @@ struct FS_PACKET
 #pragma pack()
 
 
-class AuthSocket : public MNetSocket
+class AuthSocket : public MCodeNetSocket
 {
 	public:
 
@@ -40,7 +40,7 @@ class AuthSocket : public MNetSocket
 		///////////////////////////////////////////////////
 		// Client Packet Handlers
 		//////////////////////////
-		void _HandlePacket();
+		void _HandlePacket();                            //纯虚接口
 		void HandlePress(FS_PACKET* packet);             //压力测试
 		void HandlePass(FS_PACKET* packet);              //判断密码是否通过
 		void HandleRealmlist(FS_PACKET* packet);         //处理Realmlist

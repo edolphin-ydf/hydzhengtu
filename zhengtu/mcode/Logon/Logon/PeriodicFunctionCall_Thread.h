@@ -91,7 +91,7 @@ class PeriodicFunctionCaller : public ThreadBase
 			/* wait for the thread to exit */
 			while(thread_active)
 			{
-				MNet::Sleep(100);
+				MCodeNet::Sleep(100);
 			}
 			LOG_DETAIL("PFC thread exited.");
 #else
@@ -102,7 +102,7 @@ class PeriodicFunctionCaller : public ThreadBase
 	private:
 		CallbackBase* cb;
 		uint32 interval;
-		MNet::Threading::AtomicBoolean running;
+		MCodeNet::Threading::AtomicBoolean running;
 #ifdef WIN32
 		bool thread_active;
 		HANDLE hEvent;

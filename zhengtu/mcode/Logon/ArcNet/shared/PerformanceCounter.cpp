@@ -2,29 +2,29 @@
 #include "PerformanceCounter.h"
 #include "SysInfo.hpp"
 ////////////////////////////////////////////////////////////////
-/// @namespace MNet
+/// @namespace MCodeNet
 /// @brief MÍøÂç¿â
-namespace MNet
+namespace MCodeNet
 {
 
 	PerformanceCounter::PerformanceCounter()
 	{
-		cpu_count = MNet::SysInfo::GetCPUCount();
-		last_update = MNet::SysInfo::GetTickCount();
-		last_cpu_usage = MNet::SysInfo::GetCPUUsage();
+		cpu_count = MCodeNet::SysInfo::GetCPUCount();
+		last_update = MCodeNet::SysInfo::GetTickCount();
+		last_cpu_usage = MCodeNet::SysInfo::GetCPUUsage();
 	}
 
 	float PerformanceCounter::GetCurrentRAMUsage()
 	{
-		unsigned long long usage = MNet::SysInfo::GetRAMUsage();
+		unsigned long long usage = MCodeNet::SysInfo::GetRAMUsage();
 
 		return static_cast< float >(usage / (1024.0 * 1024.0));
 	}
 
 	float PerformanceCounter::GetCurrentCPUUsage()
 	{
-		unsigned long long now = MNet::SysInfo::GetTickCount();
-		unsigned long long now_cpu_usage = MNet::SysInfo::GetCPUUsage();
+		unsigned long long now = MCodeNet::SysInfo::GetTickCount();
+		unsigned long long now_cpu_usage = MCodeNet::SysInfo::GetCPUUsage();
 		unsigned long long cpu_usage = now_cpu_usage - last_cpu_usage; // micro seconds
 		unsigned long long time_elapsed = now - last_update; // milli seconds
 

@@ -14,7 +14,7 @@
     <ProjectGuid>{12D7CD20-D224-4ACD-9B56-03AB539F0C0E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Cache</RootNamespace>
-    <ProjectName>CacheS</ProjectName>
+    <ProjectName>sCache</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -52,13 +52,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>./;../ArcNet/;../ArcNet/shared/;../include/zlib;../include;../include/hiredis;../include/redis;redis;../dep/redis/deps/hiredis</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../dep/redis/deps/hiredis;./;../ArcNet/;../ArcNet/shared/;../include/zlib;../include;redis;../dep/protobuf/src;./protobuf</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../bin/$(Configuration)\;../lib;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libeay32_win32.lib;zlib.lib;dbghelp.lib;ArcNet.lib;hiredis.lib;ws2_32.lib;libmysql_debug_win32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libeay32_win32.lib;zlib.lib;dbghelp.lib;ArcNet.lib;hiredis.lib;ws2_32.lib;libmysql_debug_win32.lib;libprotobuf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -84,6 +84,8 @@
   <ItemGroup>
     <ClCompile Include="AccountCache.cpp" />
     <ClCompile Include="Cache.cpp" />
+    <ClCompile Include="CacheSocket.cpp" />
+    <ClCompile Include="protobuf\pbPsrser.cpp" />
     <ClCompile Include="redis\Redis.cpp" />
     <ClCompile Include="redis\win32fixes.c" />
     <ClCompile Include="redis\win32_wsiocp.c" />
@@ -91,9 +93,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AccountCache.h" />
+    <ClInclude Include="CacheSocket.h" />
     <ClInclude Include="DataInterface.h" />
+    <ClInclude Include="protobuf\pbPsrser.h" />
     <ClInclude Include="redis\Redis.h" />
-    <ClInclude Include="redis\r_common.h" />
+    <ClInclude Include="r_common.h" />
     <ClInclude Include="redis\win32fixes.h" />
     <ClInclude Include="redis\win32_wsiocp.h" />
     <ClInclude Include="ServerData.h" />

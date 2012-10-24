@@ -8,7 +8,7 @@
 class LogonConsoleThread : public ThreadBase
 {
 	public:
-		MNet::Threading::AtomicBoolean kill;
+		MCodeNet::Threading::AtomicBoolean kill;
 		LogonConsoleThread(const char* name);
 		~LogonConsoleThread();
 		bool run();

@@ -1,18 +1,21 @@
 
 #include "MNetSocket.h"
 
-
-MNetSocket::MNetSocket( SOCKET fd, uint32 sendbuffersize, uint32 recvbuffersize, bool iCrypt , uint8* Key)
+MCodeNetSocket::MCodeNetSocket( SOCKET fd, uint32 sendbuffersize, uint32 recvbuffersize, bool iCrypt , uint8* Key)
 	: Socket(fd,sendbuffersize,recvbuffersize)
 {
 	if(iCrypt)
 		_crypt = new PacketCrypt(Key);
 	else
 		_crypt = NULL;
+	last_ping = last_pong = (uint32)UNIXTIME;
+	pingtime = 0;
+	latency = 0;
+	_id = 0;
 }
 
 
-MNetSocket::~MNetSocket()
+MCodeNetSocket::~MCodeNetSocket()
 {
 	if (_crypt != NULL)
 	{
@@ -21,7 +24,7 @@ MNetSocket::~MNetSocket()
 	}
 }
 
-bool MNetSocket::SendPacket( const uint8* Bytes, uint32 Size )
+bool MCodeNetSocket::SendPacket( const uint8* Bytes, uint32 Size )
 {
 	writeBuffer.Write(&Size,sizeof(uint32));
 	if (_crypt != NULL)
@@ -32,7 +35,7 @@ bool MNetSocket::SendPacket( const uint8* Bytes, uint32 Size )
 	return Send(Bytes,Size);
 }
 
-void MNetSocket::OnRead()
+void MCodeNetSocket::OnRead()
 {
 	for(;;)
 	{
@@ -49,4 +52,37 @@ void MNetSocket::OnRead()
 
 		_HandlePacket();
 	}
+}
+
+void MCodeNetSocket::SendPing()
+{
+	pingtime = getMSTime();
+	
+	SendCmd(CMD_SERVER_PING);
+
+	last_ping = (uint32)UNIXTIME;
+}
+
+void MCodeNetSocket::HandPong()
+{
+	latency = getMSTime() - pingtime;
+	last_pong = (uint32)UNIXTIME;
+
+	SendCmd(CMD_SERVER_PONG);
+}
+
+void MCodeNetSocket::SendExit()
+{
+	SendCmd(CMD_SERVER_EXIT);
+}
+
+void MCodeNetSocket::HandExit()
+{
+	Disconnect();
+}
+
+void MCodeNetSocket::SendCmd( MNetCmd cmd)
+{
+	uint32 acmd = cmd;
+	SendPacket((const uint8 *)&acmd, sizeof(uint32));
 }

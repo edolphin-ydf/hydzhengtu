@@ -52,7 +52,7 @@ class SERVER_DECL CThread : public ThreadBase
 			return *this;
 		}
 
-		MNet::Threading::AtomicCounter ThreadState;
+		MCodeNet::Threading::AtomicCounter ThreadState;
 		time_t start_time;
 		int ThreadId;
 };

@@ -27,15 +27,15 @@ static AuthHandler Handlers[MAX_AUTH_CMD] =
 };
 
 
-AuthSocket::AuthSocket(SOCKET fd) : MNetSocket(fd, 32768, 4096,false)
+AuthSocket::AuthSocket(SOCKET fd) : MCodeNetSocket(fd, 32768, 4096,false)
 {
 	m_authenticated = false;
 	m_account = NULL;
 	last_recv = time(NULL);
 	removedFromSet = false;
-	//_authSocketLock.Acquire();
-	//_authSockets.insert(this);
-	//_authSocketLock.Release();
+	_authSocketLock.Acquire();
+	_authSockets.insert(this);
+	_authSocketLock.Release();
 	m_recvNum = 0;
 }
 
@@ -48,15 +48,15 @@ void AuthSocket::OnDisconnect()
 {
 	if(!removedFromSet)
 	{
-		//_authSocketLock.Acquire();
-		//_authSockets.erase(this);
-		//_authSocketLock.Release();
+		_authSocketLock.Acquire();
+		_authSockets.erase(this);
+		_authSocketLock.Release();
 	}
 }
 
 void AuthSocket::OnRead()
 {
-	MNetSocket::OnRead();
+	MCodeNetSocket::OnRead();
 	/*if(readBuffer.GetContiguiousBytes() < 1)
 	return;
 

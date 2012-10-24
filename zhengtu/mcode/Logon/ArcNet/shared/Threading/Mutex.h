@@ -3,6 +3,7 @@
 #ifndef _THREADING_MUTEX_H
 #define _THREADING_MUTEX_H
 #include "MemoryPools/Node.h"
+
 class SERVER_DECL Mutex
 {
 	public:

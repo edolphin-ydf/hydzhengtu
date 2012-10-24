@@ -2,9 +2,9 @@
 #ifndef CONDITIONVARIABLE_H
 #define CONDITIONVARIABLE_H
 ////////////////////////////////////////////////////////////////
-/// @namespace MNet
+/// @namespace MCodeNet
 /// @brief M网络库
-namespace MNet
+namespace MCodeNet
 {
 
 	namespace Threading
@@ -12,7 +12,7 @@ namespace MNet
 
 		/////////////////////////////////////////////////////////////////
 		//class ConditionVariable
-		//  Class implementing a platform independent condition variable
+		//  类实现一个平台独立的条件变量
 		//
 		//
 		/////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ namespace MNet
 
 				//////////////////////////////////////////////////////////////////////////
 				//void Signal()
-				//  Signals the condition variable, allowing the blocked thread to proceed
+				//  信号条件变量,允许阻塞的线程继续下去。
 				//
 				//Parameter(s)
 				//  None
@@ -41,8 +41,8 @@ namespace MNet
 
 				/////////////////////////////////////////////////////////////////////////
 				//void Wait( unsigned long timems )
-				//  Blocks execution of the calling thread until signaled or
-				//  until the timer runs out.
+				//  阻塞执行调用线程,直到有信号或超时。
+				//  
 				//
 				//Parameter(s)
 				//  unsigned long timems  -  Maximum time to block in milliseconds

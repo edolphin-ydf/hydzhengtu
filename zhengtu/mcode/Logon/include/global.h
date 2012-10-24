@@ -7,6 +7,25 @@
 #ifndef __global_H__
 #define __global_H__
 
+enum EServerType{
+	EServerType_Login,
+	EServerType_Cache,
+	EServerType_Gate,
+	EServerType_World,
+	EServerType_Count,
+	EServerType_None,
+};
+
+static string ServerName[EServerType_Count] =
+{
+	"登录服务器",               // 0
+	"缓存服务器",                // 1
+	"网关服务器",			// 2
+	"世界服务器",		// 3
+};
+
+#define SAVE_DELETE(x) if(x){ delete x;x=NULL; }
+
 /** @brief 加入VLD内存泄漏检查 */
 #ifdef _DEBUG
 #define WIN32_LEAN_AND_MEAN//避免包含冲突
