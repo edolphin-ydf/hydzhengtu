@@ -93,9 +93,12 @@ class SERVER_DECL Socket
 		CircularBuffer writeBuffer;
 
 		virtual void SendPing() = 0;         /**< 发送PING心跳  */
-		virtual void HandPong() = 0;         /**< 接收PING返回  */
+		virtual void HandPing() = 0;         /**< 接收PING返回  */
 		virtual void SendExit() = 0;
 		virtual void HandExit() = 0;
+		virtual void SendPong() = 0;
+		virtual void HandPong() = 0;
+		virtual void HandRePong() = 0;
 	protected:
 
 		// Called when connection is opened.

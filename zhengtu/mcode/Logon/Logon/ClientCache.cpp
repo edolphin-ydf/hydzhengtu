@@ -33,6 +33,10 @@ void ClientCache::_HandlePacket()
 		HandPong();
 		return;
 	}
+	else if (cmd == CMD_SERVER_PONG)
+	{
+		
+	}
 }
 
 
