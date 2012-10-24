@@ -15,8 +15,8 @@ enum MNetCmd{
 	CMD_SERVER_PONG,
 	CMD_SERVER_REPONG,
 	CMD_SERVER_EXIT,
+	CMD_SERVER_COUNT,
 };
-
 
 class MCodeNetSocket : public Socket
 {
@@ -32,6 +32,7 @@ public:
 	void HandPing();         /**< ½ÓÊÕPING·µ»Ø  */
 	void SendPong();
 	void HandPong();
+	void HandRePong();
 	void SendExit();
 	void HandExit();
 
@@ -44,4 +45,14 @@ private:
 	void SendCmd(MNetCmd);
 	PacketCrypt *_crypt;
 };
+
+typedef void (MCodeNetSocket::*MCodeNetHandler)();
+static MCodeNetHandler Handlers[CMD_SERVER_COUNT] =
+{
+	&MCodeNetSocket::HandPing,              // 0
+	&MCodeNetSocket::HandPong,              // 1
+	&MCodeNetSocket::HandRePong,			// 2
+	&MCodeNetSocket::HandExit,		        // 3
+};
+
 #endif
