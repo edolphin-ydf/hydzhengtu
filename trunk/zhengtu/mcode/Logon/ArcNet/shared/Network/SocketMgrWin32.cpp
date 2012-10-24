@@ -22,7 +22,7 @@ SocketMgr::SocketMgr()
 
 SocketMgr::~SocketMgr()
 {
-
+	atexit((void(*)(void)) WSACleanup);
 }
 
 /** @brief 建立工作线程 */

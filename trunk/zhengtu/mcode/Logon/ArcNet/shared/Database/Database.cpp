@@ -231,7 +231,7 @@ bool Database::run()
 			if(con != NULL)
 				con->Busy.Release();
 			con = NULL;
-			MNet::Sleep(10);
+			MCodeNet::Sleep(10);
 		}
 	}
 
@@ -317,7 +317,7 @@ void Database::EndThreads()
 
 	while(ThreadRunning || qt)
 	{
-		MNet::Sleep(100);
+		MCodeNet::Sleep(100);
 		if(!ThreadRunning)
 			break;
 	}
@@ -353,7 +353,7 @@ void Database::thread_proc_query()
 
 		q = query_buffer.pop();
 		if(q == NULL)
-			MNet::Sleep(10);
+			MCodeNet::Sleep(10);
 	}
 
 	con->Busy.Release();

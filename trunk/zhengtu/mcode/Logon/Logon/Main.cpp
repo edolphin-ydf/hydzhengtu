@@ -8,14 +8,14 @@
 #include <Shlwapi.h>
 #pragma comment(lib,"shlwapi")
 
-#define BANNER "MNet %s %s/%s-%s (%s) :: 登录服务器"
+#define BANNER "MCodeNet %s %s/%s-%s (%s) :: 登录服务器"
 
 #ifndef WIN32
 #include <sched.h>
 #endif
 
 initialiseSingleton(LogonServer);
-MNet::Threading::AtomicBoolean mrunning(true);
+MCodeNet::Threading::AtomicBoolean mrunning(true);
 Mutex _authSocketLock;
 set<AuthSocket*> _authSockets;
 
@@ -55,6 +55,9 @@ void SetDlgTitle()
 	SetConsoleTitle(szCode);
 }
 
+void InitSelfInfo(); 
+void AddCacheServer();
+
 int main(int argc, char** argv)
 {
 	SetDlgTitle();
@@ -88,9 +91,9 @@ int main(int argc, char** argv)
 
 void LogonServer::Run(int argc, char** argv)
 {
+	m_stopEvent = false;
 	UNIXTIME = time(NULL);
 	g_localTime = *localtime(&UNIXTIME);
-	char* config_file = (char*)CONFDIR "/logon.conf";
 	int file_log_level = DEF_VALUE_NOT_SET;
 	int screen_log_level = DEF_VALUE_NOT_SET;
 	int do_check_conf = 0;
@@ -104,29 +107,22 @@ void LogonServer::Run(int argc, char** argv)
 	Log.Success("System", "Initializing Random Number Generators...");
 	Log.Success("Config", "Loading Config Files...");
 	
+	/** @brief 初始化配置 */
+	char* config_file = (char*)CONFDIR "/logon.conf";
+	if(!Config.SetSource(config_file))
+	{
+		LOG_ERROR("Config file could not be rehashed.");
+		return;
+	}
 	/** @brief 加载配置 */ 
-	uint32 cport = Config.MainConfig.GetIntDefault("Listen", "RealmListPort", 3724);
-	uint32 sport = Config.MainConfig.GetIntDefault("Listen", "ServerPort", 8093);
-	string host = Config.MainConfig.GetStringDefault("Listen", "Host", "0.0.0.0");
-	string shost = Config.MainConfig.GetStringDefault("Listen", "ISHost", host.c_str());
+	string host = Config.Value("Listen", "Host", "0.0.0.0");
+	int cport = Config.Value("Listen", "Port", 8093);
 
 	Log.Success("线程管理", "开始启动...");
 	/** @brief 启动线程池 */
 	ThreadPool.Startup();
 	ThreadPool.ShowStats();
-	/** @brief TODO 启动数据库连接,暂时没有 */
 
-//	Log.Success("AccountMgr", "Starting...");
-//	new AccountMgr;//启动用户管理
-//	new IPBanner;  //ip统计
-//
-//	Log.Success("InfoCore", "Starting...");
-//	new InformationCore;//信息中心
-//
-//	//Log.Notice("AccountMgr", "Precaching accounts...");
-//	sAccountMgr.ReloadAccounts(true);//重新从数据库中加载用户
-//	Log.Success("AccountMgr", "%u accounts are loaded and ready.", sAccountMgr.GetCount());
-//
 //	// Spawn periodic function caller thread for account reload every 10mins
 //	// 线程周期函数每10钟重新加载用户进内存
 //	int atime = Config.MainConfig.GetIntDefault("Rates", "AccountRefresh", 600);
@@ -136,28 +132,24 @@ void LogonServer::Run(int argc, char** argv)
 
 	min_build = LOGON_MINBUILD;
 	max_build = LOGON_MAXBUILD;
-//
-//	//获取指令控制密码用于与worldserver的验证
-//	string logon_pass = Config.MainConfig.GetStringDefault("LogonServer", "RemotePassword", "888888");
-//	Sha1Hash hash;
-//	hash.UpdateData(logon_pass);
-//	hash.Finalize();
-//	memcpy(sql_hash, hash.GetDigest(), 20);
-//
-//	ThreadPool.ExecuteTask(new LogonConsoleThread("LogonConsoleThread"));
-//
+
 	SocketMgr* socketObject = NULL;
 	Macro_NewClass(socketObject,SocketMgr);
 	SocketGarbageCollector* socketGCObject = NULL;
 	Macro_NewClass(socketGCObject,SocketGarbageCollector);/**< 垃圾回收  */
+	
+	IntranetManager* intranetObject = NULL;
+	Macro_NewClass(intranetObject,IntranetManager);
+	InitSelfInfo();
+	AddCacheServer();
+	sIntranetMgr.Startup();
 
 	ListenSocket<AuthSocket> * cl = new ListenSocket<AuthSocket>(host.c_str(), cport,"AuthSocket");
-	ListenSocket<LogonCommServerSocket> * sl = new ListenSocket<LogonCommServerSocket>(shost.c_str(), sport,"LogonCommServerSocket");
+	ListenSocket<LogonCommServerSocket> * sl = new ListenSocket<LogonCommServerSocket>(host.c_str(), cport,"LogonCommServerSocket");
 	/** @brief 生成套接字工作线程 */
 	sSocketMgr.SpawnWorkerThreads();
 
 	/** @brief 生成验证的网络监听者 */
-	// Spawn interserver listener
 	bool authsockcreated = cl->IsOpen();
 	bool intersockcreated = sl->IsOpen();
 	if(authsockcreated && intersockcreated)
@@ -193,7 +185,7 @@ void LogonServer::Run(int argc, char** argv)
 		uint32 loop_counter = 0;
 		ThreadPool.Gobble();
 		sLog.outString("Success! 等待连接...");
-		while(mrunning.GetVal())
+		while(mrunning.GetVal() && !m_stopEvent)
 		{
 			if(!(++loop_counter % 20))	 /**<  20 seconds */ 
 				CheckForDeadSockets();   /**<  检查AuthSocket死掉的连接 */
@@ -210,7 +202,7 @@ void LogonServer::Run(int argc, char** argv)
 				g_localTime = *localtime(&UNIXTIME);
 			}
 
-			MNet::Sleep(1000);
+			MCodeNet::Sleep(1000);
 		}
 
 		sLog.outString("开始关闭清空...");
@@ -227,32 +219,56 @@ void LogonServer::Run(int argc, char** argv)
 	{
 		LOG_ERROR("Error creating sockets. Shutting down...");
 	}
-//
-//	pfc->kill();
+/////////////////////////////////开始回收///////////////////////////////////////////
+
 	cl->Close();
 	sl->Close();
 	sSocketMgr.CloseAll();
 #ifdef WIN32
 	sSocketMgr.ShutdownThreads();
 #endif
-//	sLogonConsole.Kill();
-//	delete LogonConsole::getSingletonPtr();
-//
+
 	ThreadPool.Shutdown();
-//
+
 	// delete pid file
 	remove("logonserver.pid");
-//
-//	delete AccountMgr::getSingletonPtr();
-//	delete InformationCore::getSingletonPtr();
-//	delete IPBanner::getSingletonPtr();
+
+	Macro_DeleteClass(IntranetManager::getSingletonPtr(),IntranetManager);
 	Macro_DeleteClass(SocketMgr::getSingletonPtr(),SocketMgr);
 	Macro_DeleteClass(SocketGarbageCollector::getSingletonPtr(),SocketGarbageCollector);
-//	delete pfc;
 	delete cl;
 	delete sl;
 	LOG_BASIC("关闭清空...完成.");
 	sLog.Close();
+}
+
+void InitSelfInfo()
+{
+	ServerInfo *info = sIntranetMgr.GetSelfInfo();
+	info->Address = Config.Value("Listen", "Host", "0.0.0.0");
+	info->Port = Config.Value("Listen","Port");
+	info->ID = Config.Value("Listen","Id");
+	int aType = Config.Value("Listen","Type");
+	info->Type = (EServerType)aType;
+	info->Name = ServerName[aType];
+	info->ServerID = 0;
+	info->RetryTime = 0;
+	info->Registered = false;
+}
+
+void AddCacheServer()
+{
+	ServerInfo *info;
+	Macro_NewClass(info,ServerInfo);
+	info->Address = Config.Value("Listen", "CacheHost");
+	info->Port = Config.Value("Listen","CachePort");
+	info->Type = EServerType_Cache;
+	info->Name = ServerName[info->Type];
+	info->ID = 0;
+	info->ServerID = 0;
+	info->RetryTime = 0;
+	info->Registered = false;
+	sIntranetMgr.AddConnector(info);
 }
 
 void OnCrash(bool Terminate)
@@ -284,4 +300,9 @@ void LogonServer::CheckForDeadSockets()
 		}
 	}
 	_authSocketLock.Release();
+}
+
+void LogonServer::Stop()
+{
+	m_stopEvent = true;
 }

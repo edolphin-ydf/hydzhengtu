@@ -82,6 +82,8 @@
     <ClInclude Include="include\global.h" />
     <ClInclude Include="include\vld\vld.h" />
     <ClInclude Include="include\vld\vld_def.h" />
+    <ClInclude Include="shared\Config\Chameleon.h" />
+    <ClInclude Include="shared\Config\config.h" />
     <ClInclude Include="shared\mnet_config.h" />
     <ClInclude Include="shared\Array.h" />
     <ClInclude Include="shared\AuthCodes.h" />
@@ -93,7 +95,6 @@
     <ClInclude Include="shared\callback.h" />
     <ClInclude Include="shared\CircularQueue.h" />
     <ClInclude Include="shared\common.h" />
-    <ClInclude Include="shared\config\config.h" />
     <ClInclude Include="shared\config\configenv.h" />
     <ClInclude Include="shared\CrashHandler.h" />
     <ClInclude Include="shared\crc32.h" />
@@ -164,6 +165,7 @@
     <ClCompile Include="shared\Auth\MD5.cpp" />
     <ClCompile Include="shared\Auth\Sha1.cpp" />
     <ClCompile Include="shared\Auth\PacketCrypt.cpp" />
+    <ClCompile Include="shared\Config\Chameleon.cpp" />
     <ClCompile Include="shared\Config\Config.cpp" />
     <ClCompile Include="shared\CrashHandler.cpp" />
     <ClCompile Include="shared\crc32.cpp" />

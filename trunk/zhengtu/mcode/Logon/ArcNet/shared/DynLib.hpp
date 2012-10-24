@@ -4,9 +4,9 @@
 
 #include <string>
 ////////////////////////////////////////////////////////////////
-/// @namespace MNet
+/// @namespace MCodeNet
 /// @brief MÍøÂç¿â
-namespace MNet{
+namespace MCodeNet{
 	//////////////////////////////////////////////////////
 	//class DynLib
 	//  Dynamic Library ( dll / so / dylib ) handler class

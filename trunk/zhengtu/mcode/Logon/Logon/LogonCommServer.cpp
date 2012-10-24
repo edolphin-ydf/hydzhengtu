@@ -10,7 +10,7 @@ typedef struct
 
 static void swap32(uint32* p) { *p = ((*p >> 24) & 0xff) | ((*p >> 8) & 0xff00) | ((*p << 8) & 0xff0000) | (*p << 24); }
 
-LogonCommServerSocket::LogonCommServerSocket(SOCKET fd) : Socket(fd, 65536, 524288)
+LogonCommServerSocket::LogonCommServerSocket(SOCKET fd) : MCodeNetSocket(fd, 32768, 4096,false)
 {
 	// do nothing
 	last_ping.SetVal((uint32)UNIXTIME);
@@ -107,143 +107,143 @@ void LogonCommServerSocket::OnRead()
 
 void LogonCommServerSocket::HandlePacket(WorldPacket & recvData)
 {
-	if(authenticated == 0 && recvData.GetOpcode() != RCMSG_AUTH_CHALLENGE)
-	{
-		// invalid
-		Disconnect();
-		return;
-	}
+	//if(authenticated == 0 && recvData.GetOpcode() != RCMSG_AUTH_CHALLENGE)
+	//{
+	//	// invalid
+	//	Disconnect();
+	//	return;
+	//}
 
-	static logonpacket_handler Handlers[RMSG_COUNT] =
-	{
-		NULL,												// RMSG_NULL
-		&LogonCommServerSocket::HandleRegister,				// RCMSG_REGISTER_REALM
-		NULL,												// RSMSG_REALM_REGISTERED
-		&LogonCommServerSocket::HandleSessionRequest,		// RCMSG_REQUEST_SESSION
-		NULL,												// RSMSG_SESSION_RESULT
-		&LogonCommServerSocket::HandlePing,					// RCMSG_PING
-		NULL,												// RSMSG_PONG
-		&LogonCommServerSocket::HandleSQLExecute,			// RCMSG_SQL_EXECUTE
-		&LogonCommServerSocket::HandleReloadAccounts,		// RCMSG_RELOAD_ACCOUNTS
-		&LogonCommServerSocket::HandleAuthChallenge,		// RCMSG_AUTH_CHALLENGE
-		NULL,												// RSMSG_AUTH_RESPONSE
-		NULL,												// RSMSG_REQUEST_ACCOUNT_CHARACTER_MAPPING
-		&LogonCommServerSocket::HandleMappingReply,			// RCMSG_ACCOUNT_CHARACTER_MAPPING_REPLY
-		&LogonCommServerSocket::HandleUpdateMapping,		// RCMSG_UPDATE_CHARACTER_MAPPING_COUNT
-		NULL,												// RSMSG_DISCONNECT_ACCOUNT
-		&LogonCommServerSocket::HandleTestConsoleLogin,		// RCMSG_TEST_CONSOLE_LOGIN
-		NULL,												// RSMSG_CONSOLE_LOGIN_RESULT
-		&LogonCommServerSocket::HandleDatabaseModify,		// RCMSG_MODIFY_DATABASE
-		NULL,												// RSMSG_REALM_POP_REQ
-		&LogonCommServerSocket::HandlePopulationRespond,	// RCMSG_REALM_POP_RES
-	};
+	//static logonpacket_handler Handlers[RMSG_COUNT] =
+	//{
+	//	NULL,												// RMSG_NULL
+	//	&LogonCommServerSocket::HandleRegister,				// RCMSG_REGISTER_REALM
+	//	NULL,												// RSMSG_REALM_REGISTERED
+	//	&LogonCommServerSocket::HandleSessionRequest,		// RCMSG_REQUEST_SESSION
+	//	NULL,												// RSMSG_SESSION_RESULT
+	//	&LogonCommServerSocket::HandlePing,					// RCMSG_PING
+	//	NULL,												// RSMSG_PONG
+	//	&LogonCommServerSocket::HandleSQLExecute,			// RCMSG_SQL_EXECUTE
+	//	&LogonCommServerSocket::HandleReloadAccounts,		// RCMSG_RELOAD_ACCOUNTS
+	//	&LogonCommServerSocket::HandleAuthChallenge,		// RCMSG_AUTH_CHALLENGE
+	//	NULL,												// RSMSG_AUTH_RESPONSE
+	//	NULL,												// RSMSG_REQUEST_ACCOUNT_CHARACTER_MAPPING
+	//	&LogonCommServerSocket::HandleMappingReply,			// RCMSG_ACCOUNT_CHARACTER_MAPPING_REPLY
+	//	&LogonCommServerSocket::HandleUpdateMapping,		// RCMSG_UPDATE_CHARACTER_MAPPING_COUNT
+	//	NULL,												// RSMSG_DISCONNECT_ACCOUNT
+	//	&LogonCommServerSocket::HandleTestConsoleLogin,		// RCMSG_TEST_CONSOLE_LOGIN
+	//	NULL,												// RSMSG_CONSOLE_LOGIN_RESULT
+	//	&LogonCommServerSocket::HandleDatabaseModify,		// RCMSG_MODIFY_DATABASE
+	//	NULL,												// RSMSG_REALM_POP_REQ
+	//	&LogonCommServerSocket::HandlePopulationRespond,	// RCMSG_REALM_POP_RES
+	//};
 
-	if(recvData.GetOpcode() >= RMSG_COUNT || Handlers[recvData.GetOpcode()] == 0)
-	{
-		LOG_ERROR("Got unknwon packet from logoncomm: %u", recvData.GetOpcode());
-		return;
-	}
+	//if(recvData.GetOpcode() >= RMSG_COUNT || Handlers[recvData.GetOpcode()] == 0)
+	//{
+	//	LOG_ERROR("Got unknwon packet from logoncomm: %u", recvData.GetOpcode());
+	//	return;
+	//}
 
-	(this->*(Handlers[recvData.GetOpcode()]))(recvData);
+	//(this->*(Handlers[recvData.GetOpcode()]))(recvData);
 }
 
 void LogonCommServerSocket::HandleRegister(WorldPacket & recvData)
 {
-	string Name;
-	int32 my_id;
-
-	recvData >> Name;
-	my_id = sInfoCore.GetRealmIdByName(Name);
-
-	if(my_id == -1)
-	{
-		my_id = sInfoCore.GenerateRealmID();
-		sLog.outString("Registering realm `%s` under ID %u.", Name.c_str(), my_id);
-	}
-	else
-	{
-		sInfoCore.RemoveRealm(my_id);
-		int new_my_id = sInfoCore.GenerateRealmID(); //socket timout will DC old id after a while, make sure it's not the one we restarted
-		sLog.outString("Updating realm `%s` with ID %u to new ID %u.", Name.c_str(), my_id, new_my_id);
-		my_id = new_my_id;
-	}
-
-	Realm* realm = new Realm;
-
-	realm->flags = 0;
-	realm->Icon = 0;
-	realm->TimeZone = 0;
-	realm->Population = 0;
-	realm->Lock = 0;
-
-	realm->Name = Name;
-	realm->flags = 0;
-	recvData >> realm->Address >> realm->flags >> realm->Icon >> realm->TimeZone >> realm->Population >> realm->Lock;
-
-	sLog.outString("TEST FLAGS %u", realm->flags);
-
-
-//	uint32 my_id = sInfoCore.GenerateRealmID();
-//	sLog.outString("Registering realm `%s` under ID %u.", realm->Name.c_str(), my_id);
-
-	// Add to the main realm list
-	sInfoCore.AddRealm(my_id, realm);
-
-	// Send back response packet.
-	WorldPacket data(RSMSG_REALM_REGISTERED, 4);
-	data << uint32(0);	  // Error
-	data << my_id;		  // Realm ID
-	data << realm->Name;
-	SendPacket(&data);
-	server_ids.insert(my_id);
-
-	/* request character mapping for this realm */
-	data.Initialize(RSMSG_REQUEST_ACCOUNT_CHARACTER_MAPPING);
-	data << my_id;
-	SendPacket(&data);
+//	string Name;
+//	int32 my_id;
+//
+//	recvData >> Name;
+//	my_id = sInfoCore.GetRealmIdByName(Name);
+//
+//	if(my_id == -1)
+//	{
+//		my_id = sInfoCore.GenerateRealmID();
+//		sLog.outString("Registering realm `%s` under ID %u.", Name.c_str(), my_id);
+//	}
+//	else
+//	{
+//		sInfoCore.RemoveRealm(my_id);
+//		int new_my_id = sInfoCore.GenerateRealmID(); //socket timout will DC old id after a while, make sure it's not the one we restarted
+//		sLog.outString("Updating realm `%s` with ID %u to new ID %u.", Name.c_str(), my_id, new_my_id);
+//		my_id = new_my_id;
+//	}
+//
+//	Realm* realm = new Realm;
+//
+//	realm->flags = 0;
+//	realm->Icon = 0;
+//	realm->TimeZone = 0;
+//	realm->Population = 0;
+//	realm->Lock = 0;
+//
+//	realm->Name = Name;
+//	realm->flags = 0;
+//	recvData >> realm->Address >> realm->flags >> realm->Icon >> realm->TimeZone >> realm->Population >> realm->Lock;
+//
+//	sLog.outString("TEST FLAGS %u", realm->flags);
+//
+//
+////	uint32 my_id = sInfoCore.GenerateRealmID();
+////	sLog.outString("Registering realm `%s` under ID %u.", realm->Name.c_str(), my_id);
+//
+//	// Add to the main realm list
+//	sInfoCore.AddRealm(my_id, realm);
+//
+//	// Send back response packet.
+//	WorldPacket data(RSMSG_REALM_REGISTERED, 4);
+//	data << uint32(0);	  // Error
+//	data << my_id;		  // Realm ID
+//	data << realm->Name;
+//	SendPacket(&data);
+//	server_ids.insert(my_id);
+//
+//	/* request character mapping for this realm */
+//	data.Initialize(RSMSG_REQUEST_ACCOUNT_CHARACTER_MAPPING);
+//	data << my_id;
+//	SendPacket(&data);
 }
 
 void LogonCommServerSocket::HandleSessionRequest(WorldPacket & recvData)
 {
-	uint32 request_id;
-	string account_name;
-	recvData >> request_id;
-	recvData >> account_name;
+	//uint32 request_id;
+	//string account_name;
+	//recvData >> request_id;
+	//recvData >> account_name;
 
-	// get sessionkey!
-	uint32 error = 0;
-	Account* acct = sAccountMgr.GetAccount(account_name);
-	if(acct == NULL || acct->SessionKey == NULL)
-		error = 1;		  // Unauthorized user.
+	//// get sessionkey!
+	//uint32 error = 0;
+	//Account* acct = sAccountMgr.GetAccount(account_name);
+	//if(acct == NULL || acct->SessionKey == NULL)
+	//	error = 1;		  // Unauthorized user.
 
-	// build response packet
-	WorldPacket data(RSMSG_SESSION_RESULT, 150);
-	data << request_id;
-	data << error;
-	if(!error)
-	{
-		// Append account information.
-		data << acct->AccountId;
-		data << acct->UsernamePtr->c_str();
-		if(!acct->GMFlags)
-			data << uint8(0);
-		else
-			data << acct->GMFlags;
+	//// build response packet
+	//WorldPacket data(RSMSG_SESSION_RESULT, 150);
+	//data << request_id;
+	//data << error;
+	//if(!error)
+	//{
+	//	// Append account information.
+	//	data << acct->AccountId;
+	//	data << acct->UsernamePtr->c_str();
+	//	if(!acct->GMFlags)
+	//		data << uint8(0);
+	//	else
+	//		data << acct->GMFlags;
 
-		data << acct->AccountFlags;
-		data.append(acct->SessionKey, 40);
-		data.append(acct->Locale, 4);
-		data << acct->Muted;
-	}
+	//	data << acct->AccountFlags;
+	//	data.append(acct->SessionKey, 40);
+	//	data.append(acct->Locale, 4);
+	//	data << acct->Muted;
+	//}
 
-	SendPacket(&data);
+	//SendPacket(&data);
 }
 
 void LogonCommServerSocket::HandlePing(WorldPacket & recvData)
 {
-	WorldPacket data(RSMSG_PONG, 4);
+	/*WorldPacket data(RSMSG_PONG, 4);
 	SendPacket(&data);
-	last_ping.SetVal((uint32)time(NULL));
+	last_ping.SetVal((uint32)time(NULL));*/
 }
 
 void LogonCommServerSocket::SendPacket(WorldPacket* data)
@@ -290,39 +290,39 @@ void LogonCommServerSocket::HandleReloadAccounts(WorldPacket & recvData)
 
 void LogonCommServerSocket::HandleAuthChallenge(WorldPacket & recvData)
 {
-	unsigned char key[20];
-	uint32 result = 1;
-	recvData.read(key, 20);
+	//unsigned char key[20];
+	//uint32 result = 1;
+	//recvData.read(key, 20);
 
-	// check if we have the correct password
-	if(memcmp(key, LogonServer::getSingleton().sql_hash, 20))
-		result = 0;
+	//// check if we have the correct password
+	//if(memcmp(key, LogonServer::getSingleton().sql_hash, 20))
+	//	result = 0;
 
-	sLog.outString("Authentication request from %s, result %s.", GetRemoteIP().c_str(), result ? "OK" : "FAIL");
+	//sLog.outString("Authentication request from %s, result %s.", GetRemoteIP().c_str(), result ? "OK" : "FAIL");
 
-	std::stringstream sstext;
-	sstext << "Key: ";
-	char buf[3];
-	for(int i = 0; i < 20; ++i)
-	{
-		snprintf(buf, 3, "%.2X", key[i]);
-		sstext << buf;
-	}
-	LOG_DETAIL(sstext.str().c_str());
+	//std::stringstream sstext;
+	//sstext << "Key: ";
+	//char buf[3];
+	//for(int i = 0; i < 20; ++i)
+	//{
+	//	snprintf(buf, 3, "%.2X", key[i]);
+	//	sstext << buf;
+	//}
+	//LOG_DETAIL(sstext.str().c_str());
 
-	recvCrypto.Setup(key, 20);
-	sendCrypto.Setup(key, 20);
+	//recvCrypto.Setup(key, 20);
+	//sendCrypto.Setup(key, 20);
 
-	/* packets are encrypted from now on */
-	use_crypto = true;
+	///* packets are encrypted from now on */
+	//use_crypto = true;
 
-	/* send the response packet */
-	WorldPacket data(RSMSG_AUTH_RESPONSE, 1);
-	data << result;
-	SendPacket(&data);
+	///* send the response packet */
+	//WorldPacket data(RSMSG_AUTH_RESPONSE, 1);
+	//data << result;
+	//SendPacket(&data);
 
-	/* set our general var */
-	authenticated = result;
+	///* set our general var */
+	//authenticated = result;
 }
 
 void LogonCommServerSocket::HandleMappingReply(WorldPacket & recvData)
@@ -394,7 +394,7 @@ void LogonCommServerSocket::HandleUpdateMapping(WorldPacket & recvData)
 
 void LogonCommServerSocket::HandleTestConsoleLogin(WorldPacket & recvData)
 {
-	WorldPacket data(RSMSG_CONSOLE_LOGIN_RESULT, 8);
+	/*WorldPacket data(RSMSG_CONSOLE_LOGIN_RESULT, 8);
 	uint32 request;
 	string accountname;
 	uint8 key[20];
@@ -428,7 +428,7 @@ void LogonCommServerSocket::HandleTestConsoleLogin(WorldPacket & recvData)
 	}
 
 	data << uint32(1);
-	SendPacket(&data);
+	SendPacket(&data);*/
 }
 
 void LogonCommServerSocket::HandleDatabaseModify(WorldPacket & recvData)
@@ -539,7 +539,7 @@ void LogonCommServerSocket::HandlePopulationRespond(WorldPacket & recvData)
 
 void LogonCommServerSocket::RefreshRealmsPop()
 {
-	if(server_ids.empty())
+	/*if(server_ids.empty())
 		return;
 
 	WorldPacket data(RSMSG_REALM_POP_REQ, 4);
@@ -549,5 +549,10 @@ void LogonCommServerSocket::RefreshRealmsPop()
 		data.clear();
 		data << (*itr);
 		SendPacket(&data);
-	}
+	}*/
+}
+
+void LogonCommServerSocket::_HandlePacket()
+{
+
 }

@@ -8,9 +8,9 @@
 #include "DynLib.hpp"
 
 ////////////////////////////////////////////////////////////////
-/// @namespace MNet
+/// @namespace MCodeNet
 /// @brief MÍøÂç¿â
-namespace MNet
+namespace MCodeNet
 {
 
 	DynLib::DynLib(const char* libfilename)

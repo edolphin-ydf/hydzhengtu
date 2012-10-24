@@ -5,9 +5,9 @@
 #include <string>
 #include <vector>
 ////////////////////////////////////////////////////////////////
-/// @namespace MNet
+/// @namespace MCodeNet
 /// @brief MÍøÂç¿â
-namespace MNet{
+namespace MCodeNet{
 	///////////////////////////////////////////////////////
 	//class FindFilesResult
 	//  Contains the FindFile result.

@@ -46,7 +46,7 @@ class SERVER_DECL SocketMgr : public Singleton<SocketMgr>
 		HANDLE m_completionPort;
 		set<Socket*> _sockets;
 		Mutex socketLock;
-		MNet::Threading::AtomicCounter socket_count;
+		MCodeNet::Threading::AtomicCounter socket_count;
 };
 
 #define sSocketMgr SocketMgr::getSingleton()

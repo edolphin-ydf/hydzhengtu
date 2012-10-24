@@ -249,7 +249,7 @@ void CThreadPool::Shutdown()
 			}
 			Log.Debug("ThreadPool", "%u 条激活状态 and %u 条空闲状态线程 remaining...", m_activeThreads.size(), m_freeThreads.size());
 			_mutex.Release();
-			MNet::Sleep(1000);
+			MCodeNet::Sleep(1000);
 			continue;
 		}
 

@@ -1,9 +1,9 @@
 
 #include "../Common.h"
 ////////////////////////////////////////////////////////////////
-/// @namespace MNet
+/// @namespace MCodeNet
 /// @brief MÍøÂç¿â
-namespace MNet
+namespace MCodeNet
 {
 	namespace Threading
 	{

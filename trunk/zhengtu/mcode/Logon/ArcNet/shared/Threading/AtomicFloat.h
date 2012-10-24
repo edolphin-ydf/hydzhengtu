@@ -2,9 +2,9 @@
 #ifndef ATOMICFLOAT_HPP__
 #define ATOMICFLOAT_HPP__
 ////////////////////////////////////////////////////////////////
-/// @namespace MNet
+/// @namespace MCodeNet
 /// @brief MÍøÂç¿â
-namespace MNet
+namespace MCodeNet
 {
 	namespace Threading
 	{

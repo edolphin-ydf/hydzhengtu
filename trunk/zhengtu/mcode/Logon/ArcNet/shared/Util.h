@@ -41,9 +41,9 @@ typedef struct tagTHREADNAME_INFO
 #endif
 
 ////////////////////////////////////////////////////////////////
-/// @namespace MNet
+/// @namespace MCodeNet
 /// @brief M网络库
-namespace MNet
+namespace MCodeNet
 {
 	SERVER_DECL float round(float f);
 	SERVER_DECL double round(double d);
@@ -68,7 +68,7 @@ namespace MNet
 /////////////////////////////////////////////////////////
 //uint32 getMSTime()
 //  Returns the time elapsed in milliseconds
-//
+//  返回以毫秒为单位时间间隔
 //Parameter(s)
 //  None
 //

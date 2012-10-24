@@ -7,9 +7,8 @@
 #ifndef __Redis_H__
 #define __Redis_H__
 
-#include "Common.h"
-#include "hiredis.h"
-
+#include <string>
+#include <vector>
 typedef enum _cr_aggregate {
 	NONE,
 	SUM, 
@@ -24,6 +23,8 @@ typedef enum REDIS_TYPE{
  REDIS_TYPE_SET = 3,
 };
 
+struct redisContext;
+struct redisReply;
 ////////////////////////////////////////////////////////////////
 /// @class RedisClient
 /// @brief redis客户端连接操作类
@@ -39,7 +40,9 @@ protected:
 	std::string m_host;
 	int m_port;
 public:
-	RedisClient(const char *ip="127.0.0.1", int port=6379)
+	static RedisClient* CreateRedisInterface(const char *ip="127.0.0.1", int port=6379);
+
+	RedisClient(const char *ip, int port)
 	{
 		__redis = NULL;
 		__reply = NULL;
@@ -54,26 +57,13 @@ public:
 		Close();
 	}
 
-	inline virtual std::string next()
-	{
-		if (__current >= __reply->elements) return "";
-		std::string nxt = __reply->element[__current]->str;
-		++__current;
-		return nxt;
-	}
-
 	inline redisContext* context() { return __redis;}
 
 	bool Connect();
 	void Close();
 	void DelReply();
 	/** @brief 取得错误信息 */
-	char* errorreply() { 
-		if(__redis)
-			return __redis->errstr;
-		else 
-			return NULL;
-	}
+	char* errorreply();
 	////////////////////////////适合全体类型的命令//////////////////////////////////////////////
 	/** @brief 判断一个键是否存在;存在返回 1;否则返回0; */
 	int exists_key(const char *key);

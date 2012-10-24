@@ -2,9 +2,9 @@
 #ifndef MNET_SYSINFO_HPP
 #define MNET_SYSINFO_HPP
 ////////////////////////////////////////////////////////////////
-/// @namespace MNet
+/// @namespace MCodeNet
 /// @brief MÍøÂç¿â
-namespace MNet{
+namespace MCodeNet{
 	////////////////////////////////////////////////////////
 	//class SysInfo
 	//  Class with static methods capable of retrieving

@@ -22,7 +22,8 @@
 #include "shared/Auth/Sha1.h"
 #include "shared/Auth/PacketCrypt.h"
 
-#include "LogonOpcodes.h"
+#include "IntranetManager.h"
+#include "ServerOpcodes.h"
 #include "Main.h"
 #include "PeriodicFunctionCall_Thread.h"
 #include "InfoCore.h"

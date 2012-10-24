@@ -5,7 +5,7 @@
 #define NUMBER_OF_GENERATORS 5
 Mutex* m_locks[NUMBER_OF_GENERATORS];
 CRandomMersenne* m_generators[NUMBER_OF_GENERATORS];
-MNet::Threading::AtomicCounter counter;
+MCodeNet::Threading::AtomicCounter counter;
 
 uint32 generate_seed()
 {

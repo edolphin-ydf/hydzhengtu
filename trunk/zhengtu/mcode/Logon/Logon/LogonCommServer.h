@@ -4,7 +4,7 @@
 
 #include <RC4Engine.h>
 
-class LogonCommServerSocket : public Socket
+class LogonCommServerSocket : public MCodeNetSocket
 {
 		uint32 remaining;
 		uint16 opcode;
@@ -17,6 +17,8 @@ class LogonCommServerSocket : public Socket
 
 		LogonCommServerSocket(SOCKET fd);
 		~LogonCommServerSocket();
+
+		void _HandlePacket();
 
 		void OnRead();
 		void OnDisconnect();
@@ -38,7 +40,7 @@ class LogonCommServerSocket : public Socket
 
 		void RefreshRealmsPop();
 
-		MNet::Threading::AtomicCounter last_ping;
+		MCodeNet::Threading::AtomicCounter last_ping;
 		bool removed;
 		set<uint32> server_ids;
 };

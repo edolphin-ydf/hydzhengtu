@@ -4,9 +4,9 @@
 
 #include "FindFilesResult.hpp"
 ////////////////////////////////////////////////////////////////
-/// @namespace MNet
+/// @namespace MCodeNet
 /// @brief MÍøÂç¿â
-namespace MNet{
+namespace MCodeNet{
 	//////////////////////////////////////////////////////////////////////////////////
 	//bool FindFiles( const char *where, const char *filename, FindFilesResult &r )
 	//  Searches for files with the name of *filename*, and
